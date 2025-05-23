@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/worker", "destination": "/api/worker" },
+    { "source": "/worker", "destination": "/api/worker/DDashboard" },
     { "source": "/admin", "destination": "/api/admin" }
   ]
 }
