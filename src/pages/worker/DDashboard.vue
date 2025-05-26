@@ -1,7 +1,7 @@
 <template>
   <div class="w-[390px] m-auto">
     <!-- 상단 상태표시 -->
-    <div class="bg-[#373737] text-white p-4">
+    <div class="bg-gray-900 text-white p-4">
       <!-- 이너 -->
       <div class="w-[350px] mx-auto">
         <!-- 헤더 -->
@@ -9,7 +9,8 @@
           <button>
             <router-link to="/worker/ddashboard">
               <div class="logo">
-                <img src="/public/images/logo_delivery.png" alt="로고" />
+                <img src="/public/images/yr/delivery/logoL.png" alt="로고"
+                class="w-15 h-5"/>
               </div>
             </router-link>
           </button>
@@ -19,21 +20,21 @@
                 <img
                   src="/public/images/yr/delivery/check_icon.png"
                   alt="체크"
-                  class="w-[20px] h-[20px]" />
+                  class="w-[20px] h-[20px] mt-[3px]" />
               </button>
             </router-link>
             <router-link to="/worker/assign">
               <img
                 src="/public/images/yr/delivery/alert.png"
                 alt="알림"
-                class="w-[20px] h-[20px]" />
+                class="w-[20px] h-[20px] mt-[3px]" />
             </router-link>
           </div>
         </div>
 
         <!-- 프로필 -->
         <div class="flex items-center mb-4">
-          <div class="w-12 h-12 bg-gray-700 rounded-full mr-3">
+          <div class="w-12 h-12 rounded-full mr-3">
             <img
               src="/public/images/yr/delivery/profile.png"
               alt="프로필"
@@ -91,7 +92,7 @@
     <KakaoMap v-if="showMap" />
 
     <!-- 버튼필터 -->
-    <div class="w-[390px] bg-gray-800 text-white py-4">
+    <div class="w-[390px] bg-gray-900 text-white py-4">
       <!-- 내부 콘텐츠 wrapper (350px 고정) -->
       <div class="w-[350px] mx-auto">
         <!-- 상단 상태 탭 -->
@@ -106,7 +107,7 @@
               'pb-1',
               selectedStatus === status
                 ? 'text-blue-500 border-b-2 border-blue-500'
-                : 'border-b-2 border-gray-800',
+                : 'border-b-2 border-gray-900',
             ]">
             {{ status }}
           </button>
@@ -158,19 +159,19 @@
     </div>
 
     <!-- 카드내용 -->
-    <div class="w-[390px] bg-gray-800 text-sm py-4">
+    <div class="w-[390px] bg-gray-900 text-sm py-4">
       <!-- 내부 콘텐츠 wrapper (350px 고정) -->
 
       <div
         class="w-[350px] mx-auto flex flex-col gap-3 mb-2"
         v-for="(card, index) in dummyCards"
-        :key="index">
+        :key="index" @click="openModal(card)">
         <!-- 카드 구조 -->
         <div
           class="card w-[350px] bg-white rounded-lg shadow flex items-center px-2 py-1 gap-3">
           <!-- 시간 -->
           <div
-            class="time text-red-500 text-sm font-medium w-[50px] ml-2 font-semibold">
+            class="time text-red-500 text-sm  font-semibold w-[50px] ml-2">
             {{ card.시간 }}
           </div>
 
@@ -271,6 +272,20 @@ const locationTabs = ["공항", "기차역", "숙소"];
 
 const selectedStatus = ref("전체");
 const selectedLocation = ref("공항");
+// 모달열리고 닫기
+const isModalOpen = ref(false)
+const selectedCard = ref(null)
+
+function openModal(card) {
+  selectedCard.value = card
+  isModalOpen.value = true
+}
+
+function closeModal() {
+  isModalOpen.value = false
+  selectedCard.value = null
+}
+
 
 // 예시 데이터
 const allData = ref([
