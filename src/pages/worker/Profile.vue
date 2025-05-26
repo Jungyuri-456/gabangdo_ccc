@@ -2,29 +2,30 @@
   <div class="w-[390px] bg-gray-900 min-h-screen flex justify-center py-3 m-auto">
     <div class="w-[350px] mx-auto">
       <!-- 헤더 -->
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between items-center mb-4 mt-2">
         <div class="logo">
           <router-link to="/worker/ddashboard">
-            <img src="/public/images/logo_delivery.png" alt="로고" />
+            <img src="/images/yr/delivery/logoL.png" alt="로고"
+            class="w-15 h-5"/>
           </router-link>
         </div>
         <div class="flex gap-2">
           <router-link to="/worker/assigned-jobs">
             <img
-              src="/public/images/yr/delivery/check_icon.png"
+              src="/images/yr/delivery/check_icon.png"
               alt="체크"
-              class="w-[20px] h-[20px]" />
+              class="w-5 h-5" />
           </router-link>
           <router-link to="/worker/assign">
             <img
-              src="/public/images/yr/delivery/alert.png"
+              src="/images/yr/delivery/alert.png"
               alt="알림"
-              class="w-[20px] h-[20px]" />
+              class="w-5 h-5" />
           </router-link>
         </div>
       </div>
       <!-- 타이틀 -->
-      <h2 class="text-[#279BF3] text-xl mt-4 mb-2 font-semibold">마이페이지</h2>
+      <h2 class="text-[#279BF3] text-xl mt-7 mb-2 font-semibold">마이페이지</h2>
 
       <!-- 프로필 카드 -->
       <div class="bg-white rounded-lg shadow space-y-3 mb-2">
@@ -66,7 +67,7 @@
             <p class="font-medium">운반 가능 수화물</p>
             <button>
               <div class="w-4 h-4">
-                <img src="/public/images/yr/delivery/arrowL.png" alt="" />
+                <img src="/images/yr/delivery/arrowL.png" alt="" />
               </div>
             </button>
           </div>
@@ -75,7 +76,7 @@
           <button
             class="bg-green-500 text-white px-3 py-1 rounded-lg text-[15px] flex">
             <img
-              src="/public/images/yr/delivery/check_white.png"
+              src="/images/yr/delivery/check_white.png"
               alt=""
               class="w-4 h-5 mr-1" />
             <span>소형</span>
@@ -83,7 +84,7 @@
           <button
             class="bg-green-500 text-white px-3 py-1 rounded-lg text-[15px] flex">
             <img
-              src="/public/images/yr/delivery/check_white.png"
+              src="/images/yr/delivery/check_white.png"
               alt=""
               class="w-4 h-5 mr-1" />
             <span>대형</span>
@@ -91,7 +92,7 @@
           <button
             class="bg-gray-300 text-white px-3 py-1 rounded-lg text-[15px] flex">
             <img
-              src="/public/images/yr/delivery/cancel_white.png"
+              src="/images/yr/delivery/cancel_white.png"
               alt=""
               class="w-4 h-4 mr-1 mt-[2.2px]" />
             <span>대형</span>
@@ -99,7 +100,7 @@
           <button
             class="bg-gray-300 text-white px-3 py-1 rounded-lg text-[15px] flex">
             <img
-              src="/public/images/yr/delivery/cancel_white.png"
+              src="/images/yr/delivery/cancel_white.png"
               alt=""
               class="w-4 h-4 mr-1 mt-[2.2px]" />
             <span>특대형</span>
@@ -113,7 +114,7 @@
           <p class="font-medium mb-2">나의 선호 지역</p>
           <button>
             <img
-              src="/public/images/yr/delivery/arrowL.png"
+              src="/images/yr/delivery/arrowL.png"
               class="w-4 h-4"
               alt="" />
           </button>
@@ -146,7 +147,7 @@
           <p class="font-medium">교육 이수 내역</p>
           <button>
             <img
-              src="/public/images/yr/delivery/arrowL.png"
+              src="/images/yr/delivery/arrowL.png"
               class="w-4 h-4"
               alt="" />
           </button>
@@ -176,7 +177,7 @@
           class="flex items-center justify-center gap-1 bg-[#868686] w-[170px] h-[40px] rounded-lg text-sm">
           <img
             class="w-4 h-4"
-            src="/public/images/yr/delivery/setting.png"
+            src="/images/yr/delivery/setting.png"
             alt="" />
           <p class="text-white">설정</p>
         </button>

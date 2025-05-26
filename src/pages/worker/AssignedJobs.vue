@@ -4,7 +4,7 @@
     class="w-[390px] min-h-screen bg-gray-900 text-sm text-black font-medium mx-auto">
     <!-- 헤더 -->
     <div
-      class="flex items-center justify-between px-4 py-3 bg-gray-900 text-white">
+      class="flex items-center justify-between px-4 py-3 bg-gray-900 text-white pt-3">
       <!-- 뒤로가기 -->
       <button @click="goBack">
         <img
@@ -22,7 +22,7 @@
         <img
           src="/public/images/yr/delivery/alert.png"
           alt="알림"
-          class="w-4 h-4" />
+          class="w-5 h-5" />
       </router-link>
     </div>
 

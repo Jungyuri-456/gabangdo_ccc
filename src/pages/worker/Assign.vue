@@ -2,7 +2,7 @@
   <!-- 전체 래퍼 -->
   <div class="w-[390px] bg-gray-900 text-white m-auto">
     <!-- 이너 -->
-    <div class="w-[350px] mx-auto">
+    <div class="w-[350px] mx-auto pt-1">
       <!-- 헤더 -->
       <div
         class="flex items-center justify-between py-3 bg-gray-900 text-white">
@@ -16,7 +16,7 @@
         <!-- 사용자명 -->
         <router-link to="/worker/ddashboard">
           <div class="text-blue-500 text-lg font-bold">
-            <img src="/public/images/logo_delivery.png" alt="" />
+            <img src="/public/images/yr/delivery/logoL.png" alt="" class="w-15 h-5"/>
           </div>
         </router-link>
         <!-- 알림/내역 -->
@@ -25,13 +25,13 @@
             <img
               src="/public/images/yr/delivery/check_icon.png"
               alt="체크"
-              class="w-4 h-4" />
+              class="w-5 h-5" />
           </router-link>
         </div>
       </div>
 
       <!-- 알림 타이틀 -->
-      <h2 class="text-[#279BF3] text-xl mt-4 mb-2 font-semibold">알림</h2>
+      <h2 class="text-[#279BF3] text-xl mt-5 mb-2 font-semibold">알림</h2>
 
       <div class="space-y-3">
         <div class="relative bg-[#E9E9E9] border rounded-lg p-2">
