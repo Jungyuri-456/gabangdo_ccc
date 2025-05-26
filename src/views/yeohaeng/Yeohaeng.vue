@@ -1,5 +1,18 @@
 <template>
   <div class="wrap_total">
+    <!-- 1) 탭 바 추가 -->
+    <div class="tab-bar">
+      <button
+        :class="{ active: currentTab === 'guide1' }"
+        @click="changeTab('guide1')">
+        대구축제
+      </button>
+      <button
+        :class="{ active: currentTab === 'guide2' }"
+        @click="changeTab('guide2')">
+        시티투어버스
+      </button>
+    </div>
     <!-- 여행도 전체영역 -->
     <div class="inner">
       <transition name="fade">
@@ -48,7 +61,10 @@ import Yh_Festival from "./Yh_Festival.vue";
 import YeohaengSwiper from "./YeohaengSwiper.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const currentTab = ref("guide2");
+const currentTab = ref("guide1");
+const changeTab = (tab) => {
+  currentTab.value = tab;
+};
 // 순환버스 이미지 크기
 const imgSrc = ref(null); // 이미지 경로 바인딩용
 const updateImage = () => {
@@ -93,7 +109,7 @@ onBeforeUnmount(() => {
   text-align: center;
   padding-bottom: 30px;
   .title_txt1 h1 {
-    font-family: "omyu_pretty";
+    font-family: $font-ownglyph;
     font-size: 40px;
   }
 }

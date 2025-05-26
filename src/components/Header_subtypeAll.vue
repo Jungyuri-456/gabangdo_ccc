@@ -30,26 +30,29 @@
                   :class="{ mainMenu: item.label === '예약도' }">
                   {{ item.label }}
                 </a>
-                <!-- 서브메뉴영역 -->
-                <ul
-                  v-if="item.sub"
-                  class="subMenu"
-                  :class="{ show: showAllSubMenu }">
-                  <li v-for="(sub, idx) in item.sub" :key="idx">
-                    <router-link :to="sub.to">{{ sub.label }}</router-link>
-                  </li>
-                </ul>
               </li>
             </ul>
           </nav>
           <!--  가방조회/로그인: 오른쪽 영역-->
           <!-- 가방/로그인 아이콘 -->
           <div class="hd_mobileRight">
-            <router-link to="/delivery" class="hd_bag">
-              <img src="/images/bagfind_icon.png" alt="가방조회이미지" />
+            <router-link to="/delivery">
+              <img
+                src="/images/cr/delivery.png"
+                alt="가방조회이미지"
+                class="icon-square" />
             </router-link>
-            <router-link to="/login" class="hd_man">
-              <img src="/images/gh/man1_icon.png" alt="로그인이미지" />
+            <router-link to="/yeyaklookup">
+              <img
+                src="/images/cr/lookup.png"
+                alt="예약조회이미지"
+                class="icon-square" />
+            </router-link>
+            <router-link to="/login">
+              <img
+                src="/images/cr/login.png"
+                alt="로그인이미지"
+                class="icon-square" />
             </router-link>
           </div>
         </div>
@@ -68,11 +71,23 @@
             </router-link>
             <!-- 가방/로그인 아이콘 -->
             <div class="hd_mobileRight">
-              <router-link to="/delivery" class="hd_bag">
-                <img src="/images/bagfind_icon.png" alt="가방조회이미지" />
+              <router-link to="/delivery">
+                <img
+                  src="/images/cr/delivery.png"
+                  alt="가방조회이미지"
+                  class="icon-square" />
               </router-link>
-              <router-link to="/login" class="hd_man">
-                <img src="/images/gh/man1_icon.png" alt="로그인이미지" />
+              <router-link to="/yeyaklookup">
+                <img
+                  src="/images/cr/lookup.png"
+                  alt="예약조회이미지"
+                  class="icon-square" />
+              </router-link>
+              <router-link to="/login">
+                <img
+                  src="/images/cr/login.png"
+                  alt="로그인이미지"
+                  class="icon-square" />
               </router-link>
             </div>
             <!-- 1230px 및 모바일에서 열리는 메뉴 파랑바탕-->
@@ -189,24 +204,15 @@ const menuItems = [
   },
   {
     label: "예약도",
-    sub: [
-      { label: "예약하기", to: "/yeyak" },
-      { label: "예약조회", to: "/yeyaklookup" },
-    ],
+    to: "/yeyak",
   },
   {
     label: "소통도",
-    sub: [
-      { label: "공지사항", to: "/sotong" },
-      { label: "이용후기", to: "/sotong2" },
-    ],
+    to: "/sotong",
   },
   {
     label: "여행도",
-    sub: [
-      { label: "대구축제", to: "/yh_festival" },
-      { label: "시티투어", to: "/yeohaeng" },
-    ],
+    to: "/yeohaeng",
   },
 ];
 
@@ -361,8 +367,11 @@ body.modal-open {
     }
   }
 }
-.hd_bag img {
-  width: 37px !important;
+.icon-square {
+  width: 90%; /* 가로 길이 */
+  height: 90%; /* 세로 길이 (width와 동일) */
+  object-fit: contain; /* 원본 비율 유지하면서 빈 공간이 생기면 여백 처리 */
+  /* object-fit: cover; */ /* 꽉 채워서 자르려면 이 옵션을 사용 */
 }
 .hd_menu1 {
   pointer-events: none;
@@ -525,24 +534,10 @@ body.modal-open {
   font-weight: bold;
 }
 .hd_mobileRight {
-  width: 80px;
+  width: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-}
-.hd_subMenubg {
-  position: fixed;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  height: 80px;
-  background-color: rgba(255, 255, 255, 0.8);
-  z-index: 8;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-.hd_subMenubg.show {
-  opacity: 1;
+  gap: 20px;
 }
 </style>

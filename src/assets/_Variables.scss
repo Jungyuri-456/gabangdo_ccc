@@ -18,10 +18,11 @@ $background-maincolor: #ebeffa;
 }
 // 폰트(패밀리, 크기 웨이트)
 @font-face {
-    font-family: 'SUITE-Regular';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
+  font-family: "SUITE-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
 }
 // 폰트 변수 선언
 $font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
@@ -37,20 +38,22 @@ $font-family: "Pretendard", -apple-system, BlinkMacSystemFont, "Segoe UI",
 }
 // 폰트(패밀리, 크기 웨이트)
 @font-face {
-    font-family: 'DWImpactamin';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/DWImpactamin.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "DWImpactamin";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/DWImpactamin.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 // 폰트(패밀리, 크기 웨이트)
 @font-face {
-    font-family: 'YiSunShinDotumM';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "YiSunShinDotumM";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 // 폰트 변수 선언
-$font-ownglyph: 'YiSunShinDotumM', sans-serif;
+$font-ownglyph: "YiSunShinDotumM", sans-serif;
 
 @font-face {
   font-family: "JalnanGothic";
@@ -64,14 +67,13 @@ $font-gothic: "JalnanGothic", sans-serif;
 
 // 폰트(패밀리, 크기 웨이트)
 @font-face {
-    font-family: 'YiSunShinDotumM';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: "YiSunShinDotumM";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/YiSunShinDotumM.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 // 폰트 변수 선언
-
-
 
 $title-font-size-L: 40px;
 $title-font-size-m: 30px;

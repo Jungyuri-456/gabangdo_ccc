@@ -1,11 +1,11 @@
 <template>
+  <Header_subtypeAll v-if="!isWorkerPage" />
   <div class="wrap" :class="{ 'no-padding': isWorkerPage }">
-    <Header_subtypeAll v-if="!isWorkerPage" />
     <main class="main">
       <router-view></router-view>
     </main>
-    <Footer v-if="!isWorkerPage" />
   </div>
+  <Footer v-if="!isWorkerPage" />
 </template>
 
 <script setup>
@@ -36,14 +36,13 @@ const isWorkerPage = computed(() => {
   const isMobile = windowWidth.value <= 768;
 
   return (
-    route.path.startsWith("/worker") ||                      // /worker 하위
-    route.path.startsWith("/admin") ||                      // /worker 하위
+    route.path.startsWith("/worker") || // /worker 하위
+    route.path.startsWith("/admin") || // /worker 하위
     // (isMobile && route.path.startsWith("/login")) ||         // 모바일 + /login
     // route.path.startsWith("/signup") ||                      // /signup
-    route.meta.hideLayout                                    // 라우트 메타에서 숨김 처리
+    route.meta.hideLayout // 라우트 메타에서 숨김 처리
   );
 });
-
 </script>
 
 <style lang="scss" scoped>
@@ -54,7 +53,6 @@ const isWorkerPage = computed(() => {
 }
 
 .main {
-  // padding-top: 75px;
+  padding-top: 70px;
 }
-
 </style>

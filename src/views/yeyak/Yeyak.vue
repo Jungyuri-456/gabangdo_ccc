@@ -13,7 +13,6 @@ const currentStep = ref(1);
 function onNextClick() {
   // stepperRef.value가 null이 아닐 때만 호출
   if (stepperRef.value) {
-    stepperRef.value.goNext();
   }
 }
 // ProgressStepper 의 @go 이벤트를 받을 핸들러
