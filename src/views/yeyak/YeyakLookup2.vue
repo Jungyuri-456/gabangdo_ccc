@@ -230,8 +230,8 @@ function goToNextPage() {
                 <span class="label">{{ row.label }}</span>
                 <!-- 가방 요약 -->
                 <div v-if="row.bagLabel" class="value">
-                  <span class="bag-label">{{ row.bagLabel }}</span>
-                  <span class="bag-tag">{{ row.bagTag }}</span>
+                  <span class="bag-label">{{ row.bagLabel }}&nbsp;</span>
+                  <span class="bag-tag">{{ row.bagTag }}&nbsp;</span>
                   <span class="bag-count">{{ row.bagCount }}</span>
                 </div>
                 <!-- 내용 -->

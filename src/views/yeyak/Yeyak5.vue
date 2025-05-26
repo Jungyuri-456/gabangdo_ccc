@@ -171,6 +171,15 @@ function goToNextStep() {
               </div>
             </template>
           </div>
+          <!-- 예약취소 안내문구 -->
+          <div class="cancletxt">
+            <i class="ri-error-warning-line"></i>
+            <span
+              >예약취소는
+              <p class="page">예약조회 페이지</p>
+              에서 가능합니다.</span
+            >
+          </div>
           <!-- 버튼 -->
           <div class="button">
             <button class="my-button st_reser" @click="goToNextStep">
@@ -283,6 +292,27 @@ function goToNextStep() {
   border-top: 1px dashed #d6d6d6;
   width: 90%;
   margin: 10px auto;
+}
+//취소안내문구
+.cancletxt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+  i {
+    color: red;
+    margin-right: 3px;
+    font-size: 20px;
+  }
+  span {
+    display: flex;
+  }
+  .page {
+    color: blue;
+    margin: 0 3px;
+  }
 }
 // 제출 버튼
 .button {

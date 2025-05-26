@@ -349,7 +349,7 @@ watch(activeTab, () => {
   text-align: center;
   padding-bottom: 30px;
   .title_txt1 h1 {
-    font-family: "omyu_pretty";
+    font-family: $font-ownglyph;
     font-size: 40px;
   }
 }

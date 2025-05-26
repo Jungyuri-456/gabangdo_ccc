@@ -9,7 +9,6 @@ import YeyakLookup from "../views/yeyak/YeyakLookup.vue";
 import YeyakLookup2 from "../views/yeyak/YeyakLookup2.vue";
 import Yogeum from "../views/yogeum/Yogeum.vue";
 import Sotong from "../views/sotong/Sotong.vue";
-import Sotong2 from "../views/sotong/Sotong2.vue";
 import Yeohaeng from "../views/yeohaeng/Yeohaeng.vue";
 import Yh_Festival from "../views/yeohaeng/Yh_Festival.vue";
 import Delivery from "../views/deliverylogin/Delivery.vue";
@@ -42,7 +41,6 @@ const routes = [
   { path: "/yeyaklookup2", component: YeyakLookup2 },
   { path: "/yogeum", component: Yogeum },
   { path: "/sotong", component: Sotong },
-  { path: "/sotong2", component: Sotong2 },
   { path: "/yeohaeng", component: Yeohaeng },
   { path: "/yh_festival", component: Yh_Festival },
   { path: "/delivery", component: Delivery },
