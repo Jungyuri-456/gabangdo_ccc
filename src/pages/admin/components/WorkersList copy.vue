@@ -143,7 +143,7 @@
                   ]"
                 >
                   <i class="fas fa-ban mr-1"></i>
-                  <span class="max-[960px]:hidden">{{
+                  <span class="max-[960px]:hidden actionSpan ">{{
                     worker.status === '대기중' ? '활동중' : '대기중'
                   }}</span>
                 </button>
@@ -168,12 +168,12 @@
 
       <!-- 페이지네이션 -->
       <div
-        class="flex justify-between items-center bg-white rounded-lg shadow p-4 px-6 dark:bg-gray-600"
+        class=" w-full flex justify-between items-center bg-white rounded-lg shadow p-4 px-6 dark:bg-gray-600"
       >
         <div
-          class="w-full flex justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between"
+          class=" pageNum w-full flex justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between"
         >
-          <div class="block">
+          <div class="block w-full">
             <p class="text-sm text-gray-700 dark:text-white">
               총 <span class="font-medium">{{ filteredWorkers.length }}</span>명 중
               <span class="font-medium">{{
@@ -187,7 +187,7 @@
             </p>
           </div>
         </div>
-        <div class="flex gap-2 dark:text-white">
+        <div class="pageNum w-full flex gap-2 dark:text-white">
           <button
             @click="prevPage"
             :disabled="currentPage === 1"
@@ -240,7 +240,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-01-15",
     lastActivity: "2025-05-15",
-    area: "동구, 군위군",
+    area: "동, 군위",
     areaGroup: "gu1",
   },
   {
@@ -254,7 +254,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-01-20",
     lastActivity: "2025-05-14",
-    area: "서구, 중구, 북구",
+    area: "서, 중, 북",
     areaGroup: "gu2",
   },
   {
@@ -268,7 +268,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-01-25",
     lastActivity: "2025-04-20",
-    area: "중구, 수성구",
+    area: "중, 수성",
     areaGroup: "gu3",
   },
   {
@@ -282,7 +282,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-02-01",
     lastActivity: "2025-05-18",
-    area: "달서구, 달성군",
+    area: "달서, 달성",
     areaGroup: "gu4",
   },
   {
@@ -296,7 +296,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-02-05",
     lastActivity: "2025-05-10",
-    area: "동구, 군위군",
+    area: "동, 군위",
     areaGroup: "gu1",
   },
   {
@@ -310,7 +310,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-02-10",
     lastActivity: "2025-05-09",
-    area: "서구, 중구, 북구",
+    area: "서, 중, 북",
     areaGroup: "gu2",
   },
   {
@@ -324,7 +324,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-02-15",
     lastActivity: "2025-05-08",
-    area: "중구, 수성구",
+    area: "중, 수성",
     areaGroup: "gu3",
   },
   {
@@ -338,7 +338,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-02-20",
     lastActivity: "2025-05-07",
-    area: "달서구, 달성군",
+    area: "달서, 달성",
     areaGroup: "gu4",
   },
   {
@@ -352,7 +352,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-02-25",
     lastActivity: "2025-04-15",
-    area: "동구, 군위군",
+    area: "동, 군위",
     areaGroup: "gu1",
   },
   {
@@ -366,7 +366,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-03-01",
     lastActivity: "2025-05-06",
-    area: "서구, 중구, 북구",
+    area: "서, 중, 북",
     areaGroup: "gu2",
   },
   {
@@ -380,7 +380,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-03-05",
     lastActivity: "2025-05-05",
-    area: "중구, 수성구",
+    area: "중, 수성",
     areaGroup: "gu3",
   },
   {
@@ -394,7 +394,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-03-10",
     lastActivity: "2025-05-04",
-    area: "달서구, 달성군",
+    area: "달서, 달성",
     areaGroup: "gu4",
   },
   {
@@ -408,7 +408,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-03-15",
     lastActivity: "2025-04-18",
-    area: "동구, 군위군",
+    area: "동, 군위",
     areaGroup: "gu1",
   },
   {
@@ -422,7 +422,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-03-20",
     lastActivity: "2025-05-03",
-    area: "서구, 중구, 북구",
+    area: "서, 중, 북",
     areaGroup: "gu2",
   },
   {
@@ -436,7 +436,7 @@ const workers = ref([
     memo: "",
     joinDate: "2024-03-25",
     lastActivity: "2025-05-02",
-    area: "중구, 수성구",
+    area: "중, 수성",
     areaGroup: "gu3",
   },
 ]);
@@ -485,10 +485,10 @@ const pickupOptions = [
 ];
 const areaOptions = [
   { value: "all", label: "담당구역" },
-  { value: "gu1", label: "동구, 군위군" },
-  { value: "gu2", label: "서구, 중구, 북구" },
-  { value: "gu3", label: "중구, 수성구" },
-  { value: "gu4", label: "달서구, 달성군" },
+  { value: "gu1", label: "동, 군위" },
+  { value: "gu2", label: "서, 중, 북" },
+  { value: "gu3", label: "중, 수성" },
+  { value: "gu4", label: "달서, 달성" },
 ];
 const statusOptions = [
   { value: "all", label: "전체" },
@@ -549,25 +549,25 @@ const filteredWorkers = computed(() => {
     if (area.value !== "all") {
       if (
         area.value === "gu1" &&
-        !["동구", "군위군"].some((loc) => worker.area.includes(loc))
+        !["동", "군위"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
       if (
         area.value === "gu2" &&
-        !["서구", "중구", "북구"].some((loc) => worker.area.includes(loc))
+        !["서", "중", "북"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
       if (
         area.value === "gu3" &&
-        !["중구", "수성구"].some((loc) => worker.area.includes(loc))
+        !["중", "수성"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
       if (
         area.value === "gu4" &&
-        !["달서구", "달성군"].some((loc) => worker.area.includes(loc))
+        !["달서", "달성"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
@@ -631,7 +631,7 @@ function activeStatus(worker) {
   padding-bottom: 0.75rem;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 500px) {
   .max-\[960px\]\:hidden {
     display: none !important;
   }

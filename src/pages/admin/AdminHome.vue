@@ -20,23 +20,22 @@ const mdMenuXbutton = () => {
 
 // openHanmberger
 const openHanmberger = () => {
-  if (window.innerWidth >= 768) return 
-    isMdMenuOpen.value = !isMdMenuOpen.value;
-  
+  if (window.innerWidth >= 768) return;
+  isMdMenuOpen.value = !isMdMenuOpen.value;
 };
 const links = [
   { name: "대시보드", path: "/admin/dashboard", icon: "fas fa-chart-line" },
   {
-    name: "가방 운반 예약",
+    name: "가방운반예약",
     path: "/admin/reservations",
     icon: "fas fa-suitcase",
   },
-  { name: "운반 기사 관리", path: "/admin/workers", icon: "fas fa-user-tie" },
-  { name: "고객 관리", path: "/admin/customers", icon: "fas fa-users" },
+  { name: "운반기사관리", path: "/admin/workers", icon: "fas fa-user-tie" },
+  { name: "고객관리", path: "/admin/customers", icon: "fas fa-users" },
   {
-    name: "공항 터미널 관리",
-    path: "/admin/terminals",
-    icon: "fas fa-plane-departure",
+    name: "매출현황관리",
+    path: "/admin/SaleStatus",
+    icon: "fas fas fa-dollar-sign",
   },
   { name: "설정", path: "/admin/settings", icon: "fas fa-cog" },
 ];
@@ -63,7 +62,7 @@ const logout = () => {
             class="w-[130px] md:w-full text-xl text-center py-4 md:p-4 pl-0 -ml-1 font-bold dark:text-white">
             관리자 대시보드
           </h1>
-          <i  
+          <i
             class="block mr-1.5 md:hidden first-line:w-8 fas fa-bars cursor-pointer hover:bg-gray-100 p-1.5 rounded-lg dark:text-white"></i>
         </div>
         <!-- 메뉴 -->
@@ -75,28 +74,43 @@ const logout = () => {
             >X</span
           >
           <!-- 네비게이션 메뉴 -->
-          <nav class="flex flex-col flex-1 p-4 pb-0 gap-2 overflow-y-auto">
+          <nav class="flex flex-col flex-1 p-4 pb-0 gap-2 overflow-y-auto ">
             <router-link
               v-for="link in links"
               :key="link.path"
               :to="link.path"
-              class="flex gap-3 items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              class="flex gap-3 items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-black transition-colors"
               :class="[
                 isActive(link.path)
                   ? 'bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300'
                   : '',
               ]">
-              <i :class="[link.icon, 'w-8']"></i>
-              {{ link.name }}
+              <i
+                :class="[
+                  ...link.icon.split(' '), // 'fas fa-dollar-sign' → ['fas', 'fa-dollar-sign']
+                  link.icon.includes('fa-dollar-sign')
+                    ? ['text-xl', '!w-7.5', 'h-6', 'ml-.5']
+                    : '!w-7.5',
+                  link.icon.includes('fa-users') ? ['-ml-1', 'w-8'] : 'w-8',
+                  link.icon.includes('fa-chart-line') ? ['ml-.75', 'w-8'] : 'w-8',
+                ]">
+              </i>
+              <p
+                :class="[
+                  'text-base',
+                  link.name.includes('고객관리') ? '!ml-1' : '',
+                ]">
+                {{ link.name }}
+              </p>
             </router-link>
           </nav>
 
           <!-- 로그아웃 버튼 -->
-          <div class="p-4 md:p-2 border-t border-gray-200 dark:border-gray-700">
+          <div class="p-4 border-t m-auto border-gray-200 dark:border-gray-700 ">
             <button
               @click="logout"
-              class="w-full flex gap-3 md:gap-5 items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-              <i class="w-8 fas fa-sign-out-alt"></i>
+              class="w-full flex gap-3 md:gap-5 items-center px-4 py-2 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-black transition-colors">
+              <i class="-ml-2 w-8 fas fa-sign-out-alt"></i>
               로그아웃
             </button>
           </div>
@@ -112,7 +126,6 @@ const logout = () => {
     </div>
   </div>
 </template>
-
 
 <style scoped>
 /* 기본 스타일 */

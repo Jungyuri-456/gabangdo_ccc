@@ -29,7 +29,7 @@ import Customers from "../pages/admin/Customers.vue";
 import Settings from "../pages/admin/Settings.vue";
 import Workers from "../pages/admin/Workers.vue";
 import Reservations from "../pages/admin/Reservations.vue";
-import Terminals from "../pages/admin/Terminals.vue";
+import SaleStatus from "@/pages/admin/SaleStatus.vue";
 const routes = [
   { path: "/", component: Home },
   { path: "/bangbeob2", component: Bangbeob2 },
@@ -112,7 +112,7 @@ const routes = [
         path: "reservations",
         component: Reservations,
       },
-      { path: "terminals", component: Terminals },
+      { path: "salestatus", component: SaleStatus },
     ],
   },
 ];
