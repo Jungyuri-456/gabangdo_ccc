@@ -1,126 +1,19 @@
 <script setup>
 import Tab from "../../components/Tab.vue";
+import bb_container1 from "../../components/bb_container1.vue"
 </script>
 
 <template>
   <!-- 전체 -->
   <div class="wrap_total">
-    <!-- 전체 이너 -->
     <div class="bb_inner">
-      <!-- 이용절차 -->
-      <div class="bb_container1">
-        <!-- 타이틀 1-->
-        <div class="bb_title1">
-          <!-- 제목 -->
-          <div class="title_txt1">
-            <h1>짐보관 이용절차</h1>
-          </div>
-        </div>
-        <!-- 아이콘설명 -->
-        <div class="bb_orderProcess bb_plusMinar">
-          <!-- 아이콘1 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘1_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon1.png" alt="icon1" />
-            </div>
-            <!-- 아이콘1_글 -->
-            <span class="bb_span">무인보관함 방문</span>
-          </div>
-          <!-- 화살표 -->
-          <div class="arrow">
-            <img src="/images/yr/page1/arrow.png" alt="arrow1" />
-          </div>
-          <!-- 아이콘2 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘2_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon2.png" alt="icon2" />
-            </div>
-            <!-- 아이콘2_글 -->
-            <span class="bb_span">보관함 선택 </span>
-          </div>
-          <!-- 화살표 -->
-          <div class="arrow">
-            <img src="/images/yr/page1/arrow.png" alt="arrow1" />
-          </div>
-          <!-- 아이콘3 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘3_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon3.png" alt="icon3" />
-            </div>
-            <!-- 아이콘3_글 -->
-            <span class="bb_span">비밀번호 설정</span>
-          </div>
-          <!-- 화살표 -->
-          <div class="arrow">
-            <img src="/images/yr/page1/arrow.png" alt="arrow1" />
-          </div>
-          <!-- 아이콘4 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘4_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon4.png" alt="icon4" />
-            </div>
-            <!-- 아이콘4_글 -->
-            <span class="bb_span">물품보관</span>
-          </div>
-        </div>
-
-        <!-- 아이콘설명 / 모바일일때 블락 -->
-        <div class="bb_orderProcess bb_plus">
-          <!-- 아이콘1 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘1_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon1.png" alt="icon1" />
-            </div>
-            <!-- 아이콘1_글 -->
-            <span class="bb_spanPlus">1. 무인보관함 방문</span>
-          </div>
-          <!-- 화살표 -->
-          <div class="arrow">
-            <img src="/images/yr/page1/arrow.png" alt="arrow1" />
-          </div>
-          <!-- 아이콘2 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘2_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon2.png" alt="icon2" />
-            </div>
-            <!-- 아이콘2_글 -->
-            <span class="bb_spanPlus">2. 보관함 선택</span>
-          </div>
-          <!-- 화살표 -->
-          <div class="arrow">
-            <img src="/images/yr/page1/arrow.png" alt="arrow1" />
-          </div>
-          <!-- 아이콘3 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘3_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon3.png" alt="icon3" />
-            </div>
-            <!-- 아이콘3_글 -->
-            <span class="bb_spanPlus">3. 비밀번호 설정</span>
-          </div>
-          <!-- 화살표 -->
-          <div class="arrow">
-            <img src="/images/yr/page1/arrow.png" alt="arrow1" />
-          </div>
-          <!-- 아이콘4 -->
-          <div class="bb_processIcon1">
-            <!-- 아이콘4_이미지 -->
-            <div class="bb_processIcon1_img">
-              <img src="/images/yr/page2/2p_icon4.png" alt="icon4" />
-            </div>
-            <!-- 아이콘4_글 -->
-            <span class="bb_spanPlus">4. 물품보관</span>
-          </div>
-        </div>
+      <div class="title">
+        <p class="title1">가방전달 방법</p>
+        <p class="title2">출발지별 안내사항</p>
       </div>
+      <bb_container1/>
     </div>
+
     <!-- 짐보관 이용안내 -->
     <div class="bb_container2">
       <div class="bb_inner">
@@ -135,97 +28,7 @@ import Tab from "../../components/Tab.vue";
         </div>
         <!-- 이용안내 전체 -->
         <div class="bb_luggageNotice">
-          <!-- 이용안내_수화물규격 -->
-          <div class="bb_luggageImgNotice">
-            <!-- 수화물 S -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>소형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>기내용 캐리어, 소형 배낭등</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon5.png"
-                  class="bb_smaller"
-                  alt="sSize" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm X 높이 30cm</p>
-              </div>
-            </div>
-            <!-- 수화물 M -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>중형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>화물용 캐리어, 등산가방 등</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon6.png"
-                  alt="sSize"
-                  class="bb_smaller" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm X 높이 45cm</p>
-              </div>
-            </div>
-            <!-- 수화물 L -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>대형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>대형 캐리어, 골프백, 대형배낭 등</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon7.png"
-                  alt="sSize"
-                  class="bb_smaller" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm X 높이 60cm</p>
-              </div>
-            </div>
-            <!-- 수화물 XL -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>특대형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>기타 물품 및 표시 외 사이즈</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon8.png"
-                  alt="sSize"
-                  class="bb_smaller" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm X 높이 90cm</p>
-              </div>
-            </div>
-          </div>
+
 
           <!-- 이용안내_요금안내 -->
           <div class="bb_luggagepriceInfo bb_luggagePlusMinus">
@@ -339,6 +142,98 @@ import Tab from "../../components/Tab.vue";
                   <li class="bb_green">4,000</li>
                   <li class="bb_purple">5,000</li>
                 </ul>
+              </div>
+            </div>
+          </div>
+
+                    <!-- 이용안내_수화물규격 -->
+          <div class="bb_luggageImgNotice">
+            <!-- 수화물 S -->
+            <div class="bb_luggage">
+              <!-- 큰글씨 -->
+              <div class="bb_luggageTitleM">
+                <p>소형</p>
+              </div>
+              <!-- 소제목 -->
+              <div class="bb_luggageTitle">
+                <p>기내용 캐리어, 소형 배낭등</p>
+              </div>
+              <!-- 그림 -->
+              <div class="bb_luggageimg">
+                <img
+                  src="/images/yr/page2/size4.png"
+                  class="bb_smaller"
+                  alt="sSize" />
+              </div>
+              <!-- 디테일 -->
+              <div class="bb_luggagedetail">
+                <p>좌우 45cm X 깊이 56cm X 높이 30cm</p>
+              </div>
+            </div>
+            <!-- 수화물 M -->
+            <div class="bb_luggage">
+              <!-- 큰글씨 -->
+              <div class="bb_luggageTitleM">
+                <p>중형</p>
+              </div>
+              <!-- 소제목 -->
+              <div class="bb_luggageTitle">
+                <p>화물용 캐리어, 등산가방 등</p>
+              </div>
+              <!-- 그림 -->
+              <div class="bb_luggageimg">
+                <img
+                  src="/images/yr/page2/size4.png"
+                  alt="sSize"
+                  class="bb_smaller" />
+              </div>
+              <!-- 디테일 -->
+              <div class="bb_luggagedetail">
+                <p>좌우 45cm X 깊이 56cm X 높이 45cm</p>
+              </div>
+            </div>
+            <!-- 수화물 L -->
+            <div class="bb_luggage">
+              <!-- 큰글씨 -->
+              <div class="bb_luggageTitleM">
+                <p>대형</p>
+              </div>
+              <!-- 소제목 -->
+              <div class="bb_luggageTitle">
+                <p>대형 캐리어, 골프백, 대형배낭 등</p>
+              </div>
+              <!-- 그림 -->
+              <div class="bb_luggageimg">
+                <img
+                  src="/images/yr/page2/size4.png"
+                  alt="sSize"
+                  class="bb_smaller" />
+              </div>
+              <!-- 디테일 -->
+              <div class="bb_luggagedetail">
+                <p>좌우 45cm X 깊이 56cm X 높이 60cm</p>
+              </div>
+            </div>
+            <!-- 수화물 XL -->
+            <div class="bb_luggage">
+              <!-- 큰글씨 -->
+              <div class="bb_luggageTitleM">
+                <p>특대형</p>
+              </div>
+              <!-- 소제목 -->
+              <div class="bb_luggageTitle">
+                <p>기타 물품 및 표시 외 사이즈</p>
+              </div>
+              <!-- 그림 -->
+              <div class="bb_luggageimg">
+                <img
+                  src="/images/yr/page2/size4.png"
+                  alt="sSize"
+                  class="bb_smaller" />
+              </div>
+              <!-- 디테일 -->
+              <div class="bb_luggagedetail">
+                <p>좌우 45cm X 깊이 56cm X 높이 90cm</p>
               </div>
             </div>
           </div>
@@ -496,104 +391,38 @@ import Tab from "../../components/Tab.vue";
 @use "/src/assets/Variables.scss" as *;
 
 .bb_inner {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
+
   // 컨테이너1
-  .bb_container1 {
-    position: relative;
-    width: 100%;
-    // background-color: bisque;
+  .title{
+    margin: 0 auto;
     text-align: center;
-    padding-bottom: 10%;
-    // 타이틀
-    .bb_title1 {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding-bottom: 30px;
-      .title_txt1 h1 {
-        font-size: 40px;
-        font-family: $font-ownglyph;
-      }
+        margin-bottom: 50px;
+    .title1{
+          font-family: "omyu_pretty";
+    font-size: 40px;
     }
-    // 이용절차
-    .bb_orderProcess {
-      position: relative;
-      // background-color: aqua;
-      width: 100%;
-      display: flex;
-      padding-right: 4%;
-      padding-left: 4%;
-      justify-content: space-between;
+    .title2{
+          font-family: "omyu_pretty";
+    font-size: 25px;
+    color: #5a5a5a;
 
-      .bb_processIcon1 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        position: relative;
-
-        flex-direction: column;
-
-        .bb_processIcon1_img {
-          display: flex; // ★ 추가 필수
-          justify-content: center; // 수평 가운데
-          align-items: center; // 수직 가운데
-          flex-direction: column;
-          width: 70%;
-          height: 70%; // 필요 시 명확히 지정
-          text-align: center;
-
-          img {
-            width: 100%;
-            height: auto; // 비율 유지
-          }
-        }
-        .bb_span {
-          font-size: 20px;
-        }
-        span.bb_spanPlus {
-          font-size: 20px;
-        }
-      }
-
-      .arrow {
-        position: relative;
-        padding: 90px 0 120px 0;
-      }
-
-      .bb_kakao {
-        display: flex;
-        background-color: #f4f4f4;
-        border-radius: 80px;
-        width: 45%;
-        position: relative;
-        margin-top: 20px;
-        cursor: pointer;
-        .bb_kakaoIcon {
-          padding: 3px;
-
-          img {
-            border-radius: 50px;
-            width: 30px;
-            height: 30px;
-          }
-        }
-      }
     }
-    .bb_plus {
-      display: none;
-    }
+    
   }
 }
 // 짐보관 이용안내
+
 .bb_container2 {
-  background-color: $background-maincolor;
+    // background-color: $background-maincolor;
   width: 100%;
   padding-bottom: 6%;
   padding-top: 2%;
+  .bb_inner{
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+
+
   .bb_title2 {
     padding-top: 6%;
     display: flex;
@@ -606,11 +435,14 @@ import Tab from "../../components/Tab.vue";
       background-color: $main-color;
     }
     .bb_title_txt2 h1 {
-      font-size: 25px;
-      font-weight: bold;
+          font-family: "omyu_pretty";
+    font-size: 40px;
     }
     .bb_title_txt2 p {
-      font-size: 17;
+              font-family: "omyu_pretty";
+    font-size: 25px;
+    color: #5a5a5a;
+  
     }
   }
   // 이용안내_수화물규격
@@ -630,7 +462,7 @@ import Tab from "../../components/Tab.vue";
 
         background-color: #fff;
         border-radius: 20px;
-        border: $main-color 1px solid;
+        border: #ccc 2px solid;
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -671,11 +503,13 @@ import Tab from "../../components/Tab.vue";
       }
     }
     .bb_luggagepriceInfo {
+      border: 2px solid #ccc;
       width: 100%;
       background-color: #fff;
       border-radius: 20px;
       // border: $main-color solid 1px;
       padding: 2%;
+              margin-bottom: 15px;
       .bb_priceInfoTop {
         .bb_priceInfoTime {
           width: 18%;
@@ -701,7 +535,8 @@ import Tab from "../../components/Tab.vue";
       }
       .bb_priceInfoBottom {
         .bb_priceInfoMenu {
-          background-color: $main-color;
+
+          background-color: #279BF4;
           width: 100%;
           padding: 6px;
           border-radius: 20px;
@@ -767,6 +602,7 @@ import Tab from "../../components/Tab.vue";
     }
   }
 }
+}
 // 무인보관함 위치안내
 .bb_container3 {
   // position: relative;
@@ -774,22 +610,24 @@ import Tab from "../../components/Tab.vue";
   // height: 110vh;
   padding: 6% 0 1% 0;
   .bb_inner {
-    // width: 100%;
-    // height: 100%;
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
     // 타이틀
     .bb_title3 {
       padding-bottom: 4%;
       display: flex;
       gap: 10px;
       line-height: 40px;
-      font-weight: bold;
+      // font-weight: bold;
       .bb_titleLine {
         width: 3px;
         height: 35px;
         background-color: $main-color;
       }
       .bb_title_txt3 h1 {
-        font-size: 25px;
+          font-family: "omyu_pretty";
+    font-size: 40px;
       }
     }
   }
@@ -921,8 +759,8 @@ import Tab from "../../components/Tab.vue";
         background-color: $main-color;
       }
       .bb_title_txt3 {
-        font-size: 25px;
-        font-weight: bold;
+          font-family: "omyu_pretty";
+    font-size: 40px;
       }
     }
   }

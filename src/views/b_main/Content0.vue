@@ -93,7 +93,11 @@
       <div class="inner-container">
         <!-- 왼쪽 배너 이미지 -->
         <div class="banner-image">
-          <img src="/images/yr/mainImg/banner1.png" alt="가방도 배너" />
+                  <img
+          :src="images1[currentIndex1]"
+          alt="가방도 배너"
+          class="fade-image"
+        />
         </div>
 
         <!-- 오른쪽 메뉴 이동 및 예약 버튼 -->
@@ -134,10 +138,13 @@
       </div>
     </div>
   </div>
+
+  <!-- 모달창 -->
+       <Modal v-if="showModal" @close="showModal = false" />
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onBeforeUnmount } from "vue";
 
 const images = [
   "/images/yr/mainImg/attraction1.png",
@@ -155,6 +162,29 @@ onMounted(() => {
     currentIndex.value = (currentIndex.value + 1) % images.length;
   }, 4000); // 4초마다 이미지 전환
 });
+
+// 이미지 배열
+const images1 = [
+  '/images/yr/mainImg/banner2.png',
+  '/images/yr/mainImg/banner3.png',
+  '/images/yr/mainImg/banner1.png',
+]
+
+// 현재 보여줄 이미지 index
+const currentIndex1 = ref(0)
+let intervalId = null
+
+// 3초마다 이미지 변경
+onMounted(() => {
+  intervalId = setInterval(() => {
+    currentIndex1.value = (currentIndex1.value + 1) % images1.length
+  }, 3000)
+})
+
+onBeforeUnmount(() => {
+  clearInterval(intervalId)
+})
+
 </script>
 
 <style scoped lang="scss">
@@ -195,7 +225,7 @@ onMounted(() => {
     .inner {
       position: relative;
       z-index: 2; // 텍스트가 배경 위에 보이도록
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 200px auto;
 
       .container1 {
@@ -232,7 +262,7 @@ onMounted(() => {
 
         .contain3 {
           color: #fff;
-          font-size: 18px;
+          font-size: 25px;
           padding-bottom: 18px;
           line-height: 1.25;
         }
@@ -266,7 +296,7 @@ onMounted(() => {
     width: 100%;
     background-color: #fff;
     .inner {
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 0 auto;
       .section1 {
         padding-top: 10%;
@@ -303,7 +333,7 @@ onMounted(() => {
   .container3 {
     width: 100%;
     .inner {
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 0 auto;
 
       .section3 {
@@ -350,7 +380,7 @@ onMounted(() => {
     background-color: #fff;
     margin-bottom: 150px;
     .inner {
-      max-width: 1300px;
+      max-width: 1200px;
       margin: 0 auto;
       .section4 {
         display: flex;
@@ -391,7 +421,7 @@ onMounted(() => {
   }
 
   .inner-container {
-    max-width: 1300px;
+    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     // flex-wrap: wrap;
@@ -438,7 +468,7 @@ onMounted(() => {
     padding-top: 20px;
     padding-left: 30px;
     padding-right: 40px;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
@@ -463,7 +493,7 @@ onMounted(() => {
     color: #ffffff;
     font-size: 30px;
     font-weight: bold;
-    padding: 35px;
+    padding: 30px;
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.2s;

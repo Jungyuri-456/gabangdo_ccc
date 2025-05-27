@@ -7,6 +7,7 @@
       <!-- 635이하 전용 콘텐츠 -->
       <!-- <Homeswiper1 v-if="isMobile"/> -->
       <Content0 />
+      <Content2 />
       <Homeswiper2 />
       <Modal />
     </main>
@@ -19,6 +20,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 
 //  각종 컴포넌트 import
 import Content0 from "@/views/b_main/Content0.vue";
+import Content2 from "@/views/b_main/Content2.vue";
 import Homeswiper2 from "./views/b_main/Homeswiper2.vue";
 import Modal from "@/views/b_main/Modal.vue";
 
