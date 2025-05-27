@@ -148,7 +148,7 @@
 
     <!-- 예약 목록 -->
     <!-- 예약 현황 -->
-    <ResservationList />
+    <ReservationList />
     <!-- 예약추가/수정 모달 -->
     <div
       v-if="showCustomerForm"
@@ -279,7 +279,7 @@
 </template>
 
 <script setup>
-import ResservationList from "./components/ResservationList.vue";
+import ReservationList from "./components/ReservationList.vue";
 import { ref, computed, nextTick, reactive, watch } from "vue";
 
 const searchQuery = ref("");

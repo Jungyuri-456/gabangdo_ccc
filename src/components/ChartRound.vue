@@ -54,7 +54,7 @@ const options = reactive({
 const isDarkMode = ref(false);
 // 다크모드 여부에 따라 색상 업데이트
 watchEffect(() => {
-  const textColor = isDarkMode.value ? '#000000': '#ffffff';
+  const textColor = isDarkMode.value ? '#ffffff' : '#000000';
   options.plugins.datalabels.color = textColor;
   options.plugins.legend.labels.color = textColor;
 });

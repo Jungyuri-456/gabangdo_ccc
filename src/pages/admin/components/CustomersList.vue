@@ -1,104 +1,6 @@
 <template>
   <div class="space-y-6">
-    <!-- 페이지 헤더 -->
-    <div class="flex justify-between items-center">
-      <div>
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-          가방 운반 고객 관리
-        </h1>
-        <p class="text-sm text-gray-500 mt-1">
-          서비스 이용 고객 정보를 관리하고 상태를 확인할 수 있습니다.
-        </p>
-      </div>
-      <button
-        class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center"
-        @click="showAddCustomerModal">
-        <i class="fas fa-user-plus mr-2"></i>고객 추가
-      </button>
-    </div>
-
-    <!-- 고객통계 카드 -->
-    <!-- 전체, 는고객 카드 -->
-    <div class="card grid grid-rows-1 md:w-full grid-cols-3 gap-6">
-      <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
-        <div class="flex items-center max-[930px]:justify-center">
-          <div class="icon-box p-3 rounded-full bg-blue-100 text-green-600">
-            <i class="block max-[930px]:hidden user fas fa-users text-2xl"></i>
-          </div>
-          <div class="ml-4 cardtxt">
-            <h3
-              class="block max-[930px]:hidden text-sm font-medium text-ray-500 dark:text-white">
-              는 고객
-              <span class="text-xs text-gray-500 dark:text-white">
-                /전체고객</span
-              >
-            </h3>
-            <h3
-              class="hidden max-[930px]:block text-sm font-medium text-gray-500 dark:text-white">
-              오늘<span class="text-xs text-gray-500 dark:text-white">
-                / 추가</span
-              >
-            </h3>
-            <p
-              class="text-2xl max-[510px]:text-xl leading-9 font-semibold text-gray-800 dark:text-white">
-              {{ customers.length }}
-              <span
-                class="text-lg max-[510px]:text-sm font-semibold text-gray-800 dark:text-white"
-                >/ 130
-              </span>
-            </p>
-            <span class="span text-sm text-green-600 dark:text-green-300"
-              >+13%</span
-            >
-          </div>
-        </div>
-      </div>
-      <!-- 활동 고객카드 -->
-      <div
-        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
-        <div class="flex items-center max-[930px]:justify-center">
-          <div class="icon-box p-3 rounded-full bg-green-100 text-yellow-400">
-            <i
-              class="block max-[930px]:hidden check fas fa-check-circle text-2xl"></i>
-          </div>
-          <div class="ml-4 cardtxt">
-            <h3 class="text-sm font-medium text-gray-500 dark:text-white">
-              활성 고객
-            </h3>
-            <p
-              class="text-2xl max-[510px]:text-lg font-semibold text-gray-800 dark:text-white">
-              118명
-            </p>
-            <span class="span text-sm text-green-600 dark:text-green-300"
-              >+10명</span
-            >
-          </div>
-        </div>
-      </div>
-      <!-- 평균 운반 건수 -->
-      <div
-        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
-        <div class="flex items-center max-[930px]:justify-center">
-          <div class="icon-box p-3 rounded-full bg-green-100 text-blue-600">
-            <i
-              class="block max-[930px]:hidden check fas fa-suitcase text-2xl"></i>
-          </div>
-          <div class="ml-4 cardtxt">
-            <h3 class="text-sm font-medium text-gray-500 dark:text-white">
-              평균운반
-            </h3>
-            <p
-              class="text-2xl max-[510px]:text-lg font-semibold text-gray-800 dark:text-white">
-              2.2건
-            </p>
-            <span class="span text-sm text-green-600 dark:text-green-300"
-              >+0.5건</span
-            >
-          </div>
-        </div>
-      </div>
-    </div>
+   
 
     <!-- 검색 및 필터 -->
     <div class="bg-white rounded-lg shadow p-4">
@@ -209,23 +111,22 @@
               </td>
 
               <td
-                class="fexcol px-6 py-4 flex flex-row items-center gap-1 whitespace-nowrap align-middle text-center"
+                class="fexcol  px-6 py-4 flex flex-row items-center whitespace-nowrap align-middle text-center"
                 style="height: 112px">
                 <span
                   :class="getStatusClass(customer.status)"
-                  class="w-[58px] pt-0.5 px-2 inline-flex text-xs leading-[20px] gap-1 font-semibold rounded-full justify-center items-center"
+                  class="pt-0.5 w-[58px] px-2 inline-flex text-xs leading-5 font-semibold rounded-full justify-center"
                   style="height: 25px">
                   {{ getStatusText(customer.status) }}
                 </span>
                 <div
-                  class="fexcol w-[58px] pt-0.5 flex flex-row gap-1 items-center leading-[20px]  text-center"
+                  class="fexcol w-[58px] flex flex-row gap-1 text-center"
                   style="height: 25px">
                   <span
                     v-for="tag in customer.tags"
                     :key="tag"
                     :class="getTagsClass(tag)"
-                    class="pt-0.5 px-4 text-xs font-medium bg-gray-100 text-gray-800 rounded-full leading-[23px] text-center items-center"
-                    style="height: 25px">
+                    class="w-[58px] pt-1 px-2 py-0.5 text-xs font-medium bg-gray-100 text-gray-800 rounded-full">
                     {{ tag }}
                   </span>
                 </div>
@@ -668,7 +569,7 @@ const customerForm = reactive({
 
 // 페이지네이션 관련 상태
 const currentPage = ref(1);
-const itemsPerPage = ref(5);
+const itemsPerPage = ref(3);
 
 // 페이지네이션 계산
 const totalPages = computed(() => {

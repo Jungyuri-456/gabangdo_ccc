@@ -17,6 +17,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(
   CategoryScale,
@@ -25,14 +26,15 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 );
-// 다크 모드 감지
+
 const isDarkMode = ref(false);
 onMounted(() => {
   isDarkMode.value = document.documentElement.classList.contains('dark');
 });
-// 차트데이터
+
 const chartData = {
   labels: ["1월", "2월", "3월", "4월", "5월", "6월"],
   datasets: [
@@ -50,7 +52,7 @@ const chartData = {
     },
   ],
 };
-// 차트옵션
+
 const chartOptions = ref({});
 watchEffect(() => {
   const textColor = isDarkMode.value ? '#ffffff' : '#000000';
@@ -75,6 +77,14 @@ watchEffect(() => {
         titleFont: { size: 14 },
         bodyFont: { size: 12 },
       },
+      datalabels: {
+        color: textColor,
+        font: {
+          weight: 'bold',
+        },
+        anchor: 'end',
+        align: 'top',
+      },
     },
     scales: {
       y: {
@@ -97,6 +107,7 @@ watchEffect(() => {
     },
   };
 });
+
 </script>
 
 <style scoped>

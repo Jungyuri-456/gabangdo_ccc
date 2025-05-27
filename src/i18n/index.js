@@ -183,10 +183,18 @@ const messages = {
   en,
   ja,
 };
+// 🔥 강제로 ko로 리셋하고 싶다면
+localStorage.setItem("language", DEFAULT_LANGUAGE); // <= 이 줄 추가
+
 
 // ✅ 저장된 언어 불러오기 (기본값은 ko)
 const savedLanguage = localStorage.getItem("language");
 const locale = SUPPORTED_LANGUAGES.includes(savedLanguage) ? savedLanguage : DEFAULT_LANGUAGE;
+
+// ✅ 저장된 값이 없으면 기본 언어를 저장해 둠
+if (!savedLanguage || !SUPPORTED_LANGUAGES.includes(savedLanguage)) {
+  localStorage.setItem("language", DEFAULT_LANGUAGE);
+}
 
 // ✅ i18n 인스턴스 생성
 const i18n = createI18n({
