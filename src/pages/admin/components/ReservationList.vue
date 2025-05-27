@@ -22,7 +22,7 @@
           v-model="item.rangeType"
           v-model:startDate="item.startDate"
           v-model:endDate="item.endDate"
-          @change="onRangeChange" />
+          @change="onRangeChange(index)" />
         <!-- 오늘/주/한달 선택  -->
         <SearchSelect v-model="date" :options="dateOptions" />
         <SearchSelect
@@ -123,11 +123,20 @@
               class="bbb hidden px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               {{ formatDate1(reservation.date) }} {{ reservation.time }}
             </td>
-            <td class="px-4 py-4 whitespace-nowrap">
+            <td class="statusNor px-6 py-4 whitespace-nowrap">
               <span
                 :class="getStatusClass(reservation.status)"
-                class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
+                class="py-1.5 px-2 text-xs leading-5 font-semibold rounded-xl"
+                style="width: 50px; height: 25px"
+                >
                 {{ reservation.status }}
+              </span>
+            </td>
+            <td class="statusRound hidden px-6 py-4 whitespace-nowrap">
+              <span
+                :class="getStatusClass(reservation.status)"
+                class="w-3 h-3 inline-block rounded-full"
+                >
               </span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -629,12 +638,18 @@ import SearchDateSelect from "./SearchDateSelect.vue";
 import { ref, computed, nextTick } from "vue";
 import { reactive } from "vue";
 import { format, addDays, subMonths } from "date-fns";
+const selectedReservation = ref(null);
+const showCancelModal = ref(false);
+const reservationToCancel = ref(null);
+const searchQuery = ref("");
+const statusFilter = ref("all");
 
 // 기준 설정
 const date = ref("오늘");
 const pickup = ref("all");
 const area = ref("all");
 const status = ref("all");
+const sortBy = ref("date-desc");
 // 기준일 선택
 const dateOptions = [
   { value: "all", label: "오늘" },
@@ -677,12 +692,10 @@ const statusOptions = [
 
 const formatDate = (date) => format(date, "yyyy-MM-dd");
 const formatDate1 = (date) => format(date, "MM/dd");
-const searchQuery = ref("");
-const statusFilter = ref("all");
-const sortBy = ref("date-desc");
-const selectedReservation = ref(null);
-const showCancelModal = ref(false);
-const reservationToCancel = ref(null);
+
+
+
+
 
 const items = reactive([
   {
@@ -691,6 +704,10 @@ const items = reactive([
     endDate: formatDate(new Date()),
   },
 ]);
+// 날짜 설정 오늘 일주일 한달 전체
+const onRangeChange = (index) => {
+  updateDateRange(index);
+};
 
 const updateDateRange = (index) => {
   const item = items[index];
@@ -1512,12 +1529,21 @@ function handleInput(event) {
     display: block;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 500px) {
+  .statusNor {
+    display: none;
+  }
+  .statusRound {
+    display: block;
+  }
+  .statusTd{
+    display: none;
+  }
   .num {
     font-size: 12px;
   }
   .bbb {
     font-size: 12px;
-  }
+  }  
 }
 </style>

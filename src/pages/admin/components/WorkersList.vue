@@ -11,23 +11,20 @@
       class="p-4 py-6 font-light text-gray-500 dark:text-black text-sm border-b border-gray-200 flex flex-col md:flex-row gap-4">
       <div
         class="flex flex-wrap md:flex-row justify-center md:justify-start gap-2 items-center">
-        <!-- 날짜 시작 끝 선택 -->
-        <!-- <DateRangePicker
-          v-model:startDate="item.startDate"
-          v-model:endDate="item.endDate" /> -->
         <!-- 날짜 선택 일일이 선택 -->
         <SearchDateSelect class="p-2" v-model="daTe" :options="dateOptions" />
         <!-- 오늘/주/한달 선택  -->
         <SearchSelect
           v-model="date"
-          label="'오늘'"
+          :label="'날짜'"
           :options="dateOptions"
           class="block max-[1010px]:hidden" />
         <SearchSelect v-model="pickup" :options="pickupOptions" />
         <SearchSelect v-model="area" :options="areaOptions" />
         <SearchSelect v-model="status" :options="statusOptions" />
         <button
-          class="px-4 py-1 bg-indigo-600 dark:bg-indigo-300 text-white dark:text-black rounded-md hover:bg-indigo-700">
+          class="px-4 py-1 bg-indigo-600 dark:bg-indigo-300 text-white dark:text-black rounded-md hover:bg-indigo-700"
+          @click="onSearch">
           검색
         </button>
       </div>
@@ -47,11 +44,15 @@
             </th>
             <th
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              이름
+              <span class="ratingTh"> 이름</span>
             </th>
             <th
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              연락처
+              <span class="ratingTh"> 연락처</span>
+            </th>
+            <th
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <span class="ratingTh"> 구역</span>
             </th>
             <th
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -63,10 +64,10 @@
             </th>
             <th
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              예약
+              <span class="statusTh">예약</span>
             </th>
             <th
-              class="w-[90px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              class="actionTh statusTh w-[40px] px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               액션
             </th>
           </tr>
@@ -75,12 +76,14 @@
           <tr
             v-for="worker in paginatedWorkers"
             :key="worker.id"
+            @click="showWorkerDetails(worker)"
             class="hover:bg-gray-50 allpadding">
             <td class="idTd px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               {{ worker.id }}
             </td>
-            <td class="hidden id1Td px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-              {{ worker.id1 }}
+            <td
+              class="hidden id1Td px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              {{ worker.id.replace('#C', '') }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               {{ worker.name }}
@@ -96,34 +99,40 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               <div class="flex items-center">
                 <span class="max-[1090px]:hidden text-yellow-400 mr-1">
+                </span>
+                {{ worker.area }}
+              </div>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+              <div class="flex items-center">
+                <span class="max-[1090px]:hidden text-yellow-400 mr-1">
                   <i class="fas fa-star"></i>
                 </span>
                 {{ worker.rating }}
               </div>
             </td>
-            <td class="statusN px-6 py-4 whitespace-nowrap">
+            <td class="statusNor px-6 py-4 whitespace-nowrap">
               <span
                 :class="getStatusClass(worker.status)"
-                class="px-2 text-xs leading-5 font-semibold rounded-xl">
+                class="px-2 py-1 text-xs  font-semibold rounded-xl">
                 {{ worker.status }}
               </span>
             </td>
-            <td class="statusR hidden px-6 py-4 whitespace-nowrap">
+            <td class="statusRournd hidden px-6 py-4 whitespace-nowrap">
               <span
                 :class="getStatusClass(worker.status)"
                 class="w-3 h-3 inline-block rounded-full">
               </span>
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+            <td class="statusTh px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               {{ worker.reservations }}
-            </td>
+            </td>      
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-              <div class="eyeBtn relative group inline-block mr-3">
-                <button
-                  @click="showWorkerDetails(worker)"
-                  class="text-indigo-600 hover:text-indigo-900 mr-3">
+              <div
+                class="max-[1090px]:hidden eyeBtn relative group inline-block mr-3">
+                <button class="text-indigo-600 hover:text-indigo-900 mr-3">
                   <i class="fas fa-eye mr-1"></i>
-                  <span class="max-[1090px]:hidden">상세</span>
+                  <span>상세</span>
                 </button>
                 <!-- 툴팁 호버시 보임 -->
                 <div
@@ -132,10 +141,10 @@
                 </div>
               </div>
               <!-- 수정 -->
-              <div class="relative group inline-block mr-3">
+              <div class="max-[1090px]:hidden editBtn relative group inline-block mr-3">
                 <button class="text-yellow-600 hover:text-yellow-900">
                   <i class="fas fa-edit mr-1"></i>
-                  <span class="max-[1090px]:hidden">수정</span>
+                  <span>수정</span>
                 </button>
                 <!-- 툴팁 호버시 보임 -->
                 <div
@@ -150,20 +159,31 @@
                 class="relative group inline-block">
                 <button
                   :class="[
-                    'banBtn px-2 inline-flex items-center text-xs leading-5 font-semibold rounded-xl',
+                    'px-2 inline-flex  items-center text-xs leading-5 font-semibold rounded-xl',
+                    worker.status === '대기중'
+                      ? 'text-green-600 hover:text-green-600'
+                      : 'text-red-600 hover:text-red-900',
+                  ]"
+                  class="actionBtn">
+                  <i class="fas fa-ban mr-1"></i>
+                  <span >{{
+                    worker.status === "대기중" ? "활동중" : "대기중"
+                  }}</span>
+                </button>
+                <button
+                class="hidden actionBtn1 "
+                  :class="[
+                    'px-2 inline-flex  items-center text-xs font-semibold rounded-xl ',
                     worker.status === '대기중'
                       ? 'text-green-600 hover:text-green-600'
                       : 'text-red-600 hover:text-red-900',
                   ]">
-                  <i class="fas fa-ban mr-1"></i>
-                  <span class="block max-[1090px]:hidden">{{
-                    worker.status === "대기중" ? "활동중" : "대기중"
-                  }}</span>
+                  <i class="fas fa-ban mr-1"></i>                
                 </button>
 
                 <!-- 툴팁: 호버시만 보임 -->
                 <div
-                  class="hidden group-hover:block absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max px-2 py-1 rounded bg-black/80 text-white text-xs z-10">
+                  class="hidden group-hover:block absolute left-1/2 -translate-x-1/2 top-full mt-1 w-max px-2 py-1 rounded bg-black/80 text-white text-xs z-10 ">
                   <span
                     :class="[
                       worker.status === '대기중'
@@ -180,11 +200,11 @@
       </table>
       <!-- 페이지네이션 -->
       <div
-        class="flex justify-between items-center bg-white rounded-lg shadow p-4 px-6 dark:bg-gray-600">
+        class="pageNum flex justify-between items-center bg-white rounded-lg shadow p-4 px-6 dark:bg-gray-600">
         <div
           class="pageEx w-full justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between">
-          <div >
-            <p class=" text-sm text-gray-700 dark:text-white">
+          <div>
+            <p class="text-sm text-gray-700 dark:text-white">
               총 <span class="font-medium">{{ totalItems }}</span
               >명 중
               <span class="font-medium">{{
@@ -232,8 +252,7 @@
     v-if="selectedWorker"
     class="fixed inset-0 bg-gray-500 bg-opacity-75 flex items-center justify-center p-4 z-50">
     <div
-      class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
->
+      class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
       <div class="p-6 border-b border-gray-200">
         <div class="flex justify-between items-center">
           <h3 class="text-lg font-medium text-gray-900">기사 상세 정보</h3>
@@ -247,7 +266,7 @@
           <!-- 기본 정보 -->
           <div class="space-y-6">
             <div>
-              <h4 class="text-sm font-medium text-gray-500 mb-2">기본 정보</h4>
+              <h4 class="text-sm font-medium text-gray-500 mb-2">기사 기본 정보</h4>
               <div class="space-y-2">
                 <div class="flex items-center">
                   <label class="w-32 text-sm font-medium text-gray-700"
@@ -301,7 +320,7 @@
 
             <!-- 담당 예약 정보 -->
             <div>
-              <h4 class="text-sm font-medium text-gray-500 mb-2">담당 예약</h4>
+              <h4 class="text-sm font-medium text-gray-500 mb-2">담당 예약 정보</h4>
               <div class="space-y-2">
                 <div class="flex items-center">
                   <label class="w-32 text-sm font-medium text-gray-700"
@@ -384,238 +403,11 @@
 import SearchDateSelect from "./SearchDateSelect.vue";
 import SearchSelect from "./SearchSelect.vue";
 import { ref, computed, onMounted } from "vue";
+import { useAppStore } from "@/stores/useAppStore";
 
+const store = useAppStore();
 const selectedWorker = ref(null);
 const addWorker = ref(null);
-
-// 기사
-const workers = ref([
-  {
-    id: "#C001",
-    id1: "001",
-    name: "김지훈",
-    phone: "010-1234-5678",
-    phone1: "1234-5678",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "11건",
-    memo: "",
-    joinDate: "2024-01-15",
-    lastActivity: "2025-05-15",
-    area: "동구, 군위군",
-    areaGroup: "gu1",
-  },
-  {
-    id: "#C002",
-    id1: "002",
-    name: "이수민",
-    phone: "010-8765-4321",
-    phone1: "8765-4321",
-    rating: 4.5,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-01-20",
-    lastActivity: "2025-05-14",
-    area: "서구, 중구, 북구",
-    areaGroup: "gu2",
-  },
-  {
-    id: "#C003",
-    id1: "003",
-    name: "박서준",
-    phone: "010-5555-6666",
-    phone1: "5555-6666",
-    rating: 4.2,
-    status: "대기중",
-    reservations: "0건",
-    memo: "",
-    joinDate: "2024-01-25",
-    lastActivity: "2025-04-20",
-    area: "중구, 수성구",
-    areaGroup: "gu3",
-  },
-  {
-    id: "#C004",
-    id1: "004",
-    name: "한예슬",
-    phone: "010-7777-8888",
-    phone1: "7777-8888",
-    rating: 4.9,
-    status: "활동중",
-    reservations: "11건",
-    memo: "",
-    joinDate: "2024-02-01",
-    lastActivity: "2025-05-18",
-    area: "달서구, 달성군",
-    areaGroup: "gu4",
-  },
-  {
-    id: "#C005",
-    id1: "005",
-    name: "정우성",
-    phone: "010-9999-0000",
-    phone1: "9999-0000",
-    rating: 4.6,
-    status: "활동중",
-    reservations: "9건",
-    memo: "",
-    joinDate: "2024-02-05",
-    lastActivity: "2025-05-10",
-    area: "동구, 군위군",
-    areaGroup: "gu1",
-  },
-  {
-    id: "#C006",
-    id1: "006",
-    name: "김태희",
-    phone: "010-1111-2222",
-    phone1: "1111-2222",
-    rating: 4.7,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-02-10",
-    lastActivity: "2025-05-09",
-    area: "서구, 중구, 북구",
-    areaGroup: "gu2",
-  },
-  {
-    id: "#C007",
-    id1: "007",
-    name: "이준호",
-    phone: "010-3333-4444",
-    phone1: "3333-4444",
-    rating: 4.4,
-    status: "활동중",
-    reservations: "9건",
-    memo: "",
-    joinDate: "2024-02-15",
-    lastActivity: "2025-05-08",
-    area: "중구, 수성구",
-    areaGroup: "gu3",
-  },
-  {
-    id: "#C008",
-        id1: "008",
-    name: "유인나",
-    phone: "010-5555-7777",
-    phone1: "5555-7777",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-02-20",
-    lastActivity: "2025-05-07",
-    area: "달서구, 달성군",
-    areaGroup: "gu4",
-  },
-  {
-    id: "#C009",
-        id1: "009",
-    name: "이병헌",
-    phone: "010-7777-9999",
-    phone1: "7777-9999",
-    rating: 4.3,
-    status: "대기중",
-    reservations: "0건",
-    memo: "",
-    joinDate: "2024-02-25",
-    lastActivity: "2025-04-15",
-    area: "동구, 군위군",
-    areaGroup: "gu1",
-  },
-  {
-    id: "#C010",
-        id1: "010",
-    name: "한가인",
-    phone: "010-9999-1111",
-    phone1: "9999-1111",
-    rating: 4.9,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-01",
-    lastActivity: "2025-05-06",
-    area: "서구, 중구, 북구",
-    areaGroup: "gu2",
-  },
-  {
-    id: "#C011",
-        id1: "011",
-    name: "정해인",
-    phone: "010-2222-3333",
-    phone1: "2222-3333",
-    rating: 4.5,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-05",
-    lastActivity: "2025-05-05",
-    area: "중구, 수성구",
-    areaGroup: "gu3",
-  },
-  {
-    id: "#C012",
-        id1: "0012",
-    name: "고아라",
-    phone: "010-4444-5555",
-    phone1: "4444-5555",
-    rating: 4.7,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-10",
-    lastActivity: "2025-05-04",
-    area: "달서구, 달성군",
-    areaGroup: "gu4",
-  },
-  {
-    id: "#C013",
-        id1: "013",
-    name: "남주혁",
-    phone: "010-6666-7777",
-    phone1: "6666-7777",
-    rating: 4.2,
-    status: "대기중",
-    reservations: "0건",
-    memo: "",
-    joinDate: "2024-03-15",
-    lastActivity: "2025-04-18",
-    area: "동구, 군위군",
-    areaGroup: "gu1",
-  },
-  {
-    id: "#C014",
-    id1: "014",
-    name: "전지현",
-    phone: "010-8888-9999",
-    phone1: "8888-9999",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-20",
-    lastActivity: "2025-05-03",
-    area: "서구, 중구, 북구",
-    areaGroup: "gu2",
-  },
-  {
-    id: "#C015",
-    id1: "015",
-    name: "송중기",
-    phone: "010-0000-1111",
-    phone1: "0000-1111",
-    rating: 4.6,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-25",
-    lastActivity: "2025-05-02",
-    area: "중구, 수성구",
-    areaGroup: "gu3",
-  },
-]);
 
 // 기사 검색 관련 상태
 const showTechnicianSearchModal = ref(false);
@@ -639,15 +431,12 @@ const item = ref({
   rangeType: "", // 'all' | 'today' | 'week' | 'month'
 });
 // 날짜
-const date = ref("today");
 const pickup = ref("all");
 const area = ref("all");
 const status = ref("all");
-// 유틸: 날짜 포맷 함수
-const formatDate = (date) => date.toISOString().slice(0, 10);
-
-// 첫 번째 worker 기준으로 날짜 옵션 생성
 const today = new Date();
+const formatDate = (date) => date.toISOString().slice(0, 10);
+const date = ref(formatDate(today)); // ⬅️ 초기값 반드시 포맷된 날짜
 
 // select 날짜 필터 옵션
 const dateOptions = [
@@ -675,29 +464,24 @@ const pickupOptions = [
 // select 담당구역
 const areaOptions = [
   { value: "all", label: "담당구역" },
-  { value: "gu1", label: "동구, 군위군" },
-  { value: "gu2", label: "서구, 중구, 북구" },
-  { value: "gu3", label: "중구, 수성구" },
-  { value: "gu4", label: "달서구, 달성군" },
+  { value: "gu1", label: "동, 군위" },
+  { value: "gu2", label: "서, 중, 북" },
+  { value: "gu3", label: "중, 수성" },
+  { value: "gu4", label: "달서, 달성" },
 ];
 
 // select 운반상태
 const statusOptions = [
   { value: "all", label: "운반상태" },
   { value: "waiting", label: "대기중" },
-  { value: "assigned", label: "기사배정" },
-  { value: "in_progress", label: "운반중" },
-  { value: "completed", label: "완료" },
-  { value: "cancelled", label: "취소" },
+  { value: "in_progress", label: "활동중" },
+
 ];
 
 // 상태값 매핑
 const statusMap = {
   waiting: "대기중",
-  assigned: "기사배정",
-  in_progress: "운반중",
-  completed: "완료",
-  cancelled: "취소",
+  in_progress: "활동중",
 };
 
 // 상태별 색상 클래스 리턴
@@ -717,10 +501,223 @@ function getStatusClass(status) {
       return "bg-gray-100 text-gray-700";
   }
 }
+const workers = ref([
+  {
+    id: "#C001",
+    name: "김지훈",
+    phone: "010-1234-5678",
+    phone1: "1234-5678",
+    rating: 4.8,
+    status: "활동중",
+    reservations: "11건",
+    reservations1: "11",
+    memo: "",
+    joinDate: "2024-01-15",
+    lastActivity: "2025-05-15",
+    area: "서울, 경기",
+  },
+  {
+    id: "#C002",
+    name: "이수민",
+    phone: "010-8765-4321",
+    phone1: "8765-4321",
+    rating: 4.5,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-01-20",
+    lastActivity: "2025-05-14",
+    area: "인천",
+  },
+  {
+    id: "#C003",
+    name: "박서준",
+    phone: "010-5555-6666",
+    phone1: "5555-6666",
+    rating: 4.2,
+    status: "대기중",
+    reservations: "0건",
+    reservations1: "0",
+    memo: "",
+    joinDate: "2024-01-25",
+    lastActivity: "2025-04-20",
+    area: "부산",
+  },
+  {
+    id: "#C004",
+    name: "한예슬",
+    phone: "010-7777-8888",
+    phone1: "7777-8888",
+    rating: 4.9,
+    status: "활동중",
+    reservations: "11건",
+    reservations1: "11",
+    memo: "",
+    joinDate: "2024-02-01",
+    lastActivity: "2025-05-18",
+    area: "서울",
+  },
+  {
+    id: "#C005",
+    name: "정우성",
+    phone: "010-9999-0000",
+    phone1: "9999-0000",
+    rating: 4.6,
+    status: "활동중",
+    reservations: "9건",
+    reservations1: "9",
+    memo: "",
+    joinDate: "2024-02-05",
+    lastActivity: "2025-05-10",
+    area: "경기",
+  },
+  {
+    id: "#C006",
+    name: "김태희",
+    phone: "010-1111-2222",
+    phone1: "1111-2222",
+    rating: 4.7,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-02-10",
+    lastActivity: "2025-05-09",
+    area: "서울, 인천",
+  },
+  {
+    id: "#C007",
+    name: "이준호",
+    phone: "010-3333-4444",
+    phone1: "3333-4444",
+    rating: 4.4,
+    status: "활동중",
+    reservations: "9건",
+    reservations1: "9",
+    memo: "",
+    joinDate: "2024-02-15",
+    lastActivity: "2025-05-08",
+    area: "경기",
+  },
+  {
+    id: "#C008",
+    name: "유인나",
+    phone: "010-5555-7777",
+    phone1: "5555-7777",
+    rating: 4.8,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-02-20",
+    lastActivity: "2025-05-07",
+    area: "서울",
+  },
+  {
+    id: "#C009",
+    name: "이병헌",
+    phone: "010-7777-9999",
+    phone1: "7777-9999",
+    rating: 4.3,
+    status: "대기중",
+    reservations: "0건",
+    reservations1: "0",
+    memo: "",
+    joinDate: "2024-02-25",
+    lastActivity: "2025-04-15",
+    area: "부산",
+  },
+  {
+    id: "#C010",
+    name: "한가인",
+    phone: "010-9999-1111",
+    phone1: "9999-1111",
+    rating: 4.9,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-03-01",
+    lastActivity: "2025-05-06",
+    area: "서울, 경기",
+  },
+  {
+    id: "#C011",
+    name: "정해인",
+    phone: "010-2222-3333",
+    phone1: "2222-3333",
+    rating: 4.5,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-03-05",
+    lastActivity: "2025-05-05",
+    area: "인천",
+  },
+  {
+    id: "#C012",
+    name: "고아라",
+    phone: "010-4444-5555",
+    phone1: "4444-5555",
+    rating: 4.7,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-03-10",
+    lastActivity: "2025-05-04",
+    area: "서울",
+  },
+  {
+    id: "#C013",
+    name: "남주혁",
+    phone: "010-6666-7777",
+    phone1: "6666-7777",
+    rating: 4.2,
+    status: "대기중",
+    reservations: "0건",
+    reservations1: "0",
+    memo: "",
+    joinDate: "2024-03-15",
+    lastActivity: "2025-04-18",
+    area: "부산",
+  },
+  {
+    id: "#C014",
+    name: "전지현",
+    phone: "010-8888-9999",
+    phone1: "8888-9999",
+    rating: 4.8,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-03-20",
+    lastActivity: "2025-05-03",
+    area: "서울, 경기",
+  },
+  {
+    id: "#C015",
+    name: "송중기",
+    phone: "010-0000-1111",
+    phone1: "0000-1111",
+    rating: 4.6,
+    status: "활동중",
+    reservations: "10건",
+    reservations1: "10",
+    memo: "",
+    joinDate: "2024-03-25",
+    lastActivity: "2025-05-02",
+    area: "인천",
+  },
+]);
+
 
 // 필터링된 workers
 const filteredWorkers = computed(() => {
-  return workers.value.filter((worker) => {
+  return store.workers.filter((worker) => {
     // 날짜 필터링 (lastActivity 기준)
     if (
       item.value.rangeType !== "all" &&
@@ -744,25 +741,25 @@ const filteredWorkers = computed(() => {
     if (area.value !== "all") {
       if (
         area.value === "gu1" &&
-        !["동구", "군위군"].some((loc) => worker.area.includes(loc))
+        !["동", "군위"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
       if (
         area.value === "gu2" &&
-        !["서구", "중구", "북구"].some((loc) => worker.area.includes(loc))
+        !["서", "중", "북"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
       if (
         area.value === "gu3" &&
-        !["중구", "수성구"].some((loc) => worker.area.includes(loc))
+        !["중", "수성"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
       if (
         area.value === "gu4" &&
-        !["달서구", "달성군"].some((loc) => worker.area.includes(loc))
+        !["달서", "달성"].some((loc) => worker.area.includes(loc))
       ) {
         return false;
       }
@@ -782,7 +779,7 @@ const filteredWorkers = computed(() => {
 // 페이지네이션
 const currentPage = ref(1);
 const itemsPerPage = ref(5);
-const totalItems = ref(15)
+const totalItems = computed(() => filteredWorkers.value.length);
 const totalPages = computed(() =>
   Math.ceil(filteredWorkers.value.length / itemsPerPage.value)
 );
@@ -808,13 +805,11 @@ function onSearch() {
 
 // 기사 상태 토글: 대기중 ↔ 활동중(기사배정)
 const activeStatus = (worker) => {
-  const index = workers.value.findIndex((w) => w.id === worker.id);
-  if (index !== -1) {
-    const currentStatus = workers.value[index].status;
-    workers.value[index].status =
-      currentStatus === "대기중" ? "활동중" : "대기중";
-  }
+  const currentStatus = worker.status;
+  const newStatus = currentStatus === "대기중" ? "활동중" : "대기중";
+  store.updateWorker(worker.id, { status: newStatus });
 };
+
 // 기사 상세 모달 관련 함수
 const showWorkerDetails = (worker) => {
   addWorker.value = { ...worker };
@@ -826,13 +821,13 @@ const showWorkerDetails = (worker) => {
 const closeModal = () => {
   selectedWorker.value = null;
   addWorker.value = null;
-  isAddModalOpen.value = false;
   document.body.style.overflow = "";
 };
 
 const saveWorker = () => {
-  // 저장 로직 구현
-  console.log("저장된 기사 정보:", addWorker.value);
+  if (selectedWorker.value) {
+    store.updateWorker(selectedWorker.value.id, selectedWorker.value);
+  }
   console.log("저장된 기사 정보:", selectedWorker.value);
   closeModal();
 };
@@ -842,6 +837,21 @@ const saveWorker = () => {
 .allpadding {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+@media screen and (max-width: 1260px) {
+  .phoneTd {
+    display: none !important;
+  }
+  .phone1Td {
+    display: block;
+  }
+  .eyeBtn{
+    display: none;
+  }
+  .editBtn{
+    display: none !important;
+  }
 }
 @media screen and (max-width: 1010px) {
   .cardtxt {
@@ -859,38 +869,53 @@ const saveWorker = () => {
   .eyeBtn {
     margin-right: 0px !important;
   }
-  .banBtn{
+  .banBtn {
     padding-left: 0px !important;
     padding-right: 0px !important;
   }
 }
-@media screen and (max-width: 500px) {  
-  .idTd, .idTh{
+@media screen and (max-width: 500px) {
+  .idTd,
+  .idTh {
     display: none;
   }
-  .id1Td, .id1Th{
+  .id1Td,
+  .id1Th {
     display: block;
-  }
-  .phoneTd {
-    display: none;
-  }
-  .phone1Td {
-    display: block;
-  }
+  }   
   .ratingTh {
     display: none;
   }
   .statusTh {
     display: none;
   }
-  .statusN {
+  .statusNor {
     display: none;
   }
-  .statusR {
+  .statusRournd {
+    display: block  !important;;
+  }
+  .actionTh{
+    width: 40px;
+  }
+  .actionBtn{
+    display: none;
+    width: 40px;
+  }
+  .actionBtn1{
     display: block;
+    width: 40px;
   }
-  .pageEx{
+  .pageNation {
+    display: flex;
+    justify-content: center;
+  }
+  .pageEx {
     display: none;
+  }
+  .pageNum {
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

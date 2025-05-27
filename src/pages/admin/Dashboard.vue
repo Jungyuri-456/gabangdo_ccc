@@ -86,208 +86,35 @@
     </div>
 
     <!-- 예약 현황 -->
-    <ResservationList />
+    <ReservationList />
 
     <!-- 기사 현황 -->
-    <div class="bg-white rounded-lg shadow dark:bg-gray-600">
-      <!-- 기사현황 title -->
-      <div class="p-4 pb-0 border-b border-gray-200">
-        <h2 class="text-lg font-semibold text-gray-800">기사 현황</h2>
-      </div>
-      <!-- 검색 select바 -->
-      <div
-        class="p-4 font-light text-sm text-gray-500 border-b dark:text-black border-gray-200 dark:bg-gray-600 flex flex-col md:flex-row gap-4">
-        <div class="flex flex-col md:flex-row justify-start gap-2">
-          <!-- 날짜 범위 선택 -->
-          <DateRangePicker
-          v-model:startDate="item.startDate"
-          v-model:endDate="item.endDate" />
-          <!-- 날짜 선택 인풋 -->
-          <SearchDateSelect
-          v-model="item.rangeType"
-          v-model:startDate="item.startDate"
-          v-model:endDate="item.endDate" />
-          <SearchSelect v-model="date" :options="dateOptions" class="max-[1010px]:hidden" />
-          <SearchSelect v-model="pickup" :options="pickupOptions" />
-          <SearchSelect v-model="area" :options="areaOptions" />
-          <SearchSelect v-model="status" :options="statusOptions" />
-          <button
-            class="px-4 py-1 bg-indigo-600 dark:bg-indigo-300 text-white dark:text-black rounded-md hover:bg-indigo-700">
-            검색
-          </button>
-        </div>
-      </div>
-      <!-- 기사목록 -->
-      <div class="overflow-x-auto">
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                기사ID
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                이름
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                연락처
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                평점
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                현재상태
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                담당예약
-              </th>
-              <th
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                액션
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr
-              v-for="worker in workers"
-              :key="worker.id"
-              class="hover:bg-gray-50">
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ worker.id }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ worker.name }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ worker.phone }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ worker.rating }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  :class="
-                    worker.status === '대기중'
-                      ? 'text-red-600 hover:text-red-900'
-                      : 'text-green-600 hover:text-green-900'
-                  "
-                  class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full">
-                  {{ worker.status }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {{ worker.reservations }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                <button class="text-blue-600 hover:text-blue-900 mr-3">
-                  상세
-                </button>
-                <button
-                  @click="toggleStaus(worker)"
-                  :class="
-                    worker.status === '운반중'
-                      ? '비활성화 , text-red-600 hover:text-red-900'
-                      : '활성화, text-green-600 hover:text-green-900'
-                  ">
-                  {{ worker.status === "대기중" ? "활성화" : "비활성화" }}
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <!-- 페이지네이션 -->
-      <div
-        class="hidden w-full px-4 py-3 md:flex items-center justify-between border-t border-gray-200 sm:px-6">
-        <div class="flex-1 flex justify-between sm:hidden">
-          <button
-            @click="prevPage"
-            :disabled="currentPage === 1"
-            class="relative inline-flex md:hidden items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-            이전
-          </button>
-          <button
-            @click="nextPage"
-            :disabled="currentPage === totalPages"
-            class="ml-3 relative inline-flex md:hidden items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-            다음
-          </button>
-        </div>
-        <div
-          class="w-full flex justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between">
-          <div class="block">
-            <p class="text-sm text-gray-700 dark:text-white">
-              총 <span class="font-medium">{{ totalItems }}</span
-              >개 예약
-              <span class="font-medium">{{
-                (currentPage - 1) * itemsPerPage + 1
-              }}</span
-              >-
-              <span class="font-medium">{{
-                Math.min(currentPage * itemsPerPage, totalItems)
-              }}</span
-              >개 표시
-            </p>
-          </div>
-          <div>
-            <nav
-              class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
-              aria-label="Pagination">
-              <button
-                @click="prevPage"
-                :disabled="currentPage === 1"
-                class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-                <span class="sr-only">이전</span>
-                <i class="fas fa-chevron-left"></i>
-              </button>
-              <button
-                v-for="page in totalPages"
-                :key="page"
-                @click="goToPage(page)"
-                :class="[
-                  currentPage === page
-                    ? 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600'
-                    : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50',
-                  'relative inline-flex items-center px-4 py-2 border text-sm font-medium',
-                ]">
-                {{ page }}
-              </button>
-              <button
-                @click="nextPage"
-                :disabled="currentPage === totalPages"
-                class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-                <span class="sr-only">다음</span>
-                <i class="fas fa-chevron-right"></i>
-              </button>
-            </nav>
-          </div>
-        </div>
-      </div>
-    </div>
+    <WorkersList />
+    <!--고객 현황  -->
+    <CustomersList />
     <!-- 예약추이와 매출현황 차트 -->
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- 차트 -->
-      <div class="bg-white rounded-lg shadow p-6  dark:bg-gray-600 ">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">예약 추이</h2>
+      <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-600">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
+          예약 추이
+        </h2>
         <div class="h-64">
           <Chart />
         </div>
       </div>
 
-      <!-- 최근 예약 -->
-      <div class="bg-white dark:bg-gray-600 rounded-lg shadow p-6 dark:text-white">
+      <!-- 매출 현황 -->
+      <!-- <div
+        class="bg-white dark:bg-gray-600 rounded-lg shadow p-6 dark:text-white">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">
           매출 현황
         </h2>
-        <div class="h-64 dark:text-white ">
-          <ChartRound  />
+        <div class="h-64 dark:text-white">
+          <ChartRound />
         </div>
-      </div>
+      </div> -->
+      <MonthlySale/>
     </div>
   </div>
 </template>
@@ -296,9 +123,11 @@
 import { ref, watch } from "vue";
 import Chart from "@/components/Chart.vue";
 import ChartRound from "../../components/ChartRound.vue";
-import ResservationList from "./components/ResservationList.vue";
-import SearchSelect from "./components/SearchSelect.vue";
-import SearchDateSelect from "./components/SearchDateSelect.vue";
+import ReservationList from "./components/ReservationList.vue";
+import WorkersList from "./components/WorkersList.vue";
+import CustomersList from "./components/CustomersList.vue";
+import MonthlySale from "./components/MonthlySale.vue";
+
 const date = ref("오늘");
 const pickup = ref("all");
 const area = ref("all");
@@ -367,10 +196,10 @@ const pickupOptions = [
 // 담당지역
 const areaOptions = [
   { value: "all", label: "담당지역" },
-  { value: "gu1", label: "동구, 군위군" },
-  { value: "gu2", label: "서구, 중구, 북구" },
-  { value: "gu3", label: "중구, 수성구" },
-  { value: "gu4", label: "달서구, 달성군" },
+  { value: "gu1", label: "동, 군위" },
+  { value: "gu2", label: "서, 중, 북" },
+  { value: "gu3", label: "중, 수성" },
+  { value: "gu4", label: "달서, 달성" },
 ];
 // 운반상태
 const statusOptions = [

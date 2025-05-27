@@ -17,7 +17,8 @@
       </button>
     </div>
 
-    <!-- 오늘기사 카드 -->
+    <!-- 기사 통계 카드 -->
+    <!--오늘기사 카드-->
     <div class="card grid grid-rows-1 md:w-full grid-cols-3 gap-6">
       <div
         class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
@@ -41,10 +42,10 @@
             </h3>
             <p
               class="text-2xl max-[510px]:text-lg leading-9 font-semibold text-gray-800 dark:text-white">
-              {{ totalWorkers - 3 }}
+              {{ store.dashboardStats.totalWorkers - 3 }}
               <span
                 class="text-lg max-[510px]:text-sm font-semibold text-gray-800 dark:text-white"
-                >/ 15
+                >/ {{ store.dashboardStats.totalWorkers }}
               </span>
             </p>
             <span class="span text-sm text-green-600 dark:text-green-300"
@@ -67,7 +68,7 @@
               활동중
             </h3>
             <p class="text-2xl font-semibold text-gray-800 dark:text-white">
-              12명
+              {{ store.dashboardStats.activeWorkers }}명
             </p>
             <span class="span text-sm text-green-600 dark:text-green-300"
               >+1명</span
@@ -87,7 +88,7 @@
               평균 평점
             </h3>
             <p class="text-2xl font-semibold text-gray-800 dark:text-white">
-              4.6
+              {{ store.dashboardStats.avgRating }}
             </p>
             <span class="span text-sm text-green-600 dark:text-green-300"
               >+0.1</span
@@ -128,7 +129,6 @@
 
     <!-- 기사 목록 & 상세 모달 -->
     <WorkersList/>
-    
     <!-- 기사 추가 모달 -->
     <form @submit.prevent="submitForm">
       <div
@@ -336,13 +336,15 @@
 <script setup>
 import WorkersList from "./components/WorkersList.vue";
 import { ref, computed, watch } from "vue";
+import { useAppStore } from "@/stores/useAppStore";
+
+const store = useAppStore();
 
 const date = ref("오늘");
 const pickup = ref("all");
 const area = ref("all");
 const status = ref("all");
 
-const totalWorkers = ref(15);
 // 페이지네이션 상태
 const currentPage = ref(1);
 const itemsPerPage = ref(5);
@@ -357,7 +359,6 @@ const dateOptions = [
   { value: "일주일", label: "일주일" },
   { value: "한달", label: "한달" },
 ];
-// 날짜선택
 
 const item = ref({
   rangeType: "today",
@@ -390,6 +391,7 @@ watch(date, (newVal) => {
       break;
   }
 });
+
 // 픽업위치
 const pickupOptions = [
   { value: "all", label: "픽업위치" },
@@ -397,14 +399,16 @@ const pickupOptions = [
   { value: "동대구역", label: "동대구역" },
   { value: "서대구역", label: "서대구역" },
 ];
+
 // 담당지역선택
 const areaOptions = [
   { value: "all", label: "담당지역" },
-  { value: "gu1", label: "동구, 군위군" },
-  { value: "gu2", label: "서구, 중구, 북구" },
-  { value: "gu3", label: "중구, 수성구" },
-  { value: "gu4", label: "달서구, 달성군" },
+  { value: "gu1", label: "동, 군위" },
+  { value: "gu2", label: "서, 중, 북" },
+  { value: "gu3", label: "중, 수성" },
+  { value: "gu4", label: "달서, 달성" },
 ];
+
 // 운반상태
 const statusOptions = [
   { value: "all", label: "운반상태" },
@@ -415,226 +419,22 @@ const statusOptions = [
   { value: "cancelled", label: "취소" },
 ];
 
-//기사
-const workers = ref([
-  {
-    id: "#C001",
-    name: "김지훈",
-    phone: "010-1234-5678",
-    phone1: "1234-5678",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "11건",
-    memo: "",
-    joinDate: "2024-01-15",
-    lastActivity: "2025-05-15",
-    area: "서울, 경기",
-  },
-  {
-    id: "#C002",
-    name: "이수민",
-    phone: "010-8765-4321",
-    phone1: "8765-4321",
-    rating: 4.5,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-01-20",
-    lastActivity: "2025-05-14",
-    area: "인천",
-  },
-  {
-    id: "#C003",
-    name: "박서준",
-    phone: "010-5555-6666",
-    phone1: "5555-6666",
-    rating: 4.2,
-    status: "대기중",
-    reservations: "0건",
-    memo: "",
-    joinDate: "2024-01-25",
-    lastActivity: "2025-04-20",
-    area: "부산",
-  },
-  {
-    id: "#C004",
-    name: "한예슬",
-    phone: "010-7777-8888",
-    phone1: "7777-8888",
-    rating: 4.9,
-    status: "활동중",
-    reservations: "11건",
-    memo: "",
-    joinDate: "2024-02-01",
-    lastActivity: "2025-05-18",
-    area: "서울",
-  },
-  {
-    id: "#C005",
-    name: "정우성",
-    phone: "010-9999-0000",
-    phone1: "9999-0000",
-    rating: 4.6,
-    status: "활동중",
-    reservations: "9건",
-    memo: "",
-    joinDate: "2024-02-05",
-    lastActivity: "2025-05-10",
-    area: "경기",
-  },
-  {
-    id: "#C006",
-    name: "김태희",
-    phone: "010-1111-2222",
-    phone1: "1111-2222",
-    rating: 4.7,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-02-10",
-    lastActivity: "2025-05-09",
-    area: "서울, 인천",
-  },
-  {
-    id: "#C007",
-    name: "이준호",
-    phone: "010-3333-4444",
-    phone1: "3333-4444",
-    rating: 4.4,
-    status: "활동중",
-    reservations: "9건",
-    memo: "",
-    joinDate: "2024-02-15",
-    lastActivity: "2025-05-08",
-    area: "경기",
-  },
-  {
-    id: "#C008",
-    name: "유인나",
-    phone: "010-5555-7777",
-    phone1: "5555-7777",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-02-20",
-    lastActivity: "2025-05-07",
-    area: "서울",
-  },
-  {
-    id: "#C009",
-    name: "이병헌",
-    phone: "010-7777-9999",
-    phone1: "7777-9999",
-    rating: 4.3,
-    status: "대기중",
-    reservations: "0건",
-    memo: "",
-    joinDate: "2024-02-25",
-    lastActivity: "2025-04-15",
-    area: "부산",
-  },
-  {
-    id: "#C010",
-    name: "한가인",
-    phone: "010-9999-1111",
-    phone1: "9999-1111",
-    rating: 4.9,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-01",
-    lastActivity: "2025-05-06",
-    area: "서울, 경기",
-  },
-  {
-    id: "#C011",
-    name: "정해인",
-    phone: "010-2222-3333",
-    phone1: "2222-3333",
-    rating: 4.5,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-05",
-    lastActivity: "2025-05-05",
-    area: "인천",
-  },
-  {
-    id: "#C012",
-    name: "고아라",
-    phone: "010-4444-5555",
-    phone1: "4444-5555",
-    rating: 4.7,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-10",
-    lastActivity: "2025-05-04",
-    area: "서울",
-  },
-  {
-    id: "#C013",
-    name: "남주혁",
-    phone: "010-6666-7777",
-    phone1: "6666-7777",
-    rating: 4.2,
-    status: "대기중",
-    reservations: "0건",
-    memo: "",
-    joinDate: "2024-03-15",
-    lastActivity: "2025-04-18",
-    area: "부산",
-  },
-  {
-    id: "#C014",
-    name: "전지현",
-    phone: "010-8888-9999",
-    phone1: "8888-9999",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-20",
-    lastActivity: "2025-05-03",
-    area: "서울, 경기",
-  },
-  {
-    id: "#C015",
-    name: "송중기",
-    phone: "010-0000-1111",
-    phone1: "0000-1111",
-    rating: 4.6,
-    status: "활동중",
-    reservations: "10건",
-    memo: "",
-    joinDate: "2024-03-25",
-    lastActivity: "2025-05-02",
-    area: "인천",
-  },
-]);
-
-// 기사목록
-
 // 활동중/대기중 버튼
 const activeStatus = (worker) => {
-  const index = workers.value.findIndex((w) => w.id === worker.id);
-  if (index !== -1) {
-    const currentStatus = workers.value[index].status;
-    workers.value[index].status =
-      currentStatus === "대기중" ? "활동중" : "대기중";
-  }
+  const currentStatus = worker.status;
+  const newStatus = currentStatus === "대기중" ? "활동중" : "대기중";
+  store.updateWorker(worker.id, { status: newStatus });
 };
 
 // 페이지네이션 계산
 const totalPages = computed(() => {
-  return Math.ceil(workers.value.length / itemsPerPage.value);
+  return Math.ceil(store.workers.length / itemsPerPage.value);
 });
 
 const paginatedWorkers = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
   const end = start + itemsPerPage.value;
-  return workers.value.slice(start, end);
+  return store.workers.slice(start, end);
 });
 
 // 페이지 이동 함수
@@ -682,6 +482,7 @@ const openAddModal = () => {
   };
   document.body.style.overflow = "hidden";
 };
+
 const closeModal = () => {
   isAddModalOpen.value = false;
   document.body.style.overflow = "auto";
@@ -697,20 +498,23 @@ const isEditing = ref(true);
 const imagePreview = ref(null);
 const fileInput = ref(null);
 const averageRating = ref(4.8);
+
 // 이미지 업로드 모달 열기
 const uploadImage = () => {
   showImageModal.value = true;
 };
+
 // 이미지 모달 닫기
 const closeImageModal = () => {
   showImageModal.value = false;
 };
+
 // 파일선택 다이얼로그 트리거
-// 숨겨진 파일 입력 요소를 클릭하여 파일 선택 창 열기
 const triggerFileInput = () => {
   fileInput.value.click();
 };
-// /선택된 이미지 파일을 base64형식으로 변환하여 미리보기 표기
+
+// 선택된 이미지 파일을 base64형식으로 변환하여 미리보기 표기
 const handleImageUpload = (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -733,6 +537,7 @@ const handleImageUpload = (event) => {
     reader.readAsDataURL(file);
   }
 };
+
 // 프로필 이미지 저장
 const saveImage = () => {
   if (imagePreview.value) {
@@ -740,10 +545,12 @@ const saveImage = () => {
   }
   closeImageModal();
 };
+
 // 프로필 수정 모드 시작
 const startEditing = () => {
   isEditing.value = true;
 };
+
 const saveProfile = () => {
   const profile = {
     name: driverName.value,
@@ -762,45 +569,61 @@ const saveProfile = () => {
   `;
 
   if (confirm(confirmMessage)) {
-    // 사용자가 확인을 눌렀을 때 실행
-    alert("프로필이 저장되었습니다.");
+    // 새 기사를 store에 추가
+    const newWorker = {
+      name: profile.name,
+      phone: profile.phone,
+      rating: 0,
+      status: "활동중",
+      reservations: "0건",
+      memo: "",
+      joinDate: new Date().toISOString().split("T")[0],
+      lastActivity: new Date().toISOString().split("T")[0],
+      area: "동, 군위",
+      areaGroup: "gu1"
+    };
+    
+    store.addWorker(newWorker);
+    alert("기사가 추가되었습니다.");
     isEditing.value = false;
-    closeModal(); // 모달 닫기
+    closeModal();
   } else {
-    // 사용자가 취소를 눌렀을 때 실행
     alert("저장이 취소되었습니다.");
   }
 };
+
 const cancelEditing = () => {
-    const hasChanged =
-    driverName.value !== oring.value.name ||
-    driverPhone.value !== oring.value.phone ||
-    driverEmail.value !== oring.value.email ||
-    vehicleInfo.value !== oring.value.vehicle;
+  const hasChanged =
+    driverName.value !== "" ||
+    driverPhone.value !== "" ||
+    driverEmail.value !== "" ||
+    vehicleInfo.value !== "";
 
   if (hasChanged) {
     if (confirm("정말 저장을 취소하시겠습니까?")) {
       isEditing.value = false;
-      // 원래 값으로 되돌림
-      driverName.value = oring.value.name;
-      driverPhone.value = oring.value.phone;
-      driverEmail.value = oring.value.email;
-      vehicleInfo.value = oring.value.vehicle;
+      driverName.value = "";
+      driverPhone.value = "";
+      driverEmail.value = "";
+      vehicleInfo.value = "";
       closeModal();
     }
   } else {
     isEditing.value = false;
-    closeModal(); // 변경사항 없을 경우 그냥 닫기
-  } return
+    closeModal();
+  }
 };
-const oring = ref({
-  name: driverName.value,
-  phone: driverPhone.value,
-  email: driverEmail.value,
-  vehicle: vehicleInfo.value,
-});
 
+// 유틸리티 함수들
+const formatDate = (date) => date.toISOString().split('T')[0];
+const addDays = (date, days) => new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+const subMonths = (date, months) => new Date(date.getFullYear(), date.getMonth() - months, date.getDate());
+
+const submitForm = () => {
+  // Form submission logic here
+};
 </script>
+
 <style scoped>
 .icon-box {
   width: 54px;
