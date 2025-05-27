@@ -1,15 +1,10 @@
 <script setup>
 import { computed, ref, onBeforeUnmount } from "vue";
-// 탭 리스트
-const tabs = ["공지사항", "이용후기"];
-// 현재 선택된 탭
-const currentTab = ref(tabs[0]);
+
 //페이지네이션
 const noticeItemsPerPage = 15;
 const noticeCurrentPage = ref(1);
 const activeIndex = ref(null);
-
-//공지사항 스크립트
 
 // dummy 데이터
 const notices = ref([
@@ -275,10 +270,11 @@ onBeforeUnmount(() => {
 
 // 페이지 전환
 const prevNoticePage = () => {
-  if (currentPage.value > 1) currentPage.value--;
+  if (noticeCurrentPage.value > 1) noticeCurrentPage.value--;
 };
 const nextNoticePage = () => {
-  if (noticeCurrentPage.value < noticeTotalPages.value) currentPage.value++;
+  if (noticeCurrentPage.value < noticeTotalPages.value)
+    noticeCurrentPage.value++;
 };
 
 // 카테고리 선택
@@ -287,6 +283,7 @@ function setCategory(cat) {
   currentPage.value = 1;
   activeIndex.value = null;
 }
+
 //이용후기
 // 태그 정보
 const tags = ref([{ tag: "⭐⭐⭐⭐⭐" }]);
@@ -420,7 +417,7 @@ const maskedName = (name) => name.charAt(0) + "*".repeat(name.length - 1);
 
 // 페이지네이션 상태
 const reviewCurrentPage = ref(1);
-const reviewItemsPerPage = 9; // 한 페이지당 8개 상품 표시
+const reviewItemsPerPage = 8; // 한 페이지당 8개 상품 표시
 
 // 총 페이지 수 계산
 const reviewTotalPages = computed(() =>
@@ -500,119 +497,114 @@ const closeModal = () => {
 <template>
   <div class="wrap_total">
     <div class="st_wrap">
-      <!-- 탭 네비 -->
-      <div class="tab-nav my-button">
-        <button
-          v-for="tab in tabs"
-          :key="tab"
-          @click="currentTab = tab"
-          :class="{ active: currentTab === tab }">
-          {{ tab }}
-        </button>
+      <!-- 고객센터 섹션 -->
+      <div class="st_customer">
+        <!-- 타이틀 -->
+        <div class="st_title1">
+          <div class="title_txt1">
+            <h1>고객센터</h1>
+          </div>
+        </div>
+        <div class="st_info">
+          <img src="/images/cr/st_notice.png" alt="상담원" class="st_image" />
+          <div class="st_details">
+            <p class="st_phone">053-123-1234</p>
+            <ul class="st_hours">
+              <li>평일 : 09:00 – 18:00</li>
+              <li>토요일 : 09:00 – 13:00</li>
+              <li>일요일 : 휴무 (예약일정에 따라 변동)</li>
+            </ul>
+          </div>
+        </div>
       </div>
-
-      <!-- 공지사항 (v-if) -->
-      <template v-if="currentTab === '공지사항'">
-        <!-- 상단컨테이너 -->
-        <div class="st_customer">
-          <!-- 타이틀 -->
-          <div class="st_title1">
-            <div class="title_txt1">
-              <h1>고객센터</h1>
-            </div>
-          </div>
-          <div class="st_info">
-            <img src="/images/cr/st_notice.png" alt="상담원" class="st_image" />
-            <div class="st_details">
-              <p class="st_phone">053-123-1234</p>
-              <ul class="st_hours">
-                <li>평일 : 09:00 – 18:00</li>
-                <li>토요일 : 09:00 – 13:00</li>
-                <li>일요일 : 휴무 (예약일정에 따라 변동)</li>
-              </ul>
-            </div>
+      <!-- 구분선 -->
+      <div class="line"></div>
+      <!-- 공지사항 섹션 -->
+      <div class="st_notice">
+        <!-- 타이틀 -->
+        <div class="st_title1">
+          <div class="title_txt1">
+            <h1>공지사항</h1>
           </div>
         </div>
-        <!-- 하단컨테이너 -->
-        <div class="st_container">
-          <!-- 타이틀 -->
-          <div class="st_title1">
-            <div class="title_txt1">
-              <h1>공지사항</h1>
-            </div>
-          </div>
-          <!-- 검색어입력 -->
-          <div class="st_search-wrapper">
-            <input
-              v-model="searchQuery"
-              class="st_search"
-              type="text"
-              placeholder="검색어를 입력하세요" />
-            <button class="st_search-btn my-button" @click="onSearch">
-              검색
-            </button>
-          </div>
-          <!-- 카테고리버튼 -->
-          <div class="st_category-buttons">
-            <button
-              v-for="cat in categories"
-              :key="cat"
-              @click="setCategory(cat)"
-              :class="{ active: selectedCategory === cat }"
-              class="st_category-btn my-button">
-              {{ cat }}
-            </button>
-          </div>
-          <!-- 공지사항 출력 -->
-          <table class="st_notice-table">
-            <tbody class="st_scrollable-body">
-              <template v-for="(notice, idx) in paginatedNotices" :key="idx">
-                <tr class="notice-row my-button" @click="toggleNotice(idx)">
-                  <td>
-                    <div class="notice-row_title">
-                      {{ notice.title }}
-                      <img
-                        class="st_toggle-icon my-button"
-                        :src="
-                          activeIndex === idx
-                            ? '/images/cr/up.png'
-                            : '/images/cr/down.png'
-                        "
-                        alt="토글 아이콘" />
-                    </div>
-                  </td>
-                </tr>
-                <tr v-if="activeIndex === idx">
-                  <td class="notice-row_content my-button">
-                    <div class="notice_content">
-                      {{ notice.content }}
-                    </div>
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
+        <!-- 검색어입력 -->
+        <div class="st_search-wrapper">
+          <input
+            v-model="searchQuery"
+            class="st_search"
+            type="text"
+            placeholder="검색어를 입력하세요"
+          />
+          <button class="st_search-btn my-button" @click="onSearch">
+            검색
+          </button>
         </div>
+        <!-- 카테고리버튼 -->
+        <div class="st_category-buttons">
+          <button
+            v-for="cat in categories"
+            :key="cat"
+            @click="setCategory(cat)"
+            :class="{ active: selectedCategory === cat }"
+            class="st_category-btn my-button"
+          >
+            {{ cat }}
+          </button>
+        </div>
+        <!-- 공지사항 출력 -->
+        <table class="st_notice-table">
+          <tbody class="st_scrollable-body">
+            <template v-for="(notice, idx) in paginatedNotices" :key="idx">
+              <tr class="notice-row my-button" @click="toggleNotice(idx)">
+                <td>
+                  <div class="notice-row_title">
+                    {{ notice.title }}
+                    <img
+                      class="st_toggle-icon my-button"
+                      :src="
+                        activeIndex === idx
+                          ? '/images/cr/up.png'
+                          : '/images/cr/down.png'
+                      "
+                      alt="토글 아이콘"
+                    />
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="activeIndex === idx">
+                <td class="notice-row_content my-button">
+                  <div class="notice_content">
+                    {{ notice.content }}
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
         <!-- 페이지네이션 -->
         <div class="st_pagination my-button">
           <button
             class="my-button"
             @click="prevNoticePage"
-            :disabled="noticeCurrentPage === 1">
+            :disabled="noticeCurrentPage === 1"
+          >
             이전
           </button>
           <span>{{ noticeCurrentPage }} / {{ noticeTotalPages }}</span>
           <button
             class="my-button"
             @click="nextNoticePage"
-            :disabled="noticeCurrentPage === noticeTotalPages">
+            :disabled="noticeCurrentPage === noticeTotalPages"
+          >
             다음
           </button>
         </div>
-      </template>
-
-      <!-- 이용후기 (v-else) -->
-      <template v-else>
+      </div>
+      <!-- 구분선 -->
+      <div class="line"></div>
+      <!-- 이용후기 섹션 -->
+      <div class="st_review">
+        <!-- 타이틀 -->
         <div class="st_title1">
           <div class="title_txt1">
             <h1>이용후기</h1>
@@ -625,7 +617,8 @@ const closeModal = () => {
               class="st_card my-button"
               v-for="product in paginatedProducts"
               :key="product.image"
-              @click="openModal(product)">
+              @click="openModal(product)"
+            >
               <div class="st_img-product">
                 <img :src="product.image" alt="Product" />
               </div>
@@ -655,7 +648,8 @@ const closeModal = () => {
               <input type="text" v-model="newReview.name" placeholder="이름" />
               <textarea
                 v-model="newReview.content"
-                placeholder="후기내용"></textarea>
+                placeholder="후기내용"
+              ></textarea>
               <input type="file" @change="handleImageUpload" accept="image/*" />
               <img v-if="previewImage" :src="previewImage" width="120" />
               <!-- 후기 등록·취소버튼 -->
@@ -674,33 +668,36 @@ const closeModal = () => {
             <button
               class="my-button"
               @click="prevReviewPage"
-              :disabled="reviewCurrentPage === 1">
+              :disabled="reviewCurrentPage === 1"
+            >
               이전
             </button>
             <span>{{ reviewCurrentPage }} / {{ reviewTotalPages }}</span>
             <button
               class="my-button"
               @click="nextReviewPage"
-              :disabled="reviewCurrentPage === reviewTotalPages">
+              :disabled="reviewCurrentPage === reviewTotalPages"
+            >
               다음
             </button>
           </div>
         </div>
-        <!-- 모달창 내용 -->
-        <div class="st_modal">
-          <div
-            v-if="showModal"
-            class="modal-overlay my-button"
-            @click.self="closeModal">
-            <div class="modal-content">
-              <h3>✨{{ maskedName(selectedReview.name) }}님의 이용후기✨</h3>
-              <img :src="selectedReview.image" alt="후기 이미지" />
-              <p>{{ selectedReview.content || "내용 없음" }}</p>
-              <button class="my-button" @click="closeModal">닫기</button>
-            </div>
+      </div>
+      <!-- 모달창 내용 -->
+      <div class="st_modal">
+        <div
+          v-if="showModal"
+          class="modal-overlay my-button"
+          @click.self="closeModal"
+        >
+          <div class="modal-content">
+            <h3>✨{{ maskedName(selectedReview.name) }}님의 이용후기✨</h3>
+            <img :src="selectedReview.image" alt="후기 이미지" />
+            <p>{{ selectedReview.content || "내용 없음" }}</p>
+            <button class="my-button" @click="closeModal">닫기</button>
           </div>
         </div>
-      </template>
+      </div>
     </div>
     <!-- /.st_wrap -->
   </div>
@@ -712,24 +709,6 @@ const closeModal = () => {
 @use "/src/assets/Main.scss" as *;
 @use "/src/assets/Variables.scss" as *;
 
-//탭버튼
-.tab-nav {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 30px;
-  button {
-    padding: 8px 16px;
-    border: 1px solid $border-gray;
-    border-radius: $radius;
-    background: #fff;
-    cursor: pointer;
-    &.active {
-      background: $main-color;
-      color: #fff;
-      border-color: $main-color;
-    }
-  }
-}
 // 전체 래퍼
 .st_wrap {
   max-width: 1200px;
@@ -755,13 +734,12 @@ const closeModal = () => {
   }
 }
 
-//고객센터
+// 고객센터섹션
 .st_customer {
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-bottom: 100px;
 }
 .st_info {
   display: flex;
@@ -801,14 +779,14 @@ const closeModal = () => {
   font-size: 20px;
 }
 
-//하부 컨테이너
-.st_container {
+// 공지사항섹션
+.st_notice {
   width: 70%;
   max-width: 100%;
   text-align: center;
 }
 
-//검색어
+// 검색어
 .st_search-wrapper {
   width: 70%;
   max-width: 100%;
@@ -851,7 +829,7 @@ const closeModal = () => {
     }
   }
 }
-//카테고리 버튼
+// 카테고리 버튼
 .st_category-buttons {
   width: 80%;
   display: flex;
@@ -947,7 +925,7 @@ const closeModal = () => {
   filter: invert(60%) brightness(100%);
 }
 
-/* 페이지네이션 스타일 */
+// 페이지네이션 스타일
 .st_pagination {
   margin-top: 20px;
   display: flex;
@@ -978,11 +956,13 @@ const closeModal = () => {
   color: $dark-gray;
 }
 
-//이용후기
-.st_bottom {
-  max-width: 900px;
-  width: 100%;
+// 이용후기섹션
+.st_view {
+  width: 70%;
+  max-width: 100%;
+  text-align: center;
 }
+
 // 리뷰 카드
 .st_card-container {
   display: flex;

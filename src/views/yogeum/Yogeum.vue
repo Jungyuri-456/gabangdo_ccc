@@ -26,13 +26,13 @@
             </p>
           </div>
         </div>
-        <!-- 결제환불제목 -->
-        <div class="bb_title1 yg_accoutNrefund">
-          <div class="title_txt1">
-            <h1>결제&nbsp;&nbsp;및&nbsp;&nbsp;환불</h1>
-          </div>
-          <!-- 환불 절차 -->
-          <div class="yg_refundProcess">
+        <!-- 환불 절차 -->
+        <div class="yg_refundProcess">
+          <!-- 결제환불제목 -->
+          <div class="bb_title1 yg_accoutNrefund">
+            <div class="title_txt1">
+              <h1>결제 및 환불</h1>
+            </div>
             <ul>
               <li class="yg_refunddLi1">
                 <img src="/images/geen/1/announce.png" alt="알림이미지" />
@@ -122,7 +122,7 @@ onUnmounted(() => {
 }
 .yg_container > .inner {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1100px;
   margin: auto;
 }
 // 제목
@@ -133,7 +133,7 @@ onUnmounted(() => {
   text-align: center;
   padding-bottom: 30px;
   .title_txt1 h1 {
-    font-family: "omyu_pretty";
+    font-family: $font-ownglyph;
     font-size: 40px;
   }
 }
@@ -147,7 +147,7 @@ onUnmounted(() => {
 // 요금 안내 후 알림사항
 // 알림 왼쪽(할인)
 .yg_infoWrapper {
-  padding: 50px;
+  padding-bottom: 50px;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -186,26 +186,31 @@ onUnmounted(() => {
   }
 }
 // 결제 및 환불
-.yg_accoutNrefund {
-  margin-bottom: 50px;
-}
+
 // 다른 클라스 네임 bb_title1  display:flex 해놓음
 // 타이틀
 ::v-deep(.bb_title1) {
   padding: 0 !important;
-  gap: 50px !important;
+  gap: 10px !important;
 }
 // 환불 절차
 .yg_refundProcess {
   width: 100%;
-  max-width: 1300px;
-  margin: auto;
-  ul {
+  max-width: 1100px;
+  .yg_accoutNrefund {
     width: 100%;
-    line-height: 50px;
+    .title_txt1 h1 {
+      font-family: $font-ownglyph;
+      font-size: 40px;
+    }
+  }
+  ul {
+    width: 80%;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 0;
+    padding: 0;
     @media screen and (max-width: 620px) {
       justify-content: space-between;
     }
@@ -222,9 +227,12 @@ onUnmounted(() => {
         }
       }
       a {
-        width: 100%;
+        width: 50%;
         display: block;
+        display: flex;
         text-align: center;
+        align-items: center;
+        justify-content: center;
         border-radius: 30px;
         border: 2px solid $sub-color;
       }
@@ -240,6 +248,8 @@ onUnmounted(() => {
 // 환불내용
 .yg_refunddLi1 {
   width: 20%;
+  margin: 0;
+  padding: 0;
 }
 @media screen and (max-width: 470px) {
   ::v-deep(.yg_refunddLi1) {
