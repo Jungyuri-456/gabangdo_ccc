@@ -1,92 +1,95 @@
 <template>
-  <swiper
-    :scrollbar="{
-      hide: true,
-    }"
-    :slidesPerView="1"
-    :spaceBetween="10"
-    :centeredSlides="true"
-    :autoplay="{
-      delay: 2500,
-      disableOnInteraction: false,
-    }"
-    :pagination="{
-      clickable: true,
-    }"
-    :navigation="true"
-    :modules="modules"
-    @autoplayTimeLeft="onAutoplayTimeLeft"
-    class="mySwiper">
-    <swiper-slide
-      ><h4>군위시장투어</h4>
-      <a
-        href="https://www.daegucitytour.com/bbs/page.php?hid=tour_5_1"
-        target="_blank"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_02.jpg"
-          alt="군위전통시장투어" /></a
-    ></swiper-slide>
-    <swiper-slide
-      ><h4>현풍도깨비시장투어</h4>
-      <a
-        href="https://www.daegucitytour.com/bbs/page.php?hid=tour_5_1"
-        target="_blank"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_03.jpg"
-          alt="현풍전통시장투어" /></a
-    ></swiper-slide>
-    <swiper-slide
-      ><h4>사시사철투어</h4>
-      <a
-        href="https://www.daegucitytour.com/bbs/page.php?hid=tour_4"
-        target="_blank"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_04.jpg"
-          alt="사시사철투어" /></a
-    ></swiper-slide>
-    <swiper-slide
-      ><h4>낙동강투어</h4>
-      <a
-        href="https://www.daegucitytour.com/bbs/page.php?hid=tour_3"
-        target="_blank"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_05.jpg"
-          alt="낙동강투어" /></a
-    ></swiper-slide>
-    <swiper-slide
-      ><h4>군위군돋보기투어</h4>
-      <a
-        href="https://www.daegucitytour.com/bbs/page.php?hid=tour_2"
-        target="_blank"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_06.jpg"
-          alt="군위군돋보기투어" /></a
-    ></swiper-slide>
-    <swiper-slide
-      ><h4>팔공산투어</h4>
-      <a
-        href="https://www.daegucitytour.com/bbs/page.php?hid=tour_1"
-        target="_blank"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_07.jpg"
-          alt="팔공산투어" /></a
-    ></swiper-slide>
-    <swiper-slide
-      ><h4>야경투어</h4>
-      <a href="https://www.daegucitytour.com/bbs/page.php?hid=tour_6"
-        ><img
-          src="/images/geen/1/KakaoTalk_20250410_194237551_01.jpg"
-          alt="야경투어" /></a
-    ></swiper-slide>
-    <template #container-end>
-      <div class="autoplay-progress">
-        <svg viewBox="0 0 48 48" ref="progressCircle">
-          <circle cx="24" cy="24" r="20"></circle>
-        </svg>
-        <span ref="progressContent"></span>
-      </div>
-    </template>
-  </swiper>
+  <div class="yh_wrap">
+    <swiper
+      :scrollbar="{
+        hide: true,
+      }"
+      :slidesPerView="1"
+      :spaceBetween="10"
+      :centeredSlides="true"
+      :autoplay="{
+        delay: 2500,
+        disableOnInteraction: false,
+      }"
+      :pagination="{
+        clickable: true,
+      }"
+      :navigation="true"
+      :modules="modules"
+      @autoplayTimeLeft="onAutoplayTimeLeft"
+      class="mySwiper"
+    >
+      <swiper-slide
+        ><h4>군위시장투어</h4>
+        <a
+          href="https://www.daegucitytour.com/bbs/page.php?hid=tour_5_1"
+          target="_blank"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_02.jpg"
+            alt="군위전통시장투어" /></a
+      ></swiper-slide>
+      <swiper-slide
+        ><h4>현풍도깨비시장투어</h4>
+        <a
+          href="https://www.daegucitytour.com/bbs/page.php?hid=tour_5_1"
+          target="_blank"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_03.jpg"
+            alt="현풍전통시장투어" /></a
+      ></swiper-slide>
+      <swiper-slide
+        ><h4>사시사철투어</h4>
+        <a
+          href="https://www.daegucitytour.com/bbs/page.php?hid=tour_4"
+          target="_blank"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_04.jpg"
+            alt="사시사철투어" /></a
+      ></swiper-slide>
+      <swiper-slide
+        ><h4>낙동강투어</h4>
+        <a
+          href="https://www.daegucitytour.com/bbs/page.php?hid=tour_3"
+          target="_blank"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_05.jpg"
+            alt="낙동강투어" /></a
+      ></swiper-slide>
+      <swiper-slide
+        ><h4>군위군돋보기투어</h4>
+        <a
+          href="https://www.daegucitytour.com/bbs/page.php?hid=tour_2"
+          target="_blank"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_06.jpg"
+            alt="군위군돋보기투어" /></a
+      ></swiper-slide>
+      <swiper-slide
+        ><h4>팔공산투어</h4>
+        <a
+          href="https://www.daegucitytour.com/bbs/page.php?hid=tour_1"
+          target="_blank"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_07.jpg"
+            alt="팔공산투어" /></a
+      ></swiper-slide>
+      <swiper-slide
+        ><h4>야경투어</h4>
+        <a href="https://www.daegucitytour.com/bbs/page.php?hid=tour_6"
+          ><img
+            src="/images/geen/1/KakaoTalk_20250410_194237551_01.jpg"
+            alt="야경투어" /></a
+      ></swiper-slide>
+      <template #container-end>
+        <div class="autoplay-progress">
+          <svg viewBox="0 0 48 48" ref="progressCircle">
+            <circle cx="24" cy="24" r="20"></circle>
+          </svg>
+          <span ref="progressContent"></span>
+        </div>
+      </template>
+    </swiper>
+  </div>
 </template>
 
 <script>
@@ -124,7 +127,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@use "/src/assets/Variables" as *;
+@use "sass:color";
+@use "/src/assets/Main.scss" as *;
+@use "/src/assets/Variables.scss" as *;
+
+.yh_wrap {
+  max-width: 1200px;
+  width: 100%;
+}
+
 h4 {
   margin: 10px 0;
   font-family: $font-ownglyph;

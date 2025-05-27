@@ -51,8 +51,4 @@ const isWorkerPage = computed(() => {
     padding-top: 0 !important;
   }
 }
-
-.main {
-  padding-top: 70px;
-}
 </style>

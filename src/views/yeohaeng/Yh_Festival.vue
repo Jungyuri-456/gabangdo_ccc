@@ -1,120 +1,107 @@
 <template>
-  <!-- 대구축제 영역 -->
-  <div id="festivalBanner">
-    <div class="main-slide-list2">
-      <!-- 대구축제 제목 -->
-      <div class="main-slide-list2-title">
-        <i class="ico_bright"></i>
-        <div class="bb_title1">
-          <div class="festival-title"></div>
-          <div class="title_txt1">
-            <h1>대구 {{ activeTab === "CDF018.001" ? "봄" : "가을" }} 축제</h1>
-          </div>
-        </div>
-      </div>
-      <!-- 봄/가을 탭 -->
-      <div class="festival-month">
-        <a
-          :class="{ active: activeTab === 'CDF018.001' }"
-          @click="changeTab('CDF018.001')"
-          >봄</a
-        >
-        <a
-          class="festivalTab"
-          :class="{ active: activeTab === 'CDF018.002' }"
-          @click="changeTab('CDF018.002')"
-          >가을</a
-        >
-      </div>
-      <!-- 이미지 Swiper (슬라이드 내용) 양쪽 빨간 페이지화살표 -->
-      <div id="main-swiper" class="swiper mySwiper">
-        <!-- 이미지 영역 -->
-        <div class="swiper-wrapper">
-          <div
-            v-for="(festival, index) in festivalData[activeTab]"
-            :key="index"
-            class="swiper-slide">
-            <div class="slide-wrap">
-              <div class="left">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="40.002"
-                  height="39.998"
-                  viewBox="0 0 40.002 39.998">
-                  <path
-                    id="합치기_22"
-                    data-name="합치기 22"
-                    d="M0,40V12.666H0A12.665,12.665,0,0,1,12.666,0H40V12.666H12.668V40Z"
-                    :fill="
-                      activeTab === 'CDF018.001' ? '#ee2b2b' : 'yellow'
-                    "></path>
-                </svg>
-                <div class="slide-info-wrap">
-                  <div class="slide-info-title">
-                    {{ festival.title }} <br />{{ festival.title1 }}
-                    <p></p>
-                    <a
-                      v-if="festival.href"
-                      :href="festival.href"
-                      class="festi-more"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      >자세히 보기
-                    </a>
-                  </div>
-                  <div class="slide-info-cont">
-                    <ul>
-                      <li><span>· 개최기간</span></li>
-                      <li>{{ festival.date }}</li>
-                    </ul>
-                    <ul>
-                      <li><span>· 장소</span></li>
-                      <li>{{ festival.location }}</li>
-                    </ul>
-                  </div>
-                </div>
-                <div
-                  class="left-bg"
-                  :style="{
-                    background:
-                      activeTab === 'CDF018.001' ? '#fa6d6d' : 'yellow',
-                  }"></div>
-              </div>
-              <div class="right">
-                <div
-                  class="right-thumb"
-                  :style="{ backgroundImage: `url(${festival.image})` }"
-                  :aria-label="festival.alt"
-                  role="img"></div>
-              </div>
+  <div class="yh_wrap">
+    <!-- 대구축제 영역 -->
+    <div id="festivalBanner">
+      <div class="main-slide-list2">
+        <!-- 대구축제 제목 -->
+        <div class="main-slide-list2-title">
+          <i class="ico_bright"></i>
+          <div class="bb_title1">
+            <div class="festival-title"></div>
+            <div class="title_txt1">
+              <h1>
+                대구 {{ activeTab === "CDF018.001" ? "봄" : "가을" }} 축제
+              </h1>
             </div>
           </div>
         </div>
-        <!-- 이미지 오른쪽 빨간화살표 영역(다음) -->
-        <div class="swiper-button-next"></div>
-        <!-- 이미지 왼쪽 빨간화살표 영역(전) -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-pagination"></div>
-      </div>
-      <!-- 맨아래 페이지이동 버튼과 숫자페이지네이션 -->
-      <div class="swiper-btn-wrap">
-        <!-- 맨아래 페이지 전이동 버튼 -->
-        <div
-          class="swiper-button-prev2"
-          tabindex="0"
-          role="button"
-          aria-label="Previous slide"></div>
-        <!-- 맨아래 숫자페이지네이션 -->
-        <div class="swiper-pagination2 swiper-pagination-fraction">
-          <span class="swiper-pagination-current">10</span> /
-          <span class="swiper-pagination-total">11</span>
+        <!-- 봄/가을 탭 -->
+        <div class="festival-month">
+          <a
+            :class="{ active: activeTab === 'CDF018.001' }"
+            @click="changeTab('CDF018.001')"
+            >봄</a
+          >
+          <a
+            class="festivalTab"
+            :class="{ active: activeTab === 'CDF018.002' }"
+            @click="changeTab('CDF018.002')"
+            >가을</a
+          >
         </div>
-        <!-- 맨아래 페이지 다음이동 버튼 -->
-        <div
-          class="swiper-button-next2"
-          tabindex="0"
-          role="button"
-          aria-label="Next slide"></div>
+        <!-- 이미지 Swiper (슬라이드 내용) 양쪽 빨간 페이지화살표 -->
+        <div id="main-swiper" class="swiper mySwiper">
+          <!-- 이미지 영역 -->
+          <div class="swiper-wrapper">
+            <div
+              v-for="(festival, index) in festivalData[activeTab]"
+              :key="index"
+              class="swiper-slide"
+            >
+              <div class="slide-wrap">
+                <div class="left">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="40.002"
+                    height="39.998"
+                    viewBox="0 0 40.002 39.998"
+                  >
+                    <path
+                      id="합치기_22"
+                      data-name="합치기 22"
+                      d="M0,40V12.666H0A12.665,12.665,0,0,1,12.666,0H40V12.666H12.668V40Z"
+                      :fill="activeTab === 'CDF018.001' ? '#ee2b2b' : 'yellow'"
+                    ></path>
+                  </svg>
+                  <div class="slide-info-wrap">
+                    <div class="slide-info-title">
+                      {{ festival.title }} <br />{{ festival.title1 }}
+                      <p></p>
+                      <a
+                        v-if="festival.href"
+                        :href="festival.href"
+                        class="festi-more"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >자세히 보기
+                      </a>
+                    </div>
+                    <div class="slide-info-cont">
+                      <ul>
+                        <li><span>· 개최기간</span></li>
+                        <li>{{ festival.date }}</li>
+                      </ul>
+                      <ul>
+                        <li><span>· 장소</span></li>
+                        <li>{{ festival.location }}</li>
+                      </ul>
+                    </div>
+                  </div>
+                  <div
+                    class="left-bg"
+                    :style="{
+                      background:
+                        activeTab === 'CDF018.001' ? '#fa6d6d' : 'yellow',
+                    }"
+                  ></div>
+                </div>
+                <div class="right">
+                  <div
+                    class="right-thumb"
+                    :style="{ backgroundImage: `url(${festival.image})` }"
+                    :aria-label="festival.alt"
+                    role="img"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 이미지 오른쪽 빨간화살표 영역(다음) -->
+          <div class="swiper-button-next"></div>
+          <!-- 이미지 왼쪽 빨간화살표 영역(전) -->
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -336,11 +323,15 @@ watch(activeTab, () => {
 
 <style lang="scss" scoped>
 @charset "UTF-8";
+@use "sass:color";
 @use "/src/assets/Main" as *;
-@use "/src/assets/Variables" as *;
 @use "/src/assets/Variables" as *;
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
+.yh_wrap {
+  max-width: 1200px;
+  width: 100%;
+}
 // 제목
 .bb_title1 {
   display: flex;
@@ -624,22 +615,6 @@ header.main.fix .hd-gnb .hd-menu > li:after {
 }
 .main-slide-list2 .swiper {
   position: relative;
-}
-.swiper-button-next2 {
-  background-image: url(/images/user/main/ico-next.svg);
-  background-repeat: no-repeat;
-  width: 46px;
-  height: 46px;
-  cursor: pointer;
-  z-index: 20;
-}
-.swiper-button-prev2 {
-  background-image: url(/images/user/main/ico-prev.svg);
-  background-repeat: no-repeat;
-  width: 46px;
-  height: 46px;
-  cursor: pointer;
-  z-index: 20;
 }
 .swiper-btn-wrap {
   display: flex;
@@ -1810,8 +1785,17 @@ header.main.fix .hd-gnb .hd-menu > li:after {
 
 .swiper-button-next::after,
 .swiper-button-prev::after {
-  color: #ee2b2b;
+  display: inline-flex; /* 가로/세로 중앙정렬용 */
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  width: 40px; /* 원하는 크기로 지정 */
+  height: 40px;
   font-size: 25px;
+  color: #ee2b2b;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
 }
 
 .swiper-pagination-bullet-active {

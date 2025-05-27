@@ -1,57 +1,46 @@
 <template>
   <div class="wrap_total">
-    <!-- 1) 탭 바 추가 -->
-    <div class="tab-bar">
-      <button
-        :class="{ active: currentTab === 'guide1' }"
-        @click="changeTab('guide1')">
-        대구축제
-      </button>
-      <button
-        :class="{ active: currentTab === 'guide2' }"
-        @click="changeTab('guide2')">
-        시티투어버스
-      </button>
-    </div>
-    <!-- 여행도 전체영역 -->
-    <div class="inner">
-      <transition name="fade">
-        <!-- 대구축제 전체영역  -->
-        <div v-if="currentTab === 'guide1'" key="guide1">
+    <div class="yh_wrap">
+      <!-- 여행도 전체영역 -->
+      <div class="inner">
+        <transition name="fade">
+          <!-- 대구축제 전체영역  -->
           <Yh_Festival />
-        </div>
-        <!-- 시티투어버스 전체영역 -->
-        <div v-else key="guide2" class="yh_cititourBus">
-          <!-- 순환버스 -->
-          <div class="yh_roundBus">
-            <!-- 순환버스 제목 -->
-            <div class="bb_title1">
-              <div class="title_txt1">
-                <h1>순환버스</h1>
-              </div>
-            </div>
-            <!-- 순환버스 이미지 -->
-            <div class="yh_content-box">
-              <a
-                href="https://www.daegucitytour.com/bbs/page.php?hid=guide_1"
-                target="_blank">
-                <img v-if="imgSrc" :src="imgSrc" alt="순환버스지도" />
-              </a>
-            </div>
-          </div>
-          <!-- 테마버스 -->
-          <div class="yh_themaBus">
-            <!-- 테마버스 제목 -->
-            <div class="bb_title1">
-              <div class="title_txt1">
-                <h1>테마버스</h1>
-              </div>
-            </div>
-            <!-- 테마버스 이미지 -->
-            <YeohaengSwiper />
+        </transition>
+      </div>
+      <!-- 구분선 -->
+      <div class="line"></div>
+      <!-- 시티투어버스 전체영역 -->
+      <!-- 순환버스 -->
+      <div class="yh_roundBus">
+        <!-- 순환버스 제목 -->
+        <div class="bb_title1">
+          <div class="title_txt1">
+            <h1>순환버스</h1>
           </div>
         </div>
-      </transition>
+        <!-- 순환버스 이미지 -->
+        <div class="yh_content-box">
+          <a
+            href="https://www.daegucitytour.com/bbs/page.php?hid=guide_1"
+            target="_blank">
+            <img v-if="imgSrc" :src="imgSrc" alt="순환버스지도" />
+          </a>
+        </div>
+      </div>
+      <!-- 구분선 -->
+      <div class="line"></div>
+      <!-- 테마버스 -->
+      <div class="yh_themaBus">
+        <!-- 테마버스 제목 -->
+        <div class="bb_title1">
+          <div class="title_txt1">
+            <h1>테마버스</h1>
+          </div>
+        </div>
+        <!-- 테마버스 이미지 -->
+        <YeohaengSwiper />
+      </div>
     </div>
   </div>
 </template>
@@ -61,10 +50,6 @@ import Yh_Festival from "./Yh_Festival.vue";
 import YeohaengSwiper from "./YeohaengSwiper.vue";
 import { ref, onMounted, onBeforeUnmount } from "vue";
 
-const currentTab = ref("guide1");
-const changeTab = (tab) => {
-  currentTab.value = tab;
-};
 // 순환버스 이미지 크기
 const imgSrc = ref(null); // 이미지 경로 바인딩용
 const updateImage = () => {
@@ -98,7 +83,7 @@ onBeforeUnmount(() => {
 // 전체
 .inner {
   width: 100%;
-  max-width: 1300px;
+  max-width: 1100px;
   margin: 0 auto;
 }
 // 제목
