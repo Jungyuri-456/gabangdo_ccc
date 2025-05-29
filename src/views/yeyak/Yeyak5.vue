@@ -326,7 +326,7 @@ function goToNextStep() {
     background-color: color.adjust($main-color, $lightness: 30%);
     color: #fff;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: $radius;
     cursor: pointer;
     border: none;
     transition: background 0.3s;

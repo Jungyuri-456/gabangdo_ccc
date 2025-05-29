@@ -1,5 +1,13 @@
 <script setup>
-import { ref, reactive, computed, watch } from "vue";
+import {
+  ref,
+  reactive,
+  computed,
+  watch,
+  onMounted,
+  onUnmounted,
+  nextTick,
+} from "vue";
 import { useRouter } from "vue-router";
 import { useReservationStore } from "@/stores/reservationStore";
 import CalendarPicker from "@/views/yeyak/CalendarPicker.vue";
@@ -7,19 +15,94 @@ import TimePicker from "@/views/yeyak/TimePicker.vue";
 import CustomSelect from "@/views/yeyak/CustomSelect.vue";
 import ProgressStepper from "@/views/yeyak/ProgressStepper.vue";
 
-const stepperRef = ref(null);
-const currentStep = ref(1);
+const selectors = ["#step1", "#step2", "#step3", "#step4", "#step5"];
+const stepperEl = ref(null);
+const showStepper = ref(false);
+const sectionEls = [];
+const stepIndex = ref(1);
+const headerH = 85;
+const extraOffset = ref(100);
+const activationY = headerH + extraOffset.value;
+function handleScroll() {
+  showStepper.value = window.scrollY > 50;
+}
 
-function onNextClick() {
-  // stepperRef.value가 null이 아닐 때만 호출
-  if (stepperRef.value) {
+function updateStepOnScroll() {
+  const headerH =
+    document.querySelector(".header")?.getBoundingClientRect().height || 0;
+  const stepperH = stepperEl.value?.getBoundingClientRect().height || 0;
+  const activationY = headerH + stepperH + 1; // 1px 여유
+
+  let newIndex = 1;
+  sectionEls.forEach((sec, i) => {
+    if (window.scrollY + activationY >= sec.offsetTop) {
+      newIndex = i + 1;
+    }
+  });
+
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 5) {
+    newIndex = sectionEls.length;
+  }
+
+  if (stepIndex.value !== newIndex) {
+    stepIndex.value = newIndex;
   }
 }
-// ProgressStepper 의 @go 이벤트를 받을 핸들러
-function onStepChange(newIdx) {
-  currentStep.value = newIdx;
-  // 필요하면 추가 로직: reservationStore 설정, 라우터 이동 등
+
+function setStepperTop() {
+  const headerEl = document.querySelector(".header");
+  const headerH = headerEl?.getBoundingClientRect().height || 0;
+  const offset = 10; // header 바로 밑 여유
+  if (stepperEl.value) {
+    stepperEl.value.style.top = `${headerH + offset}px`;
+    stepperEl.value.style.marginBottom = "100px"; // 여백 조정
+  }
 }
+
+function scrollToStep(oneBasedIdx) {
+  stepIndex.value = oneBasedIdx;
+
+  const zeroBasedIdx = oneBasedIdx - 1;
+  const sel = selectors[zeroBasedIdx];
+  const section = document.querySelector(sel);
+  if (!section) return;
+
+  const headerH =
+    document.querySelector(".header")?.getBoundingClientRect().height || 0;
+  const stepperH = stepperEl.value?.getBoundingClientRect().height || 0;
+  const targetY = section.offsetTop - headerH - stepperH;
+
+  window.scrollTo({ top: targetY, behavior: "smooth" });
+}
+
+// 2️⃣ showStepper 상태 변화 감지
+watch(showStepper, (newVal) => {
+  console.log("현재 스텝:", newVal);
+});
+onMounted(() => {
+  nextTick(() => {
+    stepperEl.value = document.querySelector(".sticky-stepper");
+    selectors.forEach((sel) => {
+      const el = document.querySelector(sel);
+      if (el) sectionEls.push(el);
+    });
+
+    setStepperTop();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", updateStepOnScroll, { passive: true });
+  });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+  window.removeEventListener("scroll", updateStepOnScroll);
+});
+
+const onStepChange = (newIdx) => {
+  // newIdx 는 1-based 로 넘어오므로 0-based 로 변환
+  scrollToStep(newIdx);
+};
 
 //달력선택함수
 const todayDate = new Date();
@@ -317,7 +400,7 @@ watch(selectedDate, (val) => {
       <div class="grid-container">
         <!-- 스텝퍼 네비바 -->
         <ProgressStepper
-          ref="stepperRef"
+          v-show="showStepper"
           :steps="[
             '예약자정보',
             '날짜/시간',
@@ -325,8 +408,10 @@ watch(selectedDate, (val) => {
             '가방선택',
             '예약하기',
           ]"
-          :selectors="['#step1', '#step2', '#step3', '#step4', '#step5']"
-          @go="onStepChange" />
+          :selectors="selectors"
+          :stepIndex="stepIndex"
+          @go="onStepChange"
+          class="sticky-stepper" />
         <div class="form-section">
           <div ref="step1" id="step1" class="step-container">
             <div class="wrap-input">
@@ -340,20 +425,16 @@ watch(selectedDate, (val) => {
               </div>
               <!-- 이름 입력 -->
               <div class="name-input">
-                <input
-                  v-model="name"
-                  placeholder="이름을 입력하세요."
-                  @input="onNextClick()" />
+                <input v-model="name" placeholder="이름을 입력하세요." />
               </div>
               <!-- 연락처 입력 -->
               <div class="phone-input my-button">
-                <CustomSelect v-model="telPrefix" @change="onNextClick()" />
+                <CustomSelect v-model="telPrefix" />
                 <input
                   v-model="formattedNumber"
                   maxlength="9"
                   placeholder="전화번호를 입력하세요."
-                  class="datetime-input"
-                  @input="onNextClick()" />
+                  class="datetime-input" />
               </div>
             </div>
           </div>
@@ -366,10 +447,7 @@ watch(selectedDate, (val) => {
                   <p class="st_section-title">이용날짜</p>
 
                   <div class="my-button">
-                    <CalendarPicker
-                      class="wrapper"
-                      v-model="selectedDate"
-                      @update:modelValue="onNextClick()" />
+                    <CalendarPicker class="wrapper" v-model="selectedDate" />
                   </div>
                 </div>
                 <!-- 시간 -->
@@ -379,8 +457,7 @@ watch(selectedDate, (val) => {
                     <TimePicker
                       class="wrapper"
                       v-model="selectedTime"
-                      :selectedDate="selectedDate"
-                      @update:modelValue="onNextClick()" />
+                      :selectedDate="selectedDate" />
                   </div>
                 </div>
               </div>
@@ -390,17 +467,17 @@ watch(selectedDate, (val) => {
               <span class="tooltip">
                 당일예약 <i class="ri-question-line"></i>
               </span>
-              <p class="memo-1">당일예약은 서비스이용시간</p>
+              <p class="memo-1">당일예약은 서비스이용</p>
               <p class="memo-2">2시간</p>
-              <p class="memo-1">이후부터 접수됩니다.</p>
+              <p class="memo-1">전부터 접수됩니다.</p>
             </div>
             <div v-else-if="reservationType === 'future'" class="date-info">
               <span class="tooltip">
                 사전예약 <i class="ri-question-line"></i>
               </span>
-              <p class="memo-1">서비스 이용 1일 전 오후 6시까지</p>
-              <p class="memo-2">사전예약</p>
-              <p class="memo-1">으로 접수됩니다.</p>
+              <p class="memo-1">사전예약은 서비스이용</p>
+              <p class="memo-2">하루전 오후 6시까지</p>
+              <p class="memo-1">접수됩니다.</p>
             </div>
           </div>
           <!-- 출발지 선택 -->
@@ -416,10 +493,7 @@ watch(selectedDate, (val) => {
                   :class="{
                     active: selectedStart === place,
                   }"
-                  @click="
-                    toggleStart(place);
-                    onNextClick();
-                  ">
+                  @click="toggleStart(place)">
                   {{ place }}
                 </button>
               </div>
@@ -455,10 +529,7 @@ watch(selectedDate, (val) => {
                   :class="{
                     active: selectedStop === place,
                   }"
-                  @click="
-                    toggleStop(place);
-                    onNextClick();
-                  ">
+                  @click="toggleStop(place)">
                   {{ place }}
                 </button>
               </div>
@@ -509,18 +580,13 @@ watch(selectedDate, (val) => {
                   <div class="bag-controls-wrap">
                     <div class="bag-controls my-button">
                       <button
-                        @click="item.count > 0 && (item.count--, onNextClick())"
+                        @click="item.count > 0 && item.count--"
                         class="ctrl-btn my-button"
                         :disabled="item.count === 0">
                         -
                       </button>
                       <span>{{ item.count }}</span>
-                      <button
-                        @click="
-                          item.count++;
-                          onNextClick();
-                        "
-                        class="ctrl-btn my-button">
+                      <button @click="item.count++" class="ctrl-btn my-button">
                         +
                       </button>
                     </div>
@@ -607,8 +673,6 @@ watch(selectedDate, (val) => {
                 </div>
               </div>
             </transition>
-            <!-- 구분선 -->
-            <div class="line"></div>
             <!-- 개인정보 수집 동의 -->
             <div class="agree">
               <label class="toggle">
@@ -712,12 +776,7 @@ watch(selectedDate, (val) => {
           <!-- 예약하기버튼 -->
           <div ref="step5" id="step5" class="step-container">
             <div class="button">
-              <button
-                class="my-button st_reser"
-                @click="
-                  submitReservation();
-                  onNextClick();
-                ">
+              <button class="my-button st_reser" @click="submitReservation()">
                 예약하기
               </button>
             </div>
@@ -790,23 +849,11 @@ body {
 }
 .sticky-stepper {
   position: sticky;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  width: 500px;
-  height: auto;
-  background: linear-gradient(
-    to right,
-    transparent 0,
-    transparent 50px,
-    #fff 50px,
-    #fff calc(100% - 50px),
-    transparent calc(100% - 50px),
-    transparent 100%
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
+  background: rgba(255, 255, 255, 0.9);
+  width: 550px;
+  padding: 5px 0;
+  border-top: 1px dashed $border-gray;
+  border-bottom: 1px dashed $border-gray;
 }
 
 .grid-container {
@@ -1358,7 +1405,7 @@ select {
     background-color: color.adjust($main-color, $lightness: 30%);
     color: #fff;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: $radius;
     cursor: pointer;
     border: none;
     transition: background 0.3s;
@@ -1414,7 +1461,7 @@ select {
 .modal-button {
   padding: 5px 15px;
   border: none;
-  border-radius: 4px;
+  border-radius: $radius;
   background-color: #279bf3;
   color: #fff;
   font-size: 14px;

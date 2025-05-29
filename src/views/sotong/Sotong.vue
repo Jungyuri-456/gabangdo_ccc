@@ -1,8 +1,60 @@
 <script setup>
-import { computed, ref, onBeforeUnmount } from "vue";
+import { computed, ref, onMounted, onUnmounted, onBeforeUnmount } from "vue";
+import ProgressStepper from "../yeyak/ProgressStepper.vue";
+const showStepper = ref(true);
+const stepIndex = ref(1);
 
+//스텝퍼
+const headerHeight = document.querySelector(".header")?.offsetHeight || 0;
+const offset = 100;
+const selectors = ["#step1", "#step2", "#step3"];
+
+function scrollToSection(idx) {
+  stepIndex.value = idx;
+  const sel = selectors[idx - 1];
+  const el = document.querySelector(sel);
+  if (!el) return;
+  const top =
+    el.getBoundingClientRect().top + window.scrollY - headerHeight - offset;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+// 스크롤할 때 현재 위치에 맞는 인덱스 계산
+function updateActiveOnScroll() {
+  const scrollY = window.scrollY + headerHeight + offset + 1;
+  let current = 1;
+
+  for (let i = 0; i < selectors.length; i++) {
+    const el = document.querySelector(selectors[i]);
+    if (!el) continue;
+    // 섹션의 실제 문서 상단 위치
+    const sectionTop = el.offsetTop;
+    if (scrollY >= sectionTop) {
+      current = i + 1;
+    } else {
+      break;
+    }
+  }
+
+  // 맨 아래에 도달하면 마지막
+  if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 5) {
+    current = selectors.length;
+  }
+
+  stepIndex.value = current;
+}
+
+onMounted(() => {
+  // 초기값 세팅
+  updateActiveOnScroll();
+  // 스크롤 리스너 등록
+  window.addEventListener("scroll", updateActiveOnScroll, { passive: true });
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", updateActiveOnScroll);
+});
 //페이지네이션
-const noticeItemsPerPage = 15;
+const noticeItemsPerPage = 10;
 const noticeCurrentPage = ref(1);
 const activeIndex = ref(null);
 
@@ -283,7 +335,6 @@ function setCategory(cat) {
   currentPage.value = 1;
   activeIndex.value = null;
 }
-
 //이용후기
 // 태그 정보
 const tags = ref([{ tag: "⭐⭐⭐⭐⭐" }]);
@@ -497,23 +548,33 @@ const closeModal = () => {
 <template>
   <div class="wrap_total">
     <div class="st_wrap">
+      <!-- 스텝퍼 네비바 -->
+      <ProgressStepper
+        v-show="showStepper"
+        :steps="['고객센터', 'FAQ', '이용후기']"
+        :selectors="['#step1', '#step2', '#step3']"
+        :stepIndex="stepIndex"
+        @go="scrollToSection"
+        class="sticky-stepper hide-controls custom-stepper" />
       <!-- 고객센터 섹션 -->
       <div class="st_customer">
-        <!-- 타이틀 -->
-        <div class="st_title1">
-          <div class="title_txt1">
-            <h1>고객센터</h1>
+        <div ref="step1" id="step1" class="step-container">
+          <!-- 타이틀 -->
+          <div class="st_title1">
+            <div class="title_txt1">
+              <h1>고객센터</h1>
+            </div>
           </div>
-        </div>
-        <div class="st_info">
-          <img src="/images/cr/st_notice.png" alt="상담원" class="st_image" />
-          <div class="st_details">
-            <p class="st_phone">053-123-1234</p>
-            <ul class="st_hours">
-              <li>평일 : 09:00 – 18:00</li>
-              <li>토요일 : 09:00 – 13:00</li>
-              <li>일요일 : 휴무 (예약일정에 따라 변동)</li>
-            </ul>
+          <div class="st_info">
+            <img src="/images/cr/st_notice.png" alt="상담원" class="st_image" />
+            <div class="st_details">
+              <p class="st_phone">053-123-1234</p>
+              <ul class="st_hours">
+                <li>평일 : 09:00 – 18:00</li>
+                <li>토요일 : 09:00 – 13:00</li>
+                <li>일요일 : 휴무 (예약일정에 따라 변동)</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -521,165 +582,172 @@ const closeModal = () => {
       <div class="line"></div>
       <!-- 공지사항 섹션 -->
       <div class="st_notice">
-        <!-- 타이틀 -->
-        <div class="st_title1">
-          <div class="title_txt1">
-            <h1>공지사항</h1>
+        <div ref="step2" id="step2" class="step-container">
+          <!-- 타이틀 -->
+          <div class="st_title1">
+            <div class="title_txt1">
+              <h1>FAQ</h1>
+            </div>
           </div>
-        </div>
-        <!-- 검색어입력 -->
-        <div class="st_search-wrapper">
-          <input
-            v-model="searchQuery"
-            class="st_search"
-            type="text"
-            placeholder="검색어를 입력하세요"
-          />
-          <button class="st_search-btn my-button" @click="onSearch">
-            검색
-          </button>
-        </div>
-        <!-- 카테고리버튼 -->
-        <div class="st_category-buttons">
-          <button
-            v-for="cat in categories"
-            :key="cat"
-            @click="setCategory(cat)"
-            :class="{ active: selectedCategory === cat }"
-            class="st_category-btn my-button"
-          >
-            {{ cat }}
-          </button>
-        </div>
-        <!-- 공지사항 출력 -->
-        <table class="st_notice-table">
-          <tbody class="st_scrollable-body">
-            <template v-for="(notice, idx) in paginatedNotices" :key="idx">
-              <tr class="notice-row my-button" @click="toggleNotice(idx)">
-                <td>
-                  <div class="notice-row_title">
-                    {{ notice.title }}
-                    <img
-                      class="st_toggle-icon my-button"
-                      :src="
-                        activeIndex === idx
-                          ? '/images/cr/up.png'
-                          : '/images/cr/down.png'
-                      "
-                      alt="토글 아이콘"
-                    />
-                  </div>
-                </td>
-              </tr>
-              <tr v-if="activeIndex === idx">
-                <td class="notice-row_content my-button">
-                  <div class="notice_content">
-                    {{ notice.content }}
-                  </div>
-                </td>
-              </tr>
-            </template>
-          </tbody>
-        </table>
-        <!-- 페이지네이션 -->
-        <div class="st_pagination my-button">
-          <button
-            class="my-button"
-            @click="prevNoticePage"
-            :disabled="noticeCurrentPage === 1"
-          >
-            이전
-          </button>
-          <span>{{ noticeCurrentPage }} / {{ noticeTotalPages }}</span>
-          <button
-            class="my-button"
-            @click="nextNoticePage"
-            :disabled="noticeCurrentPage === noticeTotalPages"
-          >
-            다음
-          </button>
+          <!-- 검색어입력 -->
+          <div class="st_search-wrapper">
+            <input
+              v-model="searchQuery"
+              class="st_search"
+              type="text"
+              placeholder="검색어를 입력하세요" />
+            <button class="st_search-btn my-button" @click="onSearch">
+              검색
+            </button>
+          </div>
+          <!-- 카테고리버튼 -->
+          <div class="st_category-buttons">
+            <button
+              v-for="cat in categories"
+              :key="cat"
+              @click="setCategory(cat)"
+              :class="{ active: selectedCategory === cat }"
+              class="st_category-btn my-button">
+              {{ cat }}
+            </button>
+          </div>
+          <!-- 공지사항 출력 -->
+          <table class="st_notice-table">
+            <tbody class="st_scrollable-body">
+              <template v-for="(notice, idx) in paginatedNotices" :key="idx">
+                <tr class="notice-row my-button" @click="toggleNotice(idx)">
+                  <td>
+                    <div class="notice-row_title">
+                      {{ notice.title }}
+                      <img
+                        class="st_toggle-icon my-button"
+                        :src="
+                          activeIndex === idx
+                            ? '/images/cr/up.png'
+                            : '/images/cr/down.png'
+                        "
+                        alt="토글 아이콘" />
+                    </div>
+                  </td>
+                </tr>
+                <tr v-if="activeIndex === idx">
+                  <td class="notice-row_content my-button">
+                    <div class="notice_content">
+                      {{ notice.content }}
+                    </div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <!-- 페이지네이션 -->
+          <div class="st_pagination my-button">
+            <button
+              class="my-button"
+              @click="prevNoticePage"
+              :disabled="noticeCurrentPage === 1">
+              이전
+            </button>
+            <span>{{ noticeCurrentPage }} / {{ noticeTotalPages }}</span>
+            <button
+              class="my-button"
+              @click="nextNoticePage"
+              :disabled="noticeCurrentPage === noticeTotalPages">
+              다음
+            </button>
+          </div>
         </div>
       </div>
       <!-- 구분선 -->
       <div class="line"></div>
       <!-- 이용후기 섹션 -->
       <div class="st_review">
-        <!-- 타이틀 -->
-        <div class="st_title1">
-          <div class="title_txt1">
-            <h1>이용후기</h1>
+        <div ref="step3" id="step3" class="step-container">
+          <!-- 타이틀 -->
+          <div class="st_title1">
+            <div class="title_txt1">
+              <h1>이용후기</h1>
+            </div>
           </div>
-        </div>
-        <!-- 카드이용후기 -->
-        <div class="st_bottom">
-          <div class="st_card-container">
-            <div
-              class="st_card my-button"
-              v-for="product in paginatedProducts"
-              :key="product.image"
-              @click="openModal(product)"
-            >
-              <div class="st_img-product">
-                <img :src="product.image" alt="Product" />
-              </div>
-              <div class="st_detail">
-                <div class="st_title">
-                  <div class="st_tag">
-                    <a v-for="tag in tags" :href="tag.link" :key="tag.name">
-                      <span>{{ tag.tag }}</span>
-                    </a>
-                  </div>
-                  <div class="st_text">
-                    <h6>{{ maskedName(product.name) }}님의 이용후기입니다</h6>
-                    <span>{{ product.content }}</span>
+          <!-- 카드이용후기 -->
+          <div class="st_bottom">
+            <div class="st_card-container">
+              <div
+                class="st_card my-button"
+                v-for="product in paginatedProducts"
+                :key="product.image"
+                @click="openModal(product)">
+                <div class="st_img-product">
+                  <img :src="product.image" alt="Product" />
+                </div>
+                <div class="st_detail">
+                  <div class="st_title">
+                    <div class="st_tag">
+                      <a v-for="tag in tags" :href="tag.link" :key="tag.name">
+                        <span>{{ tag.tag }}</span>
+                      </a>
+                    </div>
+                    <div class="st_text">
+                      <h6>{{ maskedName(product.name) }}님의 이용후기입니다</h6>
+                      <span>{{ product.content }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!-- 리뷰작성 -->
-          <div class="write-btn-wrapper">
-            <!-- 글쓰기 폼 오픈 버튼 -->
-            <button @click="showForm = !showForm" class="write-btn my-button">
-              {{ showForm ? "취소" : "글쓰기" }}
-            </button>
-            <!-- 글쓰기 폼 -->
-            <form v-if="showForm" class="review-form">
-              <input type="text" v-model="newReview.name" placeholder="이름" />
-              <textarea
-                v-model="newReview.content"
-                placeholder="후기내용"
-              ></textarea>
-              <input type="file" @change="handleImageUpload" accept="image/*" />
-              <img v-if="previewImage" :src="previewImage" width="120" />
-              <!-- 후기 등록·취소버튼 -->
-              <div class="form-buttons my-button">
-                <button class="my-button" type="button" @click="addReview">
-                  등록
-                </button>
-                <button class="my-button" type="button" @click="cancelForm">
-                  취소
-                </button>
-              </div>
-            </form>
-          </div>
-          <!-- 페이지네이션 -->
-          <div class="st_pagination my-button">
-            <button
-              class="my-button"
-              @click="prevReviewPage"
-              :disabled="reviewCurrentPage === 1"
-            >
-              이전
-            </button>
-            <span>{{ reviewCurrentPage }} / {{ reviewTotalPages }}</span>
-            <button
-              class="my-button"
-              @click="nextReviewPage"
-              :disabled="reviewCurrentPage === reviewTotalPages"
-            >
-              다음
-            </button>
+            <!-- 리뷰작성 -->
+            <div class="write-btn-wrapper">
+              <!-- 글쓰기 폼 오픈 버튼 -->
+              <button @click="showForm = !showForm" class="write-btn my-button">
+                {{ showForm ? "취소" : "글쓰기" }}
+              </button>
+              <!-- 글쓰기 폼 -->
+              <form v-if="showForm" class="review-form">
+                <input
+                  type="text"
+                  v-model="newReview.name"
+                  placeholder="이름" />
+                <textarea
+                  v-model="newReview.content"
+                  placeholder="후기내용"></textarea>
+                <input
+                  type="file"
+                  @change="handleImageUpload"
+                  accept="image/*" />
+                <img v-if="previewImage" :src="previewImage" width="120" />
+                <!-- 후기 등록·취소버튼 -->
+                <div class="form-buttons my-button">
+                  <button
+                    class="form-buttons2 my-button"
+                    type="button"
+                    @click="cancelForm">
+                    취소
+                  </button>
+                  <button
+                    class="form-buttons1 my-button"
+                    type="button"
+                    @click="addReview">
+                    등록
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- 페이지네이션 -->
+            <div class="st_pagination my-button">
+              <button
+                class="my-button"
+                @click="prevReviewPage"
+                :disabled="reviewCurrentPage === 1">
+                이전
+              </button>
+              <span>{{ reviewCurrentPage }} / {{ reviewTotalPages }}</span>
+              <button
+                class="my-button"
+                @click="nextReviewPage"
+                :disabled="reviewCurrentPage === reviewTotalPages">
+                다음
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -688,8 +756,7 @@ const closeModal = () => {
         <div
           v-if="showModal"
           class="modal-overlay my-button"
-          @click.self="closeModal"
-        >
+          @click.self="closeModal">
           <div class="modal-content">
             <h3>✨{{ maskedName(selectedReview.name) }}님의 이용후기✨</h3>
             <img :src="selectedReview.image" alt="후기 이미지" />
@@ -711,7 +778,7 @@ const closeModal = () => {
 
 // 전체 래퍼
 .st_wrap {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -733,7 +800,65 @@ const closeModal = () => {
     font-family: $font-ownglyph;
   }
 }
-
+// 스텝퍼
+:deep(.stepper) {
+  display: flex;
+  flex-direction: column;
+  z-index: 6500;
+}
+.sticky-stepper.custom-stepper {
+  position: fixed;
+  left: calc(47.5% - 600px);
+  width: 120px;
+  max-width: 100%;
+  z-index: 6500;
+}
+.sticky-stepper {
+  position: fixed;
+  top: 120px;
+  left: 0;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 6500;
+  padding: 10px;
+  border-top: 1px dashed $border-gray;
+  border-bottom: 1px dashed $border-gray;
+}
+.hide-controls {
+  /* Prev/Next 버튼 영역 숨기기 */
+  :deep(.step-nav) {
+    display: none !important;
+  }
+  /* 원형 써클 숨기기 */
+  :deep(.circle) {
+    display: none !important;
+  }
+}
+.custom-stepper {
+  :deep(.wrap) {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center;
+  }
+  :deep(.label) {
+    margin-top: 6px;
+    font-size: 18px; /* 글씨 키우기 */
+    font-weight: bold;
+    cursor: pointer; /* 클릭 가능한 느낌 */
+    padding: 5px 10px;
+  }
+}
+:deep(.label:hover) {
+  background-color: color.adjust($sub-color, $lightness: 20%) !important;
+  padding: 5px 10px;
+}
+:deep(.step.active .label) {
+  background-color: color.adjust($sub-color, $lightness: 20%) !important;
+  color: #fff;
+}
 // 고객센터섹션
 .st_customer {
   display: flex;
@@ -781,7 +906,7 @@ const closeModal = () => {
 
 // 공지사항섹션
 .st_notice {
-  width: 70%;
+  width: 90%;
   max-width: 100%;
   text-align: center;
 }
@@ -883,7 +1008,7 @@ const closeModal = () => {
 }
 
 .st_notice-table {
-  width: 80%;
+  width: 90%;
   max-width: 100%;
   border-collapse: collapse;
   margin: 20px auto;
@@ -938,7 +1063,7 @@ const closeModal = () => {
   margin: 0 5px;
   cursor: pointer;
   border: none;
-  border-radius: 5px;
+  border-radius: $radius;
   background-color: color.adjust($main-color, $lightness: 30%);
   color: #fff;
   :hover {
@@ -967,7 +1092,7 @@ const closeModal = () => {
 .st_card-container {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 15px;
   flex-wrap: wrap;
   font-family: none;
   margin-bottom: 30px;
@@ -984,7 +1109,7 @@ const closeModal = () => {
 }
 
 .st_card:hover {
-  transform: scale(1.08);
+  transform: scale(1.02);
 }
 
 .st_card .st_img-product {
@@ -1005,31 +1130,39 @@ const closeModal = () => {
   height: 20%;
   padding: 0 10px;
 }
-
 .st_title {
   display: flex;
   flex-wrap: wrap;
   text-align: left;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
 }
 .st_text {
   display: flex;
   flex-direction: column;
   align-items: baseline;
-  gap: 5px;
 }
 .st_tag span {
   font-size: 14px;
 }
 h6 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
 }
 span {
-  font-size: 12px;
+  font-size: 13px;
 }
-/* 페이지네이션 스타일 */
+// 글쓰기 폼
+input,
+textarea,
+img,
+button {
+  border-radius: $radius;
+}
+.form-buttons2 {
+  background-color: #a80311;
+}
+// 페이지네이션 스타일
 .st_pagination {
   margin-top: 20px;
   display: flex;
@@ -1042,7 +1175,7 @@ span {
   margin: 0 5px;
   cursor: pointer;
   border: none;
-  border-radius: 5px;
+  border-radius: $radius;
   background-color: color.adjust($main-color, $lightness: 30%);
   color: #fff;
   :hover {
@@ -1072,7 +1205,7 @@ span {
   background-color: color.adjust($main-color, $lightness: 30%);
   color: #fff;
   font-size: 16px;
-  border-radius: 20px;
+  border-radius: $radius;
   cursor: pointer;
   border: none;
   transition: background 0.3s;
@@ -1138,7 +1271,7 @@ button {
   .modal-content {
     background: white;
     padding: 20px;
-    border-radius: 12px;
+    border-radius: $radius;
     width: 90%;
     max-width: 400px;
     box-shadow: $box-shadow;
@@ -1150,7 +1283,7 @@ button {
 
     img {
       width: 100%;
-      border-radius: 10px;
+      border-radius: $radius;
       margin: 10px 0;
     }
 
@@ -1161,7 +1294,7 @@ button {
       background-color: color.adjust($main-color, $lightness: 30%);
       color: #fff;
       font-size: 16px;
-      border-radius: 20px;
+      border-radius: $radius;
       cursor: pointer;
       border: none;
       transition: background 0.3s;
