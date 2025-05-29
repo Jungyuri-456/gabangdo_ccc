@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center">
       <div>
         <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-          기사 관리
+          기사관리
         </h1>
         <p class="infoP text-sm text-gray-500 mt-1 dark:text-white">
           기사 정보를 관리하고 상태를 확인할 수 있습니다.
@@ -21,7 +21,7 @@
     <!--오늘기사 카드-->
     <div class="card grid grid-rows-1 md:w-full grid-cols-3 gap-6">
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center max-[930px]:justify-center">
           <div class="icon-box p-3 rounded-full bg-blue-100 text-blue-600">
             <i
@@ -57,7 +57,7 @@
 
       <!-- 활동중카드 -->
       <div
-        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center max-[930px]:justify-center">
           <div class="icon-box p-3 rounded-full bg-green-100 text-green-600">
             <i
@@ -78,7 +78,7 @@
       </div>
       <!-- 평점카드 -->
       <div
-        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center max-[930px]:justify-center">
           <div class="icon-box p-3 rounded-full bg-yellow-100 text-yellow-400">
             <i class="block max-[930px]:hidden star fas fa-star text-2xl"></i>
@@ -355,15 +355,17 @@ const addWorker = ref(null);
 // 기준일 선택
 const dateOptions = [
   { value: "all", label: "전체" },
-  { value: "오늘", label: "오늘" },
+  { value: "today", label: "오늘" },
   { value: "일주일", label: "일주일" },
   { value: "한달", label: "한달" },
 ];
 
+// 날짜선택
+
 const item = ref({
   rangeType: "today",
-  startDate: "2025-05-20",
-  endDate: "2025-05-20",
+  startDate: "2025-05-30",
+  endDate: "2025-05-30",
 });
 
 watch(date, (newVal) => {

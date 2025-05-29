@@ -61,7 +61,8 @@ watchEffect(() => {
   chartOptions.value = {
     responsive: true,
     maintainAspectRatio: false,
-    plugins: {
+    
+    plugins: {      
       legend: {
         display: true,
         position: "top",
@@ -112,7 +113,7 @@ watchEffect(() => {
 
 <style scoped>
 .chart-container {
-  height: 100%;
+  height: 325px;
   width: 100%;
 }
 </style>

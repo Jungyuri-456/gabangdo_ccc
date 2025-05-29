@@ -5,7 +5,7 @@
       class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
       <div>
         <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-          예약 관리
+          예약관리
         </h1>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
           예약 정보를 관리하고 상태를 확인할 수 있습니다.
@@ -15,14 +15,14 @@
       <button
         @click="showAddCustomerModal"
         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center">
-        <i class="fas fa-plus mr-2"></i>새 운반 예약
+        <i class="fas fa-plus mr-2"></i>예약추가
       </button>
     </div>
 
     <!-- 통계 카드 -->
     <div class="grid grid-rows-1 md:w-full grid-cols-3 gap-6">
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center">
           <div class="icon-box p-3 rounded-full bg-blue-100 text-blue-600">
             <i class="suitcase fas fa-suitcase text-2xl"></i>
@@ -30,7 +30,7 @@
           <div class="ml-0 min-[900px]:ml-4">
             <h3
               class="block max-[510px]:hidden text-sm font-medium text-ray-500 dark:text-white">
-              오늘예약<span class="text-xs text-gray-500 dark:text-white">
+              전체예약<span class="text-xs text-gray-500 dark:text-white">
                 / 예약변화</span
               >
             </h3>
@@ -56,7 +56,7 @@
       </div>
       <!-- 기사카드 -->
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center">
           <div
             class="icon-box p-3 rounded-full bg-green-100 text-green-600 dark:text-green-300">
@@ -91,7 +91,7 @@
       </div>
       <!-- 대기중상태카드 -->
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center">
           <div class="icon-box p-3 rounded-full bg-gray-300 text-yellow-600">
             <i class="star fas fa-clock text-2xl"></i>
@@ -127,17 +127,16 @@
         <div class="flex gap-2">
           <select
             v-model="statusFilter"
-            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
             <option value="all">전체 상태</option>
             <option value="waiting">대기중</option>
-            <option value="assigned">기사배정</option>
             <option value="in_progress">운반중</option>
             <option value="completed">완료</option>
             <option value="cancelled">취소</option>
           </select>
           <select
             v-model="sortBy"
-            class="border border-gray-300 rounded-lg px-4 py-2 text-gray-400 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+            class="border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
             <option value="date-desc">날짜순 (최신순)</option>
             <option value="date-asc">날짜순 (오래된순)</option>
             <option value="name-asc">이름순</option>
@@ -148,7 +147,7 @@
 
     <!-- 예약 목록 -->
     <!-- 예약 현황 -->
-    <ReservationList />
+    <ReservationList :reservations="filteredReservations" />
     <!-- 예약추가/수정 모달 -->
     <div
       v-if="showCustomerForm"
@@ -279,11 +278,17 @@
 </template>
 
 <script setup>
+import { ref, computed, nextTick, reactive } from "vue";
+import { useAppStore } from '@/stores/useAppStore'
+import { storeToRefs } from 'pinia'
 import ReservationList from "./components/ReservationList.vue";
-import { ref, computed, nextTick, reactive, watch } from "vue";
+
+const store = useAppStore()
+const { reservations } = storeToRefs(store)
 
 const searchQuery = ref("");
 const statusFilter = ref("all");
+const status = ref("all");
 const sortBy = ref("date-desc");
 const showCancelModal = ref(false);
 const reservationToCancel = ref(null);
@@ -633,234 +638,6 @@ const saveReservation = () => {
   closeModal();
 };
 
-const reservations = ref([
-  {
-    id: "#1001",
-    customerName: "김철수",
-    type: "출국 운반",
-    location: "대구공항",
-    date: "2025-05-31 10:00",
-    status: "대기중",
-    worker: "김지훈",
-  },
-  {
-    id: "#1002",
-    customerName: "박영희",
-    type: "입국 운반",
-    location: "동대구역",
-    date: "2025-06-01 09:00",
-    status: "운반중",
-    worker: "이수민",
-  },
-  {
-    id: "#1003",
-    customerName: "이민수",
-    type: "출국 운반",
-    location: "서대구역",
-    date: "2025-06-01 13:00",
-    status: "완료",
-    worker: "박서준",
-  },
-  {
-    id: "#1004",
-    customerName: "최지혜",
-    type: "입국 운반",
-    location: "대구공항",
-    date: "2025-06-02 15:30",
-    status: "대기중",
-    worker: "한예슬",
-  },
-  {
-    id: "#1005",
-    customerName: "정유진",
-    type: "출국 운반",
-    location: "동대구역",
-    date: "2025-06-03 08:00",
-    status: "운반중",
-    worker: "정우성",
-  },
-  {
-    id: "#1006",
-    customerName: "윤성호",
-    type: "입국 운반",
-    location: "서대구역",
-    date: "2025-06-03 16:00",
-    status: "완료",
-    worker: "김태희",
-  },
-  {
-    id: "#1007",
-    customerName: "장하늘",
-    type: "출국 운반",
-    location: "대구공항",
-    date: "2025-06-04 11:00",
-    status: "대기중",
-    worker: "이준호",
-  },
-  {
-    id: "#1008",
-    customerName: "백지원",
-    type: "입국 운반",
-    location: "동대구역",
-    date: "2025-06-05 14:00",
-    status: "운반중",
-    worker: "유인나",
-  },
-  {
-    id: "#1009",
-    customerName: "오하영",
-    type: "출국 운반",
-    location: "서대구역",
-    date: "2025-06-05 18:00",
-    status: "완료",
-    worker: "이병헌",
-  },
-  {
-    id: "#1010",
-    customerName: "김영수",
-    type: "입국 운반",
-    location: "대구공항",
-    date: "2025-06-06 09:30",
-    status: "대기중",
-    worker: "한가인",
-  },
-  {
-    id: "#1011",
-    customerName: "송지은",
-    type: "출국 운반",
-    location: "동대구역",
-    date: "2025-06-06 12:00",
-    status: "운반중",
-    worker: "정해인",
-  },
-  {
-    id: "#1012",
-    customerName: "노현우",
-    type: "입국 운반",
-    location: "서대구역",
-    date: "2025-06-07 10:00",
-    status: "완료",
-    worker: "고아라",
-  },
-  {
-    id: "#1013",
-    customerName: "황지민",
-    type: "출국 운반",
-    location: "대구공항",
-    date: "2025-06-08 08:30",
-    status: "대기중",
-    worker: "남주혁",
-  },
-  {
-    id: "#1014",
-    customerName: "배진수",
-    type: "입국 운반",
-    location: "동대구역",
-    date: "2025-06-08 14:30",
-    status: "운반중",
-    worker: "전지현",
-  },
-  {
-    id: "#1015",
-    customerName: "이선호",
-    type: "출국 운반",
-    location: "서대구역",
-    date: "2025-06-09 16:30",
-    status: "완료",
-    worker: "송중기",
-  },
-  {
-    id: "#1016",
-    customerName: "조은비",
-    type: "입국 운반",
-    location: "대구공항",
-    date: "2025-06-10 11:15",
-    status: "대기중",
-    worker: "김지훈",
-  },
-  {
-    id: "#1017",
-    customerName: "구본혁",
-    type: "출국 운반",
-    location: "동대구역",
-    date: "2025-06-10 13:45",
-    status: "운반중",
-    worker: "이수민",
-  },
-  {
-    id: "#1018",
-    customerName: "임하늘",
-    type: "입국 운반",
-    location: "서대구역",
-    date: "2025-06-11 10:45",
-    status: "완료",
-    worker: "박서준",
-  },
-  {
-    id: "#1019",
-    customerName: "양진아",
-    type: "출국 운반",
-    location: "대구공항",
-    date: "2025-06-11 15:00",
-    status: "대기중",
-    worker: "한예슬",
-  },
-  {
-    id: "#1020",
-    customerName: "최은석",
-    type: "입국 운반",
-    location: "동대구역",
-    date: "2025-06-12 09:00",
-    status: "운반중",
-    worker: "정우성",
-  },
-  {
-    id: "#1021",
-    customerName: "문지호",
-    type: "출국 운반",
-    location: "서대구역",
-    date: "2025-06-13 10:30",
-    status: "완료",
-    worker: "김태희",
-  },
-  {
-    id: "#1022",
-    customerName: "이경아",
-    type: "입국 운반",
-    location: "대구공항",
-    date: "2025-06-14 12:30",
-    status: "대기중",
-    worker: "이준호",
-  },
-  {
-    id: "#1023",
-    customerName: "홍기훈",
-    type: "출국 운반",
-    location: "동대구역",
-    date: "2025-06-15 14:15",
-    status: "운반중",
-    worker: "유인나",
-  },
-  {
-    id: "#1024",
-    customerName: "강지민",
-    type: "입국 운반",
-    location: "서대구역",
-    date: "2025-06-15 17:00",
-    status: "완료",
-    worker: "이병헌",
-  },
-  {
-    id: "#1025",
-    customerName: "조윤서",
-    type: "출국 운반",
-    location: "대구공항",
-    date: "2025-06-16 10:00",
-    status: "대기중",
-    worker: "한가인",
-  },
-]);
-
 // 페이지네이션 관련 상태
 const currentPage = ref(1);
 const itemsPerPage = ref(5);
@@ -897,16 +674,17 @@ const pagedReservations = computed(() => {
 const filteredReservations = computed(() => {
   let result = [...reservations.value];
 
-  // 검색어 필터링
-  if (searchQuery.value) {
-    const query = searchQuery.value.toLowerCase();
+  // 검색어 필터
+    if (searchQuery.value) {
+    const q = searchQuery.value.toLowerCase()
     result = result.filter(
-      (r) =>
-        r.user.toLowerCase().includes(query) || r.id.toString().includes(query)
-    );
+      r =>
+        r.user.toLowerCase().includes(q) ||
+        r.id.toString().includes(q)
+    )
   }
 
-  // 상태 필터링
+  // 상태 필터
   if (statusFilter.value !== "all") {
     result = result.filter((r) => r.status === statusFilter.value);
   }

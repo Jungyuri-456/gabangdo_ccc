@@ -4,7 +4,7 @@
     <div class="flex justify-between items-center">
       <div>
         <h1 class="text-2xl font-bold text-gray-800 dark:text-white">
-          가방 운반 고객 관리
+          고객 관리
         </h1>
         <p class="text-sm text-gray-500 mt-1">
           서비스 이용 고객 정보를 관리하고 상태를 확인할 수 있습니다.
@@ -13,7 +13,7 @@
       <button
         class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors flex items-center"
         @click="showAddCustomerModal">
-        <i class="fas fa-user-plus mr-2"></i>고객 추가
+        <i class="fas fa-user-plus mr-2"></i>고객추가
       </button>
     </div>
 
@@ -21,7 +21,7 @@
     <!-- 전체, 는고객 카드 -->
     <div class="card grid grid-rows-1 md:w-full grid-cols-3 gap-6">
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center max-[930px]:justify-center">
           <div class="icon-box p-3 rounded-full bg-blue-100 text-green-600">
             <i class="block max-[930px]:hidden user fas fa-users text-2xl"></i>
@@ -56,7 +56,7 @@
       </div>
       <!-- 활동 고객카드 -->
       <div
-        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center max-[930px]:justify-center">
           <div class="icon-box p-3 rounded-full bg-green-100 text-yellow-400">
             <i
@@ -78,7 +78,7 @@
       </div>
       <!-- 평균 운반 건수 -->
       <div
-        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="card bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center max-[930px]:justify-center">
           <div class="icon-box p-3 rounded-full bg-green-100 text-blue-600">
             <i
@@ -127,7 +127,7 @@
     </div>
 
     <!-- 고객 목록 -->
-    <div class="bg-white rounded-lg shadow dark:bg-gray-600">
+    <div class="bg-white rounded-lg shadow dark:bg-gray-800">
       <div class="p-4 border-b border-gray-200">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
           고객 목록
@@ -135,7 +135,7 @@
       </div>
       <div class="overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
+          <thead class="bg-gray-100">
             <tr>
               <th
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -260,7 +260,7 @@
       </div>
       <!-- 페이지네이션 -->
       <div
-        class="flex justify-between items-center bg-white rounded-lg shadow p-4 dark:bg-gray-600">
+        class="flex justify-between items-center bg-white rounded-lg shadow p-4 dark:bg-gray-800">
         <div class="text-sm text-gray-700 dark:text-white">
           총 <span class="font-medium">{{ filteredCustomers.length }}</span
           >명의 고객
@@ -668,7 +668,7 @@ const customerForm = reactive({
 
 // 페이지네이션 관련 상태
 const currentPage = ref(1);
-const itemsPerPage = ref(5);
+const itemsPerPage = ref(3);
 
 // 페이지네이션 계산
 const totalPages = computed(() => {
@@ -847,6 +847,10 @@ const formatCurrency = (amount) => {
     maximumFractionDigits: 0,
   }).format(amount);
 };
+// 한글이슈
+function handleInput(event) {
+  searchQuery.value = event.target.value;
+}
 </script>
 <style scoped>
 .icon-box {

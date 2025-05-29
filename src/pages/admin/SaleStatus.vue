@@ -4,7 +4,7 @@
       <!-- 헤더 -->
       <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">매출 현황 대시보드</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">매출관리</h1>
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">실시간 매출 현황과 수익 분석을 확인할 수 있습니다.</p>
         </div>
         <div class="flex gap-2">
@@ -174,12 +174,12 @@
                 <div class="relative">
                   <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                   <input type="text" v-model="searchQuery" placeholder="고객명 또는 거래번호로 검색"
-                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white" />
                 </div>
               </div>
               <div class="flex gap-2">
                 <select v-model="statusFilter"
-                  class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                  class="border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white">
                   <option value="all">전체 상태</option>
                   <option value="completed">완료</option>
                   <option value="processing">처리중</option>
@@ -303,7 +303,7 @@
             </div>
           </div>
         </div>
-        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 flex justify-end space-x-3">
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 flex justify-end space-x-3">
           <button @click="showDateRangeModal = false"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
             취소
@@ -399,7 +399,7 @@
             </div>
           </div>
         </div>
-        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 flex justify-end space-x-3">
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800 flex justify-end space-x-3">
           <button @click="showReportModal = false"
             class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600">
             취소

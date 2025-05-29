@@ -1,6 +1,6 @@
 <template>
   <!-- 기사 목록 -->
-  <div class="bg-white rounded-lg shadow dark:bg-gray-600">
+  <div class="bg-white rounded-lg shadow dark:bg-gray-800">
     <div class="p-4 pb-0 border-b border-gray-200">
       <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
         기사 목록
@@ -19,7 +19,7 @@
           :label="'날짜'"
           :options="dateOptions"
           class="block max-[1010px]:hidden" />
-        <SearchSelect v-model="pickup" :options="pickupOptions" />
+        <!-- <SearchSelect v-model="pickup" :options="pickupOptions" /> -->
         <SearchSelect v-model="area" :options="areaOptions" />
         <SearchSelect v-model="status" :options="statusOptions" />
         <button
@@ -32,7 +32,7 @@
     <!-- 기사 data -->
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-100">
           <tr class="allpadding">
             <th
               class="idTh px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -200,7 +200,7 @@
       </table>
       <!-- 페이지네이션 -->
       <div
-        class="pageNum flex justify-between items-center bg-white rounded-lg shadow p-4 px-6 dark:bg-gray-600">
+        class="pageNum flex justify-between items-center bg-white rounded-lg shadow p-4 px-6 dark:bg-gray-800">
         <div
           class="pageEx w-full justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-between">
           <div>
@@ -501,219 +501,6 @@ function getStatusClass(status) {
       return "bg-gray-100 text-gray-700";
   }
 }
-const workers = ref([
-  {
-    id: "#C001",
-    name: "김지훈",
-    phone: "010-1234-5678",
-    phone1: "1234-5678",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "11건",
-    reservations1: "11",
-    memo: "",
-    joinDate: "2024-01-15",
-    lastActivity: "2025-05-15",
-    area: "서울, 경기",
-  },
-  {
-    id: "#C002",
-    name: "이수민",
-    phone: "010-8765-4321",
-    phone1: "8765-4321",
-    rating: 4.5,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-01-20",
-    lastActivity: "2025-05-14",
-    area: "인천",
-  },
-  {
-    id: "#C003",
-    name: "박서준",
-    phone: "010-5555-6666",
-    phone1: "5555-6666",
-    rating: 4.2,
-    status: "대기중",
-    reservations: "0건",
-    reservations1: "0",
-    memo: "",
-    joinDate: "2024-01-25",
-    lastActivity: "2025-04-20",
-    area: "부산",
-  },
-  {
-    id: "#C004",
-    name: "한예슬",
-    phone: "010-7777-8888",
-    phone1: "7777-8888",
-    rating: 4.9,
-    status: "활동중",
-    reservations: "11건",
-    reservations1: "11",
-    memo: "",
-    joinDate: "2024-02-01",
-    lastActivity: "2025-05-18",
-    area: "서울",
-  },
-  {
-    id: "#C005",
-    name: "정우성",
-    phone: "010-9999-0000",
-    phone1: "9999-0000",
-    rating: 4.6,
-    status: "활동중",
-    reservations: "9건",
-    reservations1: "9",
-    memo: "",
-    joinDate: "2024-02-05",
-    lastActivity: "2025-05-10",
-    area: "경기",
-  },
-  {
-    id: "#C006",
-    name: "김태희",
-    phone: "010-1111-2222",
-    phone1: "1111-2222",
-    rating: 4.7,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-02-10",
-    lastActivity: "2025-05-09",
-    area: "서울, 인천",
-  },
-  {
-    id: "#C007",
-    name: "이준호",
-    phone: "010-3333-4444",
-    phone1: "3333-4444",
-    rating: 4.4,
-    status: "활동중",
-    reservations: "9건",
-    reservations1: "9",
-    memo: "",
-    joinDate: "2024-02-15",
-    lastActivity: "2025-05-08",
-    area: "경기",
-  },
-  {
-    id: "#C008",
-    name: "유인나",
-    phone: "010-5555-7777",
-    phone1: "5555-7777",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-02-20",
-    lastActivity: "2025-05-07",
-    area: "서울",
-  },
-  {
-    id: "#C009",
-    name: "이병헌",
-    phone: "010-7777-9999",
-    phone1: "7777-9999",
-    rating: 4.3,
-    status: "대기중",
-    reservations: "0건",
-    reservations1: "0",
-    memo: "",
-    joinDate: "2024-02-25",
-    lastActivity: "2025-04-15",
-    area: "부산",
-  },
-  {
-    id: "#C010",
-    name: "한가인",
-    phone: "010-9999-1111",
-    phone1: "9999-1111",
-    rating: 4.9,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-03-01",
-    lastActivity: "2025-05-06",
-    area: "서울, 경기",
-  },
-  {
-    id: "#C011",
-    name: "정해인",
-    phone: "010-2222-3333",
-    phone1: "2222-3333",
-    rating: 4.5,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-03-05",
-    lastActivity: "2025-05-05",
-    area: "인천",
-  },
-  {
-    id: "#C012",
-    name: "고아라",
-    phone: "010-4444-5555",
-    phone1: "4444-5555",
-    rating: 4.7,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-03-10",
-    lastActivity: "2025-05-04",
-    area: "서울",
-  },
-  {
-    id: "#C013",
-    name: "남주혁",
-    phone: "010-6666-7777",
-    phone1: "6666-7777",
-    rating: 4.2,
-    status: "대기중",
-    reservations: "0건",
-    reservations1: "0",
-    memo: "",
-    joinDate: "2024-03-15",
-    lastActivity: "2025-04-18",
-    area: "부산",
-  },
-  {
-    id: "#C014",
-    name: "전지현",
-    phone: "010-8888-9999",
-    phone1: "8888-9999",
-    rating: 4.8,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-03-20",
-    lastActivity: "2025-05-03",
-    area: "서울, 경기",
-  },
-  {
-    id: "#C015",
-    name: "송중기",
-    phone: "010-0000-1111",
-    phone1: "0000-1111",
-    rating: 4.6,
-    status: "활동중",
-    reservations: "10건",
-    reservations1: "10",
-    memo: "",
-    joinDate: "2024-03-25",
-    lastActivity: "2025-05-02",
-    area: "인천",
-  },
-]);
-
 
 // 필터링된 workers
 const filteredWorkers = computed(() => {
@@ -831,6 +618,10 @@ const saveWorker = () => {
   console.log("저장된 기사 정보:", selectedWorker.value);
   closeModal();
 };
+// 한글이슈
+function handleInput(event) {
+  searchQuery.value = event.target.value;
+}
 </script>
 
 <style scoped>

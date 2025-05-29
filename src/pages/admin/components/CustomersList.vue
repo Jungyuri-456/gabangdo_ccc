@@ -29,7 +29,7 @@
     </div>
 
     <!-- 고객 목록 -->
-    <div class="bg-white rounded-lg shadow dark:bg-gray-600">
+    <div class="bg-white rounded-lg shadow dark:bg-gray-800">
       <div class="p-4 border-b border-gray-200">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
           고객 목록
@@ -161,7 +161,7 @@
       </div>
       <!-- 페이지네이션 -->
       <div
-        class="flex justify-between items-center bg-white rounded-lg shadow p-4 dark:bg-gray-600">
+        class="flex justify-between items-center bg-white rounded-lg shadow p-4 dark:bg-gray-800">
         <div class="text-sm text-gray-700 dark:text-white">
           총 <span class="font-medium">{{ filteredCustomers.length }}</span
           >명의 고객
