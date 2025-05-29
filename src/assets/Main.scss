@@ -29,7 +29,8 @@ body,
 
 // 전체
 .wrap_total {
-  padding-top: 100px;
+  margin-top: 70px;
+  padding-top: 170px;
   padding-bottom: 100px;
   min-height: 100vh;
   margin: 0 auto;
@@ -41,7 +42,12 @@ body,
   font-family: $font-family;
   box-sizing: border-box;
 }
-
+// 구분선
+.line {
+  margin: 100px 0;
+  width: 100%;
+  border: 1px dashed #ececec;
+}
 @media screen and (max-width: 390px) {
   .title_txt1 h1 {
     font-size: 30px !important;

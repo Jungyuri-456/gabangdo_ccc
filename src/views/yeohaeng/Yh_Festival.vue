@@ -30,28 +30,27 @@
           >
         </div>
         <!-- 이미지 Swiper (슬라이드 내용) 양쪽 빨간 페이지화살표 -->
-        <div id="main-swiper" class="swiper mySwiper">
+        <div id="main-swiper" class="swiper mySwiper" :key="activeTab">
           <!-- 이미지 영역 -->
           <div class="swiper-wrapper">
             <div
               v-for="(festival, index) in festivalData[activeTab]"
               :key="index"
-              class="swiper-slide"
-            >
+              class="swiper-slide">
               <div class="slide-wrap">
                 <div class="left">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="40.002"
                     height="39.998"
-                    viewBox="0 0 40.002 39.998"
-                  >
+                    viewBox="0 0 40.002 39.998">
                     <path
                       id="합치기_22"
                       data-name="합치기 22"
                       d="M0,40V12.666H0A12.665,12.665,0,0,1,12.666,0H40V12.666H12.668V40Z"
-                      :fill="activeTab === 'CDF018.001' ? '#ee2b2b' : 'yellow'"
-                    ></path>
+                      :fill="
+                        activeTab === 'CDF018.001' ? '#ee2b2b' : 'yellow'
+                      "></path>
                   </svg>
                   <div class="slide-info-wrap">
                     <div class="slide-info-title">
@@ -82,16 +81,14 @@
                     :style="{
                       background:
                         activeTab === 'CDF018.001' ? '#fa6d6d' : 'yellow',
-                    }"
-                  ></div>
+                    }"></div>
                 </div>
                 <div class="right">
                   <div
                     class="right-thumb"
                     :style="{ backgroundImage: `url(${festival.image})` }"
                     :aria-label="festival.alt"
-                    role="img"
-                  ></div>
+                    role="img"></div>
                 </div>
               </div>
             </div>
@@ -257,27 +254,30 @@ const changeTab = (tabId) => {
 
 // Swiper 초기화 함수
 const initSwiper = () => {
-  if (swiperInstance) {
-    swiperInstance.destroy(true, true); // 이전 인스턴스 제거
+  if (swiperInstance && typeof swiperInstance.destroy === "function") {
+    swiperInstance.destroy();
+    swiperInstance = null;
   }
-
   swiperInstance = new Swiper(".mySwiper", {
     slidesPerView: 1,
     spaceBetween: 30,
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    pagination: {
-      el: ".swiper-pagination2",
-      type: "fraction",
-    },
+    loop: true,
     autoplay: {
       delay: 3000,
       disableOnInteraction: false,
     },
-    loop: true,
-    watchOverflow: true,
+
+    navigation: {
+      nextEl: ".swiper-button-next",
+      prevEl: ".swiper-button-prev",
+    },
+
+    pagination: {
+      el: ".swiper-pagination", // ← pagination container 선택자
+      type: "bullets", // ← bullets 타입
+      clickable: true, // ← 클릭도 가능하게
+      dynamicBullets: true, // ← 가운데에 집중도트 애니메이션
+    },
   });
 
   //  swiperInstance가 생성된 후에 실행
@@ -329,7 +329,7 @@ watch(activeTab, () => {
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
 .yh_wrap {
-  max-width: 1200px;
+  max-width: 1100px;
   width: 100%;
 }
 // 제목
@@ -610,7 +610,7 @@ header.main.fix .hd-gnb .hd-menu > li:after {
 
 /* main-banner slide */
 .main-slide-list2 {
-  overflow: hidden;
+  overflow: visible;
   margin: 0 auto;
 }
 .main-slide-list2 .swiper {
@@ -1762,6 +1762,44 @@ header.main.fix .hd-gnb .hd-menu > li:after {
   background-color: #ee2b2b;
   color: white;
 }
+
+.swiper-button-prev {
+  color: #ee2b2b;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  left: 0; /* 왼쪽 끝 */
+  transform: translateY(50%, -50%);
+  z-index: 10;
+}
+.swiper-button-next {
+  color: #ee2b2b;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 50%;
+  right: 0; /* 오른쪽 끝 */
+  transform: translateY(50%, -50%);
+  z-index: 10;
+}
+/* bullets 크기 및 마진 */
+:deep(.swiper-pagination-bullet) {
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  background: #ddd;
+  opacity: 1;
+  transition: background 0.3s;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  background: $hover; /* 활성 도트 색 */
+}
 .swiper-button-prev,
 .swiper-rtl .swiper-button-next {
   left: var(--swiper-navigation-sides-offset, 100px);
@@ -1789,13 +1827,7 @@ header.main.fix .hd-gnb .hd-menu > li:after {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-
-  width: 40px; /* 원하는 크기로 지정 */
-  height: 40px;
   font-size: 25px;
-  color: #ee2b2b;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
 }
 
 .swiper-pagination-bullet-active {
@@ -1809,34 +1841,5 @@ header.main.fix .hd-gnb .hd-menu > li:after {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-}
-::v-deep(.swiper-button-prev) {
-  color: #ee2b2b;
-  left: var(--swiper-navigation-sides-offset, 390px);
-  @media (max-width: 1530px) {
-    left: var(--swiper-navigation-sides-offset, 150px) !important;
-  }
-  @media (max-width: 1190px) {
-    left: var(--swiper-navigation-sides-offset, 50px) !important;
-  }
-  @media (max-width: 870px) {
-    display: none;
-  }
-}
-::v-deep(.swiper-button-prev::after) {
-  font-size: 25px;
-}
-::v-deep(.swiper-button-next) {
-  color: #ee2b2b;
-  right: var(--swiper-navigation-sides-offset, 390px);
-  @media (max-width: 1530px) {
-    right: var(--swiper-navigation-sides-offset, 150px);
-  }
-  @media (max-width: 1190px) {
-    right: var(--swiper-navigation-sides-offset, 50px);
-  }
-  @media (max-width: 870px) {
-    display: none !important;
-  }
 }
 </style>

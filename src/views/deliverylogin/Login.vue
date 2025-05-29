@@ -72,7 +72,8 @@ const handleLogin = () => {
             <button
               type="button"
               :class="{ active: formData.role === 'customer' }"
-              @click="formData.role = 'customer'">
+              @click="formData.role = 'customer'"
+            >
               <img src="/images/yr/loginpage/owner.png" alt="고객" />
               <!-- <span>고객</span>  -->
             </button>
@@ -80,7 +81,8 @@ const handleLogin = () => {
             <button
               type="button"
               :class="{ active: formData.role === 'worker' }"
-              @click="formData.role = 'worker'">
+              @click="formData.role = 'worker'"
+            >
               <img src="/images/yr/loginpage/deliveryman.png" alt="기사" />
               <!-- <span>기사</span> -->
             </button>
@@ -96,7 +98,8 @@ const handleLogin = () => {
               v-model="formData.email"
               placeholder="이메일을 입력하세요"
               autocomplete="username"
-              required />
+              required
+            />
           </div>
 
           <div class="form-group">
@@ -109,11 +112,13 @@ const handleLogin = () => {
                 v-model="formData.password"
                 placeholder="비밀번호를 입력하세요"
                 autocomplete="current-password"
-                required />
+                required
+              />
               <button
                 @click="togglePassword"
                 type="button"
-                class="toggle-password">
+                class="toggle-password"
+              >
                 <img
                   :src="
                     showPassword
@@ -121,7 +126,8 @@ const handleLogin = () => {
                       : '/images/yr/loginpage/eye.png'
                   "
                   alt="비밀번호 보기 토글"
-                  class="eye-icon" />
+                  class="eye-icon"
+                />
               </button>
             </div>
           </div>
@@ -190,7 +196,7 @@ const handleLogin = () => {
 
 .login-container {
   background: white;
-  border-radius: 8px;
+  border-radius: $radius;
   // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
@@ -307,7 +313,7 @@ select {
   background: #279bf3;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: $radius;
   font-size: 1.1rem;
   font-weight: 500;
   cursor: pointer;
@@ -361,7 +367,7 @@ select {
   gap: 0.5rem;
   padding: 0.75rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: $radius;
   background: white;
   cursor: pointer;
   transition: background-color 0.3s;
@@ -444,7 +450,7 @@ select {
 .role-options button {
   background: none;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: $radius;
   padding: 7px;
   cursor: pointer;
   display: flex;

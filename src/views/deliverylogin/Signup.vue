@@ -63,17 +63,20 @@ function onSignup() {
           type="text"
           placeholder="이름을 입력하세요"
           v-model="formData.name"
-          class="bb_needMore" />
+          class="bb_needMore"
+        />
 
         <div class="input-group">
           <input
             type="email"
             placeholder="이메일을 입력하세요"
-            v-model="formData.email" />
+            v-model="formData.email"
+          />
           <button
             type="button"
             class="btn-small"
-            @click="sendEmailVerification">
+            @click="sendEmailVerification"
+          >
             인증하기
           </button>
         </div>
@@ -81,24 +84,28 @@ function onSignup() {
         <input
           type="password"
           placeholder="비밀번호를 입력하세요"
-          v-model="formData.password" />
+          v-model="formData.password"
+        />
         <p class="hint">8자 이상, 영문, 숫자, 특수문자 포함</p>
 
         <input
           type="password"
           placeholder="비밀번호를 다시 입력하세요"
           v-model="formData.passwordConfirm"
-          class="bb_needMore" />
+          class="bb_needMore"
+        />
 
         <div class="input-group">
           <input
             type="text"
             placeholder="휴대폰 번호를 입력하세요"
-            v-model="formData.phone" />
+            v-model="formData.phone"
+          />
           <button
             type="button"
             class="btn-small"
-            @click="sendPhoneVerification">
+            @click="sendPhoneVerification"
+          >
             인증하기
           </button>
         </div>
@@ -107,7 +114,8 @@ function onSignup() {
           <input
             type="text"
             placeholder="주소를 입력하세요"
-            v-model="formData.address" />
+            v-model="formData.address"
+          />
           <button type="button" class="btn-small" @click="searchAddress">
             주소검색
           </button>
@@ -116,7 +124,8 @@ function onSignup() {
         <input
           type="text"
           placeholder="상세주소를 입력하세요"
-          v-model="formData.detail" />
+          v-model="formData.detail"
+        />
 
         <div class="agree">
           <input type="checkbox" id="agree" v-model="formData.agreed" />
@@ -167,7 +176,7 @@ body {
   width: 360px;
   background: #fff;
   padding: 30px;
-  border-radius: 10px;
+  border-radius: $radius;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
   text-align: center;
 
@@ -196,7 +205,7 @@ body {
       padding: 10px;
       margin-bottom: 12px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: $radius;
     }
 
     .hint {
@@ -221,7 +230,7 @@ body {
         background: $main-color;
         color: #fff;
         border: none;
-        border-radius: 5px;
+        border-radius: $radius;
         white-space: nowrap;
         cursor: pointer;
         margin-bottom: 12px !important;
@@ -246,7 +255,7 @@ body {
       background: $main-color;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: $radius;
       font-size: 16px;
       margin-top: 10px;
       cursor: pointer;

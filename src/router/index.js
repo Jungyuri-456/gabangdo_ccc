@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "../Home.vue";
 import Bangbeob2 from "../views/bangbeob/Bangbeob2.vue";
 import Yeyak from "../views/yeyak/Yeyak.vue";
-import Yeyak2 from "../views/yeyak/Yeyak2.vue";
 import Yeyak4 from "../views/yeyak/Yeyak4.vue";
 import Yeyak5 from "../views/yeyak/Yeyak5.vue";
 import YeyakLookup from "../views/yeyak/YeyakLookup.vue";
@@ -34,7 +33,6 @@ const routes = [
   { path: "/", component: Home },
   { path: "/bangbeob2", component: Bangbeob2 },
   { path: "/yeyak", component: Yeyak },
-  { path: "/yeyak2", component: Yeyak2 },
   { path: "/yeyak4", component: Yeyak4 },
   { path: "/yeyak5", component: Yeyak5 },
   { path: "/yeyaklookup", component: YeyakLookup },

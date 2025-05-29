@@ -1,50 +1,49 @@
 <template>
-
   <div class="cardWarp">
     <!-- 카드1 -->
-  <div class="card">
-    <p class="sub-title">출발지가가</p>
-    <h2 class="title">공항인 경우</h2>
-    <img src="/public/images/yr/page1/airplane.png" alt="비행기" class="plane-img" />
+    <div class="card">
+      <p class="sub-title">출발지가가</p>
+      <h2 class="title">공항인 경우</h2>
+      <img src="/images/yr/page1/airplane.png" alt="비행기" class="plane-img" />
 
-    <ul class="step-list">
-      <li><span class="step-num">1</span> 예약된 픽업 시간 도착</li>
-      <li><span class="step-num">2</span> 가방 전달</li>
-      <li><span class="step-num">3</span> 확인 메시지 수신</li>
-    </ul>
+      <ul class="step-list">
+        <li><span class="step-num">1</span> 예약된 픽업 시간 도착</li>
+        <li><span class="step-num">2</span> 가방 전달</li>
+        <li><span class="step-num">3</span> 확인 메시지 수신</li>
+      </ul>
 
-    <button class="location-btn">픽업장소 위치안내</button>
-  </div>
+      <button class="location-btn">픽업장소 위치안내</button>
+    </div>
 
-      <!-- 카드2 -->
-  <div class="card">
-    <p class="sub-title">출발지가가</p>
-    <h2 class="title">숙소인 경우</h2>
-    <img src="/public/images/yr/page1/building.png" alt="비행기" class="plane-img" />
+    <!-- 카드2 -->
+    <div class="card">
+      <p class="sub-title">출발지가가</p>
+      <h2 class="title">숙소인 경우</h2>
+      <img src="/images/yr/page1/building.png" alt="비행기" class="plane-img" />
 
-    <ul class="step-list">
-      <li><span class="step-num">1</span> 로비 / 프론트 데스크</li>
-      <li><span class="step-num">2</span> 가방 전달</li>
-      <li><span class="step-num">3</span> 고객 직접 전달 가능</li>
-    </ul>
+      <ul class="step-list">
+        <li><span class="step-num">1</span> 로비 / 프론트 데스크</li>
+        <li><span class="step-num">2</span> 가방 전달</li>
+        <li><span class="step-num">3</span> 고객 직접 전달 가능</li>
+      </ul>
 
-    <!-- <button class="location-btn">픽업장소 위치안내</button> -->
-  </div>
+      <!-- <button class="location-btn">픽업장소 위치안내</button> -->
+    </div>
 
-      <!-- 카드3 -->
-  <div class="card">
-    <p class="sub-title">출발지가가</p>
-    <h2 class="title">기차인 경우</h2>
-    <img src="/public/images/yr/page1/subway.png" alt="비행기" class="plane-img" />
+    <!-- 카드3 -->
+    <div class="card">
+      <p class="sub-title">출발지가가</p>
+      <h2 class="title">기차인 경우</h2>
+      <img src="/images/yr/page1/subway.png" alt="비행기" class="plane-img" />
 
-    <ul class="step-list">
-      <li><span class="step-num">1</span> 지정된 출구 / 대기장소</li>
-      <li><span class="step-num">2</span> 가방 전달</li>
-      <li><span class="step-num">3</span> 도착 후 직원 연락</li>
-    </ul>
+      <ul class="step-list">
+        <li><span class="step-num">1</span> 지정된 출구 / 대기장소</li>
+        <li><span class="step-num">2</span> 가방 전달</li>
+        <li><span class="step-num">3</span> 도착 후 직원 연락</li>
+      </ul>
 
-    <button class="location-btn">픽업장소 위치안내</button>
-  </div>
+      <button class="location-btn">픽업장소 위치안내</button>
+    </div>
   </div>
 </template>
 
@@ -53,15 +52,16 @@
 </script>
 
 <style scoped>
-.cardWarp{
+.cardWarp {
   display: flex;
   gap: 30px;
+  margin-bottom: 60px;
 }
 .card {
   width: 380px;
   background: white;
   border: 2px solid #e5e7eb;
-  border-radius: 16px;
+  border-radius: $radius;
   padding: 24px;
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
@@ -120,17 +120,16 @@
 .location-btn {
   padding: 8px 16px;
   border-radius: 9999px;
-  background-color: #279BF4;
+  background-color: #279bf4;
   color: white;
   font-size: 15px;
   font-weight: 500;
   border: none;
   cursor: pointer;
-    margin-top: 5px;
+  margin-top: 5px;
 }
 
 .location-btn:hover {
-  background-color: #279BF4;
-
+  background-color: #279bf4;
 }
 </style>

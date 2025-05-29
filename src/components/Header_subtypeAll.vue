@@ -87,7 +87,7 @@
                 <img
                   src="/images/cr/login.png"
                   alt="로그인이미지"
-                  class="icon-square" />
+                  class="icon-square1" />
               </router-link>
             </div>
             <!-- 1230px 및 모바일에서 열리는 메뉴 파랑바탕-->
@@ -253,6 +253,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 @use "/src/assets/Variables" as *;
+
 .header {
   position: fixed;
   top: 0;
@@ -331,60 +332,38 @@ body.modal-open {
         display: inline-block;
         padding: 5px 15px;
         transition: all 0.3s ease;
-        border-radius: 5px;
+        border-radius: $radius;
         font-weight: normal;
       }
       a:hover {
         color: #279bf4 !important;
         font-weight: bold;
       }
-      .subMenu {
-        width: 100%;
-        height: 100px;
-        line-height: 50px;
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 56px;
-        left: 0;
-        z-index: 10;
-        padding: 10px 0;
-        li {
-          height: 40px;
-          a {
-            display: flex; // 플렉스 박스로 설정
-            align-items: center; // 수직 가운데 정렬
-            justify-content: center;
-            width: 100%;
-            height: 20px;
-            padding: 0;
-          }
-        }
-      }
-      .subMenu.show {
-        display: flex;
-      }
     }
   }
 }
 .icon-square {
-  width: 90%; /* 가로 길이 */
-  height: 90%; /* 세로 길이 (width와 동일) */
+  width: 70%; /* 가로 길이 */
+  height: 70%; /* 세로 길이 (width와 동일) */
   object-fit: contain; /* 원본 비율 유지하면서 빈 공간이 생기면 여백 처리 */
   /* object-fit: cover; */ /* 꽉 채워서 자르려면 이 옵션을 사용 */
 }
+.icon-square1 {
+  width: 60%; /* 가로 길이 */
+  height: 60%; /* 세로 길이 (width와 동일) */
+  object-fit: contain;
+}
+// 햄버거바
 .hd_menu1 {
   pointer-events: none;
   position: fixed;
-  top: 70px;
+  top: 55px;
   left: 0;
-  width: 200px;
-  height: 100vh;
+  width: 150px;
+  height: auto;
   display: flex;
   flex-direction: column;
-  gap: 5px;
   font-size: 20px;
-  border-radius: 10px;
   transition: all 0.3s ease;
   color: #fff;
   z-index: 9;
@@ -393,7 +372,7 @@ body.modal-open {
   transition: opacity 0.3s ease, transform 0.3s ease;
   pointer-events: none;
   background-color: #fff;
-  background-color: #279bf4;
+  background-color: #a6d5f8;
   &.show {
     text-align: left;
     color: #fff;
@@ -421,34 +400,13 @@ body.modal-open {
       color: #fff;
       text-align: center;
       box-sizing: border-box;
-      border-radius: 10px;
-      border: 2.5px solid #0066b333;
     }
     a:hover {
-      border: 2.5px solid $sub-color;
       font-weight: bold;
-      border-radius: 10px;
-    }
-  }
-  .subMenu {
-    li {
-      a {
-        line-height: 50px;
-        text-align: right;
-        font-size: 18px;
-        padding: 5px;
-      }
     }
   }
 }
-.hd_menu1 .subMenu.show {
-  display: flex;
-  flex-direction: column;
-}
-.menu-label {
-  display: inline-block; /* 너비 적용을 위해 */
-  // height: 50px; /* 원하는 만큼 조정 */
-}
+
 // delivery/login icon
 .hd_extra {
   position: fixed;
@@ -485,7 +443,7 @@ body.modal-open {
   background-color: #fff;
   min-width: 160px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  border-radius: $radius;
   padding: 0.5rem 0;
 }
 

@@ -25,7 +25,6 @@
           <div class="masize_beforecash">
             <h5>사전예약시 10,000원</h5>
           </div>
-          
         </div>
         <!-- m사이즈 -->
         <div class="masize">
@@ -49,7 +48,7 @@
           <div class="masize_beforecash">
             <h5>사전예약시 14,000원</h5>
           </div>
-        </div>  
+        </div>
         <!-- l사이즈 -->
         <div class="masize">
           <!-- 사이즈 섹션 상단 설명 -->
@@ -99,10 +98,27 @@
     </div>
   </div>
 </template>
-<script setup>
-
-</script>
+<script setup></script>
 <style lang="scss" scoped>
 @use "/src/assets/Variables" as *;
 
+.inner {
+  width: 100%;
+  max-width: 1100px;
+}
+.macontent1_down {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 0 !important;
+}
+.masize {
+  width: 260px;
+  border-radius: $radius;
+  border: 2px solid #e5e7eb !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
 </style>

@@ -6,7 +6,7 @@
   width: 100%;
   max-width: 270px;
   padding: 20px;
-  border-radius: 30px;
+  border-radius: $radius;
   background-color: #fff;
 }
 
@@ -244,7 +244,7 @@
     margin-left: 2px;
     font-size: 16.5px;
     color: #333;
-    border-radius: 2px;
+    border-radius:$radius;
     border: 0;
     background-color: #fff;
   }
@@ -340,10 +340,6 @@ strong {
   }
 }
 @media screen and (max-width: 1170px) {
-  .main {
-    padding-top: 50px !important;
-  }
-
   .mavistxt {
     margin: 9% 0 !important;
     width: 30%;

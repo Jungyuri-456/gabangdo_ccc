@@ -64,6 +64,7 @@ function goToLookup() {
                 placeholder="예약번호를 입력해주세요." />
             </div>
           </div>
+          <p>예약번호를 잊으셨나요?</p>
         </div>
         <!-- 조회 버튼 -->
         <div class="button">
@@ -213,7 +214,11 @@ select {
     }
   }
 }
-
+// 안내문구
+p {
+  color: #279bf3;
+  font-size: 15px;
+}
 // 제출 버튼
 .button {
   display: flex;
@@ -226,7 +231,7 @@ select {
     background-color: color.adjust($main-color, $lightness: 30%);
     color: #fff;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: $radius;
     cursor: pointer;
     border: none;
     transition: background 0.3s;

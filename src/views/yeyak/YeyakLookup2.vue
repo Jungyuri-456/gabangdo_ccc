@@ -5,6 +5,9 @@ import { useRouter } from "vue-router";
 const router = useRouter();
 const reservations = ref([]);
 const selectedReservation = ref(null);
+const showCancelModal = ref(false);
+const showConfirmModal = ref(false);
+const showModal = ref(false);
 
 // 데이터 더미 생성
 const startAddresses = [
@@ -190,16 +193,28 @@ const summaryRows = computed(() => {
   return rows;
 });
 //취소하기 모달창
-const showCancelModal = ref(false);
 function openCancelModal() {
   showCancelModal.value = true;
 }
 function closeCancelModal() {
   showCancelModal.value = false;
 }
-function confirmCancel() {
-  // 예: 홈으로 돌아가기
+
+function handleFirstConfirm() {
+  // 첫 번째 모달 닫기
+  showCancelModal.value = false;
+  // 두 번째 모달 열기
+  showConfirmModal.value = true;
+}
+
+function closeConfirmModal() {
+  showConfirmModal.value = false;
   router.push("/");
+}
+
+function handleReReservation() {
+  showConfirmModal.value = false;
+  router.push("/yeyak");
 }
 //라우터링크
 function goToNextPage() {
@@ -261,10 +276,23 @@ function goToNextPage() {
   <!-- 취소 확인 모달 -->
   <div v-if="showCancelModal" class="modal-overlay">
     <div class="modal-box">
-      <p>정말 예약을 취소하시겠습니까?</p>
+      <p>예약을 취소하시겠습니까?</p>
       <div class="modal-buttons">
-        <button class="btn-confirm" @click="confirmCancel">확인</button>
+        <button class="btn-confirm" @click="handleFirstConfirm">확인</button>
         <button class="btn-cancel" @click="closeCancelModal">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 두 번째 확인 모달 -->
+  <div v-if="showConfirmModal" class="modal-overlay">
+    <div class="modal-box">
+      <p>예약이 취소되었습니다.<br />다시 예약하시겠습니까?</p>
+      <div class="modal-buttons">
+        <button class="btn-confirm" @click="handleReReservation">
+          예약하기
+        </button>
+        <button class="btn-cancel" @click="closeConfirmModal">처음으로</button>
       </div>
     </div>
   </div>
@@ -385,7 +413,7 @@ function goToNextPage() {
     background-color: $red-holiday;
     color: #fff;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: $radius;
     cursor: pointer;
     border: none;
     transition: background 0.3s;
@@ -402,7 +430,7 @@ function goToNextPage() {
     background-color: #777;
     color: #fff;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: $radius;
     cursor: pointer;
     border: none;
     transition: background 0.3s;
