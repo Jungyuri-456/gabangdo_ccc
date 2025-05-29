@@ -6,14 +6,16 @@ import { useReservationStore } from "@/stores/reservationStore";
 // 스토어 & 라우터 초기화
 const store = useReservationStore();
 const router = useRouter();
-
+// 편집 중인 섹션: 'dateTime' | 'route' | 'bags' | null
+const editing = ref(null);
+// 각 섹션 수정 버튼 노출 제어
+const showEditButtons = ref(false);
 // ISO 문자열을 한국어 날짜로 변환하는 함수
 function formatKoreanDate(iso) {
   if (!iso) return "";
   const [y, m, d] = iso.split("-");
   return `${y}년 ${m}월 ${d}일`;
 }
-
 // 페이지 진입 시: 오늘 날짜 선택 여부에 따라 가격 초기화/조정
 onMounted(() => {
   const todayISO = new Date().toISOString().slice(0, 10);
@@ -162,8 +164,34 @@ function submitReservation() {
                     {{ row.value }}
                   </span>
                 </div>
+                <button
+                  v-if="
+                    showEditButtons &&
+                    [
+                      '이용날짜 및 시간',
+                      '출발 → 도착',
+                      '가방 종류 및 수량',
+                    ].includes(row.label)
+                  "
+                  class="edit-btn"
+                  @click="
+                    startEditing(
+                      row.label === '이용날짜 및 시간'
+                        ? 'dateTime'
+                        : row.label === '출발 → 도착'
+                        ? 'route'
+                        : 'bags'
+                    )
+                  ">
+                  수정
+                </button>
               </div>
             </template>
+          </div>
+          <div class="button">
+            <button class="edit-all" @click="toggleEditAll">
+              {{ showEditButtons ? "수정 완료" : "수정하기" }}
+            </button>
           </div>
         </div>
         <!-- 결제 수단 선택 -->
@@ -476,7 +504,7 @@ function submitReservation() {
     background-color: color.adjust($main-color, $lightness: 30%);
     color: #fff;
     font-size: 16px;
-    border-radius: 20px;
+    border-radius: $radius;
     cursor: pointer;
     border: none;
     transition: background 0.3s;

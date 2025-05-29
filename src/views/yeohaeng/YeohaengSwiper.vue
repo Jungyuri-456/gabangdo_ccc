@@ -132,7 +132,7 @@ export default {
 @use "/src/assets/Variables.scss" as *;
 
 .yh_wrap {
-  max-width: 1200px;
+  max-width: 1100px;
   width: 100%;
 }
 
@@ -161,7 +161,7 @@ h4 {
 
     height: auto;
     object-fit: cover; // 또는 contain
-    border-radius: 10px;
+    border-radius: $radius;
     margin-top: 20px;
     margin-bottom: 20px;
   }

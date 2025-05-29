@@ -28,97 +28,6 @@ import bb_container1 from "../../components/bb_container1.vue";
         </div>
         <!-- 이용안내 전체 -->
         <div class="bb_luggageNotice">
-          <!-- 이용안내_수화물규격 -->
-          <div class="bb_luggageImgNotice">
-            <!-- 수화물 S -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>소형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>기내용 캐리어, 소형 배낭등</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon5.png"
-                  class="bb_smaller"
-                  alt="sSize" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm <br />X 높이 30cm</p>
-              </div>
-            </div>
-            <!-- 수화물 M -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>중형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>화물용 캐리어, 등산가방 등</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon6.png"
-                  alt="sSize"
-                  class="bb_smaller" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm <br />X 높이 45cm</p>
-              </div>
-            </div>
-            <!-- 수화물 L -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>대형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>대형 캐리어, 골프백, 대형배낭 등</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon7.png"
-                  alt="sSize"
-                  class="bb_smaller" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm <br />X 높이 60cm</p>
-              </div>
-            </div>
-            <!-- 수화물 XL -->
-            <div class="bb_luggage">
-              <!-- 큰글씨 -->
-              <div class="bb_luggageTitleM">
-                <p>특대형</p>
-              </div>
-              <!-- 소제목 -->
-              <div class="bb_luggageTitle">
-                <p>기타 물품 및 표시 외 사이즈</p>
-              </div>
-              <!-- 그림 -->
-              <div class="bb_luggageimg">
-                <img
-                  src="/images/yr/page2/2p_icon8.png"
-                  alt="sSize"
-                  class="bb_smaller" />
-              </div>
-              <!-- 디테일 -->
-              <div class="bb_luggagedetail">
-                <p>좌우 45cm X 깊이 56cm <br />X 높이 90cm</p>
-              </div>
-            </div>
-          </div>
           <!-- 이용안내_요금안내 -->
           <div class="bb_luggagepriceInfo bb_luggagePlusMinus">
             <!-- 요금안내_위 -->
@@ -126,15 +35,15 @@ import bb_container1 from "../../components/bb_container1.vue";
               <!-- 운영시간 -->
               <div class="bb_priceInfoTime">
                 <p>운영시간 : 05시 - 00시</p>
-              </div>
-              <!-- 세부사항 -->
-              <div class="bb_priceInfoDetail">
-                <ul>
-                  <li>*역마다 차이가 있을 수 있습니다.</li>
-                  <li>*기차역의 경우 오후 11시에 마감됩니다.</li>
-                </ul>
+                <div class="bb_priceInfoDetail">
+                  <ul>
+                    <li>*역마다 차이가 있을 수 있습니다.</li>
+                    <li>*기차역의 경우 오후 11시에 마감됩니다.</li>
+                  </ul>
+                </div>
               </div>
             </div>
+            <!-- 세부사항 -->
             <!-- 요금안내_아래 -->
             <div class="bb_priceInfoBottom">
               <!-- 파란배경글씨 -->
@@ -270,7 +179,8 @@ import bb_container1 from "../../components/bb_container1.vue";
                 <img
                   src="/images/yr/page2/size4.png"
                   class="bb_smaller"
-                  alt="sSize" />
+                  alt="sSize"
+                />
               </div>
               <!-- 디테일 -->
               <div class="bb_luggagedetail">
@@ -292,7 +202,8 @@ import bb_container1 from "../../components/bb_container1.vue";
                 <img
                   src="/images/yr/page2/size4.png"
                   alt="sSize"
-                  class="bb_smaller" />
+                  class="bb_smaller"
+                />
               </div>
               <!-- 디테일 -->
               <div class="bb_luggagedetail">
@@ -314,7 +225,8 @@ import bb_container1 from "../../components/bb_container1.vue";
                 <img
                   src="/images/yr/page2/size4.png"
                   alt="sSize"
-                  class="bb_smaller" />
+                  class="bb_smaller"
+                />
               </div>
               <!-- 디테일 -->
               <div class="bb_luggagedetail">
@@ -336,7 +248,8 @@ import bb_container1 from "../../components/bb_container1.vue";
                 <img
                   src="/images/yr/page2/size4.png"
                   alt="sSize"
-                  class="bb_smaller" />
+                  class="bb_smaller"
+                />
               </div>
               <!-- 디테일 -->
               <div class="bb_luggagedetail">
@@ -433,7 +346,7 @@ import bb_container1 from "../../components/bb_container1.vue";
               <h2 class="bb_noticeSubtitle">보관함 이용 협조 안내</h2>
               <ul class="bb_notice2">
                 <li>
-                  • 다른 사용자를 위해 보관된 물품은 꼭 찾아가 주세요.
+                  • 다른 사용자를 위해 보관된 물품은 꼭 찾아가 주세요.<br />
                   <p class="bb_Strong2">30일 이후로는 폐기 예정</p>
                   입니다.
                 </li>
@@ -463,13 +376,14 @@ import bb_container1 from "../../components/bb_container1.vue";
           <div class="bb_notice">
             <h3>기본 보상 제공</h3>
             <p>
-              서비스 이용 중 가방이 분실되거나 심각한 손상이 발생한 경우, 최대
-              30만 원까지 보상됩니다.
+              서비스 이용 중 가방이 분실되거나 심각한 손상이 발생한 경우,
+              <br />최대 30만 원까지 보상됩니다.
             </p>
             <h3>추가 보장 옵션 (선택 사항)</h3>
             <p>
               고객이 추가 보험 옵션을 선택할 경우, 기본 보상 외 추가 금액 보장
-              가능 (상세 조건은 보험 상품에 따라 다름).
+              가능<br />
+              (상세 조건은 보험 상품에 따라 다름).
             </p>
             <h3>보험 적용 제외 사항</h3>
             <ul>
@@ -482,8 +396,8 @@ import bb_container1 from "../../components/bb_container1.vue";
 
             <h3 class="_bbTum">안전한 운송 시스템</h3>
             <p>
-              모든 가방은 철저하게 관리되며, 실시간 추적을 통해 더욱 안전하게
-              보관 및 배송됩니다.
+              모든 가방은 철저하게 관리되며,<br />
+              실시간 추적을 통해 더욱 안전하게 보관 및 배송됩니다.
             </p>
           </div>
         </div>
@@ -505,13 +419,13 @@ import bb_container1 from "../../components/bb_container1.vue";
   .title {
     margin: 0 auto;
     text-align: center;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     .title1 {
-      font-family: "omyu_pretty";
+      font-family: $font-ownglyph;
       font-size: 40px;
     }
     .title2 {
-      font-family: "omyu_pretty";
+      font-family: $font-ownglyph;
       font-size: 25px;
       color: #5a5a5a;
       img {
@@ -558,30 +472,30 @@ import bb_container1 from "../../components/bb_container1.vue";
 .bb_container2 {
   // background-color: $background-maincolor;
   width: 100%;
-  padding-bottom: 6%;
-  padding-top: 2%;
   .bb_inner {
     position: relative;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
-
     .bb_title2 {
-      padding-top: 6%;
+      margin-top: 60px;
       display: flex;
+      justify-content: center;
       gap: 10px;
       line-height: 40px;
-      padding-bottom: 3%;
+      margin-bottom: 30px;
       .bb_titleLine {
         width: 3px;
         height: 35px;
         background-color: $main-color;
       }
       .bb_title_txt2 h1 {
-        font-size: 30px;
-        font-weight: bold;
+        font-size: 40px;
+        font-family: $font-ownglyph;
       }
       .bb_title_txt2 p {
-        font-size: 20px;
+        font-family: $font-ownglyph;
+        font-size: 25px;
+        color: #5a5a5a;
       }
     }
   }
@@ -626,7 +540,7 @@ import bb_container1 from "../../components/bb_container1.vue";
       text-align: center;
     }
     .bb_title_txt2 p {
-      font-family: "omyu_pretty";
+      font-family: $font-ownglyph;
       font-size: 25px;
       color: #5a5a5a;
     }
@@ -642,17 +556,17 @@ import bb_container1 from "../../components/bb_container1.vue";
     .bb_luggageImgNotice {
       display: flex;
       flex-wrap: wrap; /* 요소가 넘치면 자동 줄바꿈 */
-      gap: 2%;
-      justify-content: space-around;
+      flex: 1;
+      justify-content: space-between;
       align-items: center;
-      padding-bottom: 3%;
-
+      margin-bottom: 60px;
       .bb_luggage {
         padding: 1%;
         width: calc((100% - 10%) / 4);
         background-color: #fff;
         border-radius: $radius;
-        border: $main-color 1px solid;
+        border: 2px solid #e5e7eb;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -693,33 +607,25 @@ import bb_container1 from "../../components/bb_container1.vue";
       }
     }
     .bb_luggagepriceInfo {
-      border: 2px solid #ccc;
+      border: 2px solid #e5e7eb;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
       width: 100%;
       background-color: #fff;
       border-radius: $radius;
       // border: $main-color solid 1px;
       padding: 2%;
-      margin-bottom: 15px;
+      margin-bottom: 30px;
       .bb_priceInfoTop {
         .bb_priceInfoTime {
-          width: 22%;
+          width: 30%;
+          height: auto;
           padding: 15px;
           background-color: #d7d7d7;
           border-radius: $radius;
           text-align: center;
+          margin-bottom: 40px;
           p {
             font-size: 20px;
-          }
-        }
-        .bb_priceInfoDetail {
-          ul {
-            padding-top: 12px;
-            padding-bottom: 18px;
-            li {
-              font-size: 16px;
-              padding-top: 6px;
-              padding-left: 10px;
-            }
           }
         }
       }
@@ -728,7 +634,7 @@ import bb_container1 from "../../components/bb_container1.vue";
           background-color: #279bf4;
           width: 100%;
           padding: 10px;
-          border-radius: 20px;
+          border-radius: $radius;
           ul {
             display: flex;
             justify-content: space-between;
@@ -798,18 +704,21 @@ import bb_container1 from "../../components/bb_container1.vue";
 }
 // 무인보관함 위치안내
 .bb_container3 {
-  // position: relative;
-  // width: 100%;
-  // height: 110vh;
-  padding: 6% 0 1% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   .bb_inner {
     position: relative;
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
     // 타이틀
     .bb_title3 {
-      padding-bottom: 4%;
+      padding-top: 60px;
+      padding-bottom: 30px;
       display: flex;
+      justify-content: center;
       gap: 10px;
       line-height: 40px;
       // font-weight: bold;
@@ -819,23 +728,20 @@ import bb_container1 from "../../components/bb_container1.vue";
         background-color: $main-color;
       }
       .bb_title_txt3 h1 {
-        font-size: 30px;
+        font-family: $font-ownglyph;
+        font-size: 40px;
       }
     }
   }
 }
-:deep(.bb_buttonBorder) {
-  width: 100% !important;
-  max-width: 1100px !important;
-  flex: 0 0 auto !important;
-  margin: 0 auto !important;
-}
+
 .bb_container4 {
-  padding-bottom: 70px;
-  padding-left: 15%;
-  position: relative;
-  width: 100%;
-  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 60px;
   .bb_inner {
     position: relative;
     max-width: 1100px;
@@ -846,9 +752,9 @@ import bb_container1 from "../../components/bb_container1.vue";
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 70px;
+      justify-content: center;
       .bb_yongdal {
-        width: 80%;
+        width: 100%;
         img {
           width: 100%;
         }
@@ -860,7 +766,14 @@ import bb_container1 from "../../components/bb_container1.vue";
     }
     // 유의사항 오른쪽
     .bb_contain3Right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       .bb_noteTop {
+        margin-top: 30px;
+
         .bb_notice1 {
           .indent {
             display: inline-block;
@@ -868,15 +781,15 @@ import bb_container1 from "../../components/bb_container1.vue";
           }
           li {
             line-height: 30px;
-            font-size: 17.5px;
+            font-size: 17px;
           }
         }
       }
       .bb_noteDown1 {
         width: 70%;
         margin-top: 1%;
-        background-color: #ffcccc;
-        border-radius: 10px;
+        background-color: #fed4d4;
+        border-radius: $radius;
         border: #f60000 1px solid;
         padding: 2% 2% 2% 2%;
         .bb_noticeSubtitle {
@@ -892,19 +805,19 @@ import bb_container1 from "../../components/bb_container1.vue";
             .bb_stron1 {
               display: inline;
               font-weight: bold;
-              color: #a42626;
+              color: #ff0000;
             }
           }
         }
       }
       .bb_noticeButton button {
-        background-color: #c0c0c0;
+        background-color: #a8a8a8;
         border: none;
         border-radius: 50px;
         padding: 7px 12px 7px 12px;
         color: #fff;
         font-size: 15px;
-        margin-top: 10px;
+        margin-top: 30px;
         cursor: pointer;
         font-weight: bold;
       }
@@ -912,8 +825,8 @@ import bb_container1 from "../../components/bb_container1.vue";
         width: 70%;
         margin-top: 1%;
         background-color: #fff3cd;
-        border-radius: 10px;
-        border: #f4ff71 1px solid;
+        border-radius: $radius;
+        border: #ffc44f 1px solid;
         padding: 2% 2% 2% 2%;
 
         .bb_noticeSubtitle {
@@ -926,8 +839,7 @@ import bb_container1 from "../../components/bb_container1.vue";
         .bb_notice2 {
           li {
             line-height: 22px;
-            font-size: 17.5px;
-            padding-left: 3%;
+            font-size: 15px;
             .bb_Strong2 {
               font-weight: bold;
               display: inline-block;
@@ -943,21 +855,26 @@ import bb_container1 from "../../components/bb_container1.vue";
 .bb_container5 {
   background-color: #fff;
   padding-bottom: 60px;
+  max-width: 1100px;
+  width: 80%;
   .bb_innerBottom {
-    max-width: 1300px;
     margin: 0 auto;
     .bb_title3 {
       display: flex;
+      justify-content: center;
       gap: 10px;
       line-height: 40px;
-      padding-bottom: 20px;
+      padding-top: 60px;
+      padding-bottom: 30px;
+      h1 {
+        font-family: $font-ownglyph;
+      }
       .bb_titleLine {
         width: 3px;
         height: 35px;
         background-color: $main-color;
       }
       .bb_title_txt3 {
-        font-family: "omyu_pretty";
         font-size: 40px;
       }
     }
@@ -965,16 +882,17 @@ import bb_container1 from "../../components/bb_container1.vue";
   .bb_container4Bg {
     background-color: #ffffff;
     .bb_inner {
-      background-color: rgba(42, 170, 226, 0.06);
-      border-radius: 15px;
-      padding-left: 2%;
+      background-color: rgba(65, 182, 232, 0.09);
+      border-radius: $radius;
+      width: 100%;
+      max-width: 1100px;
       .bb_notice {
         color: #5a5a5a;
-        padding-top: 2%;
-        padding-bottom: 1%;
+        padding: 20px 40px;
         h3 {
           font-size: 22px;
           padding-bottom: 12px;
+          font-weight: bold;
           color: #000;
         }
         p {
