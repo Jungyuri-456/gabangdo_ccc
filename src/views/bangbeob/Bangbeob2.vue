@@ -1,6 +1,6 @@
 <script setup>
 import Tab from "../../components/Tab.vue";
-import bb_container1 from "../../components/bb_container1.vue"
+import bb_container1 from "../../components/bb_container1.vue";
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import bb_container1 from "../../components/bb_container1.vue"
         <p class="title1">가방전달 방법</p>
         <p class="title2">출발지별 안내사항</p>
       </div>
-      <bb_container1/>
+      <bb_container1 />
     </div>
 
     <!-- 짐보관 이용안내 -->
@@ -253,7 +253,7 @@ import bb_container1 from "../../components/bb_container1.vue"
             </div>
           </div>
 
-                    <!-- 이용안내_수화물규격 -->
+          <!-- 이용안내_수화물규격 -->
           <div class="bb_luggageImgNotice">
             <!-- 수화물 S -->
             <div class="bb_luggage">
@@ -502,92 +502,89 @@ import bb_container1 from "../../components/bb_container1.vue"
   max-width: 1100px;
   margin: 0 auto;
   // 컨테이너1
-  .title{
+  .title {
     margin: 0 auto;
     text-align: center;
-        margin-bottom: 50px;
-    .title1{
-          font-family: "omyu_pretty";
-    font-size: 40px;
+    margin-bottom: 50px;
+    .title1 {
+      font-family: "omyu_pretty";
+      font-size: 40px;
     }
-    .title2{
-          font-family: "omyu_pretty";
-    font-size: 25px;
-    color: #5a5a5a;
-          img {
-            width: 100%;
-            height: auto; // 비율 유지
-          }
-        }
-        .bb_span {
-          font-size: 20px;
-        }
-        span.bb_spanPlus {
-          font-size: 20px;
-        }
-      }
-      .arrow {
-        position: relative;
-        padding: 90px 0 120px 0;
-      }
-      .bb_kakao {
-        display: flex;
-        background-color: #f4f4f4;
-        border-radius: 80px;
-        width: 45%;
-        position: relative;
-        margin-top: 20px;
-        cursor: pointer;
-        .bb_kakaoIcon {
-          padding: 3px;
-
-          img {
-            border-radius: 50px;
-            width: 30px;
-            height: 30px;
-          }
-        }
+    .title2 {
+      font-family: "omyu_pretty";
+      font-size: 25px;
+      color: #5a5a5a;
+      img {
+        width: 100%;
+        height: auto; // 비율 유지
       }
     }
-    .bb_plus {
-      display: none;
+    .bb_span {
+      font-size: 20px;
     }
-    
-  }
-}
-// 짐보관 이용안내
-
-.bb_container2 {
-    // background-color: $background-maincolor;
-  width: 100%;
-  padding-bottom: 6%;
-  padding-top: 2%;
-  .bb_inner{
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-
-
-  .bb_title2 {
-    padding-top: 6%;
-    display: flex;
-    gap: 10px;
-    line-height: 40px;
-    padding-bottom: 3%;
-    .bb_titleLine {
-      width: 3px;
-      height: 35px;
-      background-color: $main-color;
-    }
-    .bb_title_txt2 h1 {
-      font-size: 30px;
-      font-weight: bold;
-    }
-    .bb_title_txt2 p {
+    span.bb_spanPlus {
       font-size: 20px;
     }
   }
+  .arrow {
+    position: relative;
+    padding: 90px 0 120px 0;
+  }
+  .bb_kakao {
+    display: flex;
+    background-color: #f4f4f4;
+    border-radius: 80px;
+    width: 45%;
+    position: relative;
+    margin-top: 20px;
+    cursor: pointer;
+    .bb_kakaoIcon {
+      padding: 3px;
 
+      img {
+        border-radius: 50px;
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}
+.bb_plus {
+  display: none;
+}
+
+// 짐보관 이용안내
+
+.bb_container2 {
+  // background-color: $background-maincolor;
+  width: 100%;
+  padding-bottom: 6%;
+  padding-top: 2%;
+  .bb_inner {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .bb_title2 {
+      padding-top: 6%;
+      display: flex;
+      gap: 10px;
+      line-height: 40px;
+      padding-bottom: 3%;
+      .bb_titleLine {
+        width: 3px;
+        height: 35px;
+        background-color: $main-color;
+      }
+      .bb_title_txt2 h1 {
+        font-size: 30px;
+        font-weight: bold;
+      }
+      .bb_title_txt2 p {
+        font-size: 20px;
+      }
+    }
+  }
   // 1. 파란 헤더행 (.bb_priceInfoMenu)
   .bb_priceInfoMenu > ul {
     display: flex;
@@ -629,9 +626,9 @@ import bb_container1 from "../../components/bb_container1.vue"
       text-align: center;
     }
     .bb_title_txt2 p {
-              font-family: "omyu_pretty";
-    font-size: 25px;
-    color: #5a5a5a;
+      font-family: "omyu_pretty";
+      font-size: 25px;
+      color: #5a5a5a;
     }
   }
   // 3. font-size 등 미세 조정용
@@ -702,7 +699,7 @@ import bb_container1 from "../../components/bb_container1.vue"
       border-radius: $radius;
       // border: $main-color solid 1px;
       padding: 2%;
-              margin-bottom: 15px;
+      margin-bottom: 15px;
       .bb_priceInfoTop {
         .bb_priceInfoTime {
           width: 22%;
@@ -728,8 +725,7 @@ import bb_container1 from "../../components/bb_container1.vue"
       }
       .bb_priceInfoBottom {
         .bb_priceInfoMenu {
-
-          background-color: #279BF4;
+          background-color: #279bf4;
           width: 100%;
           padding: 10px;
           border-radius: 20px;
@@ -807,9 +803,9 @@ import bb_container1 from "../../components/bb_container1.vue"
   // height: 110vh;
   padding: 6% 0 1% 0;
   .bb_inner {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
     // 타이틀
     .bb_title3 {
       padding-bottom: 4%;
@@ -828,8 +824,8 @@ import bb_container1 from "../../components/bb_container1.vue"
     }
   }
 }
-:deep(.bb_buttonBorder){
-   width: 100% !important;
+:deep(.bb_buttonBorder) {
+  width: 100% !important;
   max-width: 1100px !important;
   flex: 0 0 auto !important;
   margin: 0 auto !important;
@@ -961,8 +957,8 @@ import bb_container1 from "../../components/bb_container1.vue"
         background-color: $main-color;
       }
       .bb_title_txt3 {
-          font-family: "omyu_pretty";
-    font-size: 40px;
+        font-family: "omyu_pretty";
+        font-size: 40px;
       }
     }
   }

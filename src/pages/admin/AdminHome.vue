@@ -26,14 +26,14 @@ const openHanmberger = () => {
 const links = [
   { name: "대시보드", path: "/admin/dashboard", icon: "fas fa-chart-line" },
   {
-    name: "가방운반예약",
+    name: "예약관리",
     path: "/admin/reservations",
     icon: "fas fa-suitcase",
   },
-  { name: "운반기사관리", path: "/admin/workers", icon: "fas fa-user-tie" },
+  { name: "기사관리", path: "/admin/workers", icon: "fas fa-user-tie" },
   { name: "고객관리", path: "/admin/customers", icon: "fas fa-users" },
   {
-    name: "매출현황관리",
+    name: "매출관리",
     path: "/admin/SaleStatus",
     icon: "fas fas fa-dollar-sign",
   },
@@ -57,10 +57,10 @@ const logout = () => {
         <!-- top-->
         <div
           @click="openHanmberger"
-          class="bb flex justify-between items-center p-4 px-10 md:justify-center border-b md:-ml-8 border-black bg-white dark:border-gray-700 dark:bg-gray-800">
+          class="bb w-64 flex justify-between items-center p-4 px-10 md:justify-center border-b md:-ml-8 border-black bg-white dark:border-gray-700 dark:bg-gray-800">
           <h1
-            class="w-[130px] md:w-full text-xl text-center py-4 md:p-4 pl-0 -ml-1 font-bold dark:text-white">
-            관리자 대시보드
+            class="w-[110px] md:w-full ml-2 text-2xl text-center py-4 md:p-4 pl-0 font-bold dark:text-white">
+            관리자
           </h1>
           <i
             class="block mr-1.5 md:hidden first-line:w-8 fas fa-bars cursor-pointer hover:bg-gray-100 p-1.5 rounded-lg dark:text-white"></i>

@@ -1,15 +1,16 @@
 <template>
   <!-- 예약 현황 -->
-  <div class="bg-white rounded-lg shadow dark:bg-gray-600">
+  <div class="bg-white rounded-lg shadow dark:bg-gray-800">
     <!-- 운반 예약 현황 타이틀  -->
-    <div class="p-4 pb-0 border-b border-gray-200">
+    <div
+      class="p-4 border-b border-gray-200 dark:border-white/20 dark:bg-gray-800 rounded-t-lg">
       <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
-        운반 예약 현황
+        예약 목록
       </h2>
     </div>
     <!-- 검색 select바 -->
     <div
-      class="p-4 py-6 font-light text-gray-500 dark:text-black text-sm border-b border-gray-200 flex flex-col md:flex-row gap-4">
+      class="p-4 py-2 font-light text-gray-500 dark:text-black text-sm border-b border-gray-200 flex flex-col md:flex-row gap-4">
       <div
         class="flex flex-wrap md:flex-row justify-center md:justify-start gap-2 items-center">
         <!-- 날짜 시작 끝 선택
@@ -18,23 +19,26 @@
           v-model:endDate="item.endDate" /> -->
         <!-- 날짜 선택 일일이 선택 -->
         <SearchDateSelect
-          class="p-2"
-          v-model="item.rangeType"
-          v-model:startDate="item.startDate"
-          v-model:endDate="item.endDate"
-          @change="onRangeChange(index)" />
+        class="p-2"
+        v-model="items[index].rangeType"
+        v-model:startDate="items[index].startDate"
+        v-model:endDate="items[index].endDate"
+        @change="() => updateDateRange(index)"
+      />
         <!-- 오늘/주/한달 선택  -->
-        <SearchSelect v-model="date" :options="dateOptions" />
+        <SearchSelect v-model="date" :options="dateOptions" @change="onDateChange" />
         <SearchSelect
           label="픽업위치"
           v-model="pickup"
-          :options="pickupOptions" />
-        <SearchSelect label="담당지역" v-model="area" :options="areaOptions" />
+          :options="pickupOptions"
+          @change="onPickupChange" />
+        <!-- <SearchSelect label="담당지역" v-model="area" :options="areaOptions" /> -->
         <SearchSelect
           label="운반상태"
           v-model="status"
           :options="statusOptions" />
         <button
+          @click="onSearch"
           class="w-[35px] h-[35px] bg-indigo-600 dark:bg-indigo-300 text-white dark:text-black rounded-md hover:bg-indigo-700">
           검색
         </button>
@@ -44,7 +48,7 @@
     <!-- 운반 메뉴바  -->
     <div class="overflow-x-auto">
       <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-100">
           <tr class="hover:bg-gray-50">
             <th
               class="hidden md:block px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -127,17 +131,14 @@
               <span
                 :class="getStatusClass(reservation.status)"
                 class="py-1.5 px-2 text-xs leading-5 font-semibold rounded-xl"
-                style="width: 50px; height: 25px"
-                >
-                {{ reservation.status }}
+                style="width: 50px; height: 25px">
+                {{ getStatusText(reservation.status) }}
               </span>
             </td>
             <td class="statusRound hidden px-6 py-4 whitespace-nowrap">
               <span
                 :class="getStatusClass(reservation.status)"
-                class="w-3 h-3 inline-block rounded-full"
-                >
-              </span>
+                class="w-3 h-3 inline-block rounded-full"></span>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
               {{ reservation.worker }}
@@ -145,7 +146,7 @@
             <td
               class="max-[768px]:hidden px-6 py-4 whitespace-nowrap text-sm font-medium">
               <button
-                @click="showReservationDetails(reservation)"
+                @click.stop="showReservationDetails(reservation)"
                 class="text-indigo-600 hover:text-indigo-900 mr-3">
                 상세
               </button>
@@ -188,7 +189,6 @@
                       v-model="selectedReservation.status"
                       class="flex-1 border border-gray-300 rounded-md px-3 py-2 text-gray-700 focus:ring-indigo-500 focus:border-indigo-500">
                       <option value="대기중">대기중</option>
-                      <option value="기사배정">기사배정</option>
                       <option value="운반중">운반중</option>
                       <option value="완료">완료</option>
                       <option value="취소">취소</option>
@@ -527,7 +527,7 @@
           </div>
 
           <!-- 페이지네이션 -->
-          <div class="flex justify-between items-center mt-8 ">
+          <div class="flex justify-between items-center mt-8">
             <div class="text-sm text-gray-700 dark:text-white">
               총
               <span class="font-medium dark:text-white">{{
@@ -567,77 +567,116 @@
       </div>
     </div>
     <!-- 페이지네이션 -->
+   <div
+    class="w-full px-4 py-4 md:flex items-center justify-between border-t border-gray-200 sm:px-6"
+  >
+    <div class="justify-between hidden">
+      <button
+        @click="prevPage"
+        :disabled="currentPage === 1"
+        class="relative inline-flex md:hidden items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >
+        이전
+      </button>
+      <button
+        @click="nextPage"
+        :disabled="currentPage === totalPages"
+        class="ml-3 relative inline-flex md:hidden items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+      >
+        다음
+      </button>
+    </div>
+
     <div
-      class="w-full px-4 py-4 md:flex items-center justify-between border-t border-gray-200 sm:px-6">
-      <div class="justify-between hidden">
+      class="w-full flex justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-center sm:justify-between"
+    >
+      <!-- 총~표시 -->
+      <div class="hidden sm:block">
+        <p class="text-sm text-gray-700 dark:text-white">
+          총 <span class="font-medium">{{ totalItems }}</span
+          >개 예약
+          <span class="font-medium">{{
+            (currentPage - 1) * itemsPerPage + 1
+          }}</span
+          >-
+          <span class="font-medium">{{
+            Math.min(currentPage * itemsPerPage, totalItems)
+          }}</span
+          >개 표시
+        </p>
+      </div>
+
+      <!-- 페이지네이션부분 -->
+      <div class="flex gap-2 dark:text-white">
+        <!-- 처음 페이지로 이동 -->
+        <button
+          @click="goToFirstPage"
+          :disabled="currentPage === 1"
+          class="px-3 py-1 border border-gray-300 rounded dark:text-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          &laquo;
+        </button>
+
+        <!-- 이전 페이지 -->
         <button
           @click="prevPage"
           :disabled="currentPage === 1"
-          class="relative inline-flex md:hidden items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-          이전
+          class="px-3 py-1 border border-gray-300 rounded dark:text-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <i class="fas fa-chevron-left"></i>
         </button>
+
+        <!-- 5개 페이지 번호만 표시 -->
+        <button
+          v-for="page in displayedPages"
+          :key="page"
+          @click="goToPage(page)"
+          class="px-3 py-1 border rounded"
+          :class="[
+            currentPage === page
+              ? 'bg-indigo-600  text-white border-indigo-600'
+              : 'border-gray-300  text-gray-500 dark:text-gray-300 hover:bg-gray-50 hover:text-gray-700',
+          ]"
+        >
+          {{ page }}
+        </button>
+
+        <!-- 다음 페이지 -->
         <button
           @click="nextPage"
           :disabled="currentPage === totalPages"
-          class="ml-3 relative inline-flex md:hidden items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-          다음
+          class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <!-- 마지막 페이지로 이동 -->
+        <button
+          @click="goToLastPage"
+          :disabled="currentPage === totalPages"
+          class="px-3 py-1 border border-gray-300 rounded dark:text-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          &raquo;
         </button>
       </div>
-      <div
-        class="w-full flex justify-between items-center max-[768px]:flex-1 max-[768px]:flex max-[768px]:items-center max-[768px]:justify-center sm:justify-between">
-        <!-- 총~표시 -->
-        <div class="hidden sm:block">
-          <p class="text-sm text-gray-700 dark:text-white">
-            총 <span class="font-medium">{{ totalItems }}</span
-            >개 예약
-            <span class="font-medium">{{
-              (currentPage - 1) * itemsPerPage + 1
-            }}</span
-            >-
-            <span class="font-medium">{{
-              Math.min(currentPage * itemsPerPage, totalItems)
-            }}</span
-            >개 표시
-          </p>
-        </div>
-        <!-- 페이지네이션부분 -->
-        <div class="flex gap-2 dark:text-white">
-          <button
-            @click="prevPage"
-            :disabled="currentPage === 1"
-            class="px-3 py-1 border border-gray-300 rounded dark:text-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <button
-            v-for="page in totalPages"
-            :key="page"
-            @click="goToPage(page)"
-            class="px-3 py-1 border rounded"
-            :class="[
-              currentPage === page
-                ? 'bg-indigo-600  text-white border-indigo-600'
-                : 'border-gray-300  text-gray-500 dark:text-gray-300 hover:bg-gray-50 hover:text-gray-700',
-            ]">
-            {{ page }}
-          </button>
-          <button
-            @click="nextPage"
-            :disabled="currentPage === totalPages"
-            class="px-3 py-1 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-        </div>
-      </div>
     </div>
+  </div>
   </div>
 </template>
 
 <script setup>
 import SearchSelect from "./SearchSelect.vue";
 import SearchDateSelect from "./SearchDateSelect.vue";
-import { ref, computed, nextTick } from "vue";
+import { ref, computed, nextTick, watch } from "vue";
 import { reactive } from "vue";
 import { format, addDays, subMonths } from "date-fns";
+import { useAppStore } from "@/stores/useAppStore";
+import { storeToRefs } from 'pinia';
+const appStore = useAppStore();
+
+// reservations는 ref로 되어 있으니 storeToRefs로 분리하거나 직접 접근 가능
+const { reservations } = storeToRefs(appStore);
+
 const selectedReservation = ref(null);
 const showCancelModal = ref(false);
 const reservationToCancel = ref(null);
@@ -645,24 +684,25 @@ const searchQuery = ref("");
 const statusFilter = ref("all");
 
 // 기준 설정
-const date = ref("오늘");
+const date = ref("today");
 const pickup = ref("all");
 const area = ref("all");
 const status = ref("all");
 const sortBy = ref("date-desc");
 // 기준일 선택
 const dateOptions = [
-  { value: "all", label: "오늘" },
-  { value: "오늘", label: "오늘" },
-  { value: "일주일", label: "일주일" },
-  { value: "한달", label: "한달" },
+  { value: "today", label: "오늘" },
+  { value: "week", label: "일주일" },
+  { value: "month", label: "한달" },
+  { value: "all", label: "전체" },
 ];
 // 날짜선택
-
 const item = ref({
-  rangeType: "today",
-  startDate: "2025-05-20",
-  endDate: "2025-05-20",
+  rangeType: "today",        // 선택된 기간 (today/week/month/all)
+  startDate: "2025-05-30",   // 시작일
+  endDate: "2025-05-30",     // 종료일
+  pickup: "all",             // 선택된 픽업위치
+  area: "all",               // 선택된 담당지역
 });
 
 // 픽업위치
@@ -672,6 +712,8 @@ const pickupOptions = [
   { value: "동대구역", label: "동대구역" },
   { value: "서대구역", label: "서대구역" },
 ];
+
+
 // 담당지역
 const areaOptions = [
   { value: "all", label: "담당지역" },
@@ -684,18 +726,13 @@ const areaOptions = [
 const statusOptions = [
   { value: "all", label: "운반상태" },
   { value: "waiting", label: "대기중" },
-  { value: "assigned", label: "기사배정" },
   { value: "in_progress", label: "운반중" },
   { value: "completed", label: "완료" },
   { value: "cancelled", label: "취소" },
 ];
 
-const formatDate = (date) => format(date, "yyyy-MM-dd");
+
 const formatDate1 = (date) => format(date, "MM/dd");
-
-
-
-
 
 const items = reactive([
   {
@@ -704,34 +741,70 @@ const items = reactive([
     endDate: formatDate(new Date()),
   },
 ]);
+const index = 0
 // 날짜 설정 오늘 일주일 한달 전체
 const onRangeChange = (index) => {
-  updateDateRange(index);
-};
+  console.log('Range changed for index:', index)
+}
+// 픽업 위치 변경 핸들러
+function onPickupChange() {
+  console.log("픽업위치 변경:", pickup.value);
+}
 
-const updateDateRange = (index) => {
-  const item = items[index];
-  const today = new Date();
+
+// 검색 버튼 클릭 핸들러
+function onSearch() {
+  if (!items[index].startDate || !items[index].endDate) {
+    alert("시작일과 종료일을 모두 선택해주세요.");
+    return;
+  }
+
+  const filterPayload = {
+    startDate: items[index].startDate,
+    endDate: items[index].endDate,
+    rangeType: items[index].rangeType,
+    pickup: pickup.value,
+    status: statusFilter.value,
+    date: date.value,
+  };
+
+  console.log("🔍 검색 필터:", filterPayload);
+}
+
+
+
+function formatDate(date) {
+  return format(date, 'yyyy-MM-dd') // 예: 2025-05-28
+}
+ function updateDateRange(index) {
+  const item = items.value[index]
+  const today = new Date()
 
   switch (item.rangeType) {
-    case "today":
-      item.startDate = formatDate(today);
-      item.endDate = formatDate(today);
-      break;
-    case "week":
-      item.startDate = formatDate(addDays(today, -7));
-      item.endDate = formatDate(today);
-      break;
-    case "month":
-      item.startDate = formatDate(subMonths(today, 1));
-      item.endDate = formatDate(today);
-      break;
-    case "all":
-      item.startDate = "";
-      item.endDate = "";
-      break;
+    case 'today':
+      item.startDate = formatDate(today)
+      item.endDate = formatDate(today)
+      break
+    case 'week':
+      item.startDate = formatDate(addDays(today, -7))
+      item.endDate = formatDate(today)
+      break
+    case 'month':
+      item.startDate = formatDate(subMonths(today, 1))
+      item.endDate = formatDate(today)
+      break
+    case 'all':
+      item.startDate = ''
+      item.endDate = ''
+      break
   }
-};
+}
+// 오늘/주/한달/전체 선택 변경 핸들러
+function onDateChange(selectedValue) {
+  date.value = selectedValue;
+  items[index].rangeType = selectedValue;
+  updateDateRange(index);
+}
 // 지역별 담당구역
 const pickupArea = reactive([
   {
@@ -1013,340 +1086,25 @@ const saveReservation = () => {
     alert("필수 항목을 모두 입력해주세요.");
     return;
   }
+  if (
+    !customerName &&
+    !phone &&
+    !date &&
+    !time &&
+    !startLocation &&
+    !endLocation &&
+    !area &&
+    !status &&
+    !workerId
+  ) {
+    errors.value.general = "필수 항목이 모두 입력되지 않았습니다.";
+  }
 
   // 저장 로직 구현
   console.log("저장된 예약 정보:", selectedReservation.value);
   closeModal();
 };
 
-const reservations = ref([
-  {
-    id: "#1001",
-    customerName: "김철수",
-    phone: "010-1234-1001",
-    bagCount: "2",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-05-31",
-    time: "10:00",
-    status: "대기중",
-    worker: "김지훈",
-    specialRequests: "특별 취급 가방 1개 포함",
-  },
-  {
-    id: "#1002",
-    customerName: "박영희",
-    phone: "010-1234-1002",
-    bagCount: "3",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-01",
-    time: "09:00",
-    status: "운반중",
-    worker: "이수민",
-    specialRequests: "휠체어 포함",
-  },
-  {
-    id: "#1003",
-    customerName: "이민수",
-    phone: "010-1234-1003",
-    bagCount: "4",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-01",
-    time: "13:00",
-    status: "완료",
-    worker: "박서준",
-    specialRequests: "빠른 운반 요청",
-  },
-  {
-    id: "#1004",
-    customerName: "최지혜",
-    phone: "010-1234-1004",
-    bagCount: "1",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-02",
-    time: "15:30",
-    status: "대기중",
-    worker: "한예슬",
-    specialRequests: "",
-  },
-  {
-    id: "#1005",
-    customerName: "정유진",
-    phone: "010-1234-1005",
-    bagCount: "3",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-03",
-    time: "08:00",
-    status: "운반중",
-    worker: "정우성",
-    specialRequests: "고가 장비 포함",
-  },
-  {
-    id: "#1006",
-    customerName: "윤성호",
-    phone: "010-1234-1006",
-    bagCount: "5",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-03",
-    time: "16:00",
-    status: "완료",
-    worker: "김태희",
-    specialRequests: "유아용 카시트 포함",
-  },
-  {
-    id: "#1007",
-    customerName: "장하늘",
-    phone: "010-1234-1007",
-    bagCount: "1",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-04",
-    time: "11:00",
-    status: "대기중",
-    worker: "이준호",
-    specialRequests: "취급 주의: 깨지기 쉬움",
-  },
-  {
-    id: "#1008",
-    customerName: "백지원",
-    phone: "010-1234-1008",
-    bagCount: "2",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-05",
-    time: "14:00",
-    status: "운반중",
-    worker: "유인나",
-    specialRequests: "",
-  },
-  {
-    id: "#1009",
-    customerName: "오하영",
-    phone: "010-1234-1009",
-    bagCount: "1",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-05",
-    time: "18:00",
-    status: "완료",
-    worker: "이병헌",
-    specialRequests: "무거운 짐 주의",
-  },
-  {
-    id: "#1010",
-    customerName: "김영수",
-    phone: "010-1234-1010",
-    bagCount: "3",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-06",
-    time: "09:30",
-    status: "대기중",
-    worker: "한가인",
-    specialRequests: "냉장 보관 요청",
-  },
-  {
-    id: "#1011",
-    customerName: "송지은",
-    phone: "010-1234-1011",
-    bagCount: "2",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-06",
-    time: "12:00",
-    status: "운반중",
-    worker: "정해인",
-    specialRequests: "",
-  },
-  {
-    id: "#1012",
-    customerName: "노현우",
-    phone: "010-1234-1012",
-    bagCount: "1",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-07",
-    time: "10:00",
-    status: "완료",
-    worker: "고아라",
-    specialRequests: "고가 장비 포함",
-  },
-  {
-    id: "#1013",
-    customerName: "황지민",
-    phone: "010-1234-1013",
-    bagCount: "6",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-08",
-    time: "08:30",
-    status: "대기중",
-    worker: "남주혁",
-    specialRequests: "대형 가방 2개 포함",
-  },
-  {
-    id: "#1014",
-    customerName: "배진수",
-    phone: "010-1234-1014",
-    bagCount: "2",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-08",
-    time: "14:30",
-    status: "운반중",
-    worker: "전지현",
-    specialRequests: "",
-  },
-  {
-    id: "#1015",
-    customerName: "이선호",
-    phone: "010-1234-1015",
-    bagCount: "1",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-09",
-    time: "16:30",
-    status: "완료",
-    worker: "송중기",
-    specialRequests: "",
-  },
-  {
-    id: "#1016",
-    customerName: "조은비",
-    phone: "010-1234-1016",
-    bagCount: "2",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-10",
-    time: "11:15",
-    status: "대기중",
-    worker: "김지훈",
-    specialRequests: "우산 포함",
-  },
-  {
-    id: "#1017",
-    customerName: "구본혁",
-    phone: "010-1234-1017",
-    bagCount: "1",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-10",
-    time: "13:45",
-    status: "운반중",
-    worker: "이수민",
-    specialRequests: "",
-  },
-  {
-    id: "#1018",
-    customerName: "임하늘",
-    phone: "010-1234-1018",
-    bagCount: "1",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-11",
-    time: "10:45",
-    status: "완료",
-    worker: "박서준",
-    specialRequests: "",
-  },
-  {
-    id: "#1019",
-    customerName: "양진아",
-    phone: "010-1234-1019",
-    bagCount: "2",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-11",
-    time: "15:00",
-    status: "대기중",
-    worker: "한예슬",
-    specialRequests: "우산 포함",
-  },
-  {
-    id: "#1020",
-    customerName: "최은석",
-    phone: "010-1234-1020",
-    bagCount: "3",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-12",
-    time: "09:00",
-    status: "운반중",
-    worker: "정우성",
-    specialRequests: "",
-  },
-  {
-    id: "#1021",
-    customerName: "문지호",
-    phone: "010-1234-1021",
-    bagCount: "2",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-13",
-    time: "10:30",
-    status: "완료",
-    worker: "김태희",
-    specialRequests: "냉장 보관 요청",
-  },
-  {
-    id: "#1022",
-    customerName: "이경아",
-    phone: "010-1234-1022",
-    bagCount: "3",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-14",
-    time: "12:30",
-    status: "대기중",
-    worker: "이준호",
-    specialRequests: "특별 취급 가방 1개 포함",
-  },
-  {
-    id: "#1023",
-    customerName: "홍기훈",
-    phone: "010-1234-1023",
-    bagCount: "4",
-    location: "동대구역",
-    location1: "동대구",
-    date: "2025-06-15",
-    time: "14:15",
-    status: "운반중",
-    worker: "유인나",
-    specialRequests: "",
-  },
-  {
-    id: "#1024",
-    customerName: "강지민",
-    phone: "010-1234-1024",
-    bagCount: "5",
-    location: "서대구역",
-    location1: "서대구",
-    date: "2025-06-15",
-    time: "17:00",
-    status: "완료",
-    worker: "이병헌",
-    specialRequests: "대형 가방 2개 포함",
-  },
-  {
-    id: "#1025",
-    customerName: "조윤서",
-    phone: "010-1234-1025",
-    bagCount: "1",
-    location: "대구공항",
-    location1: "공항",
-    date: "2025-06-16",
-    time: "10:00",
-    status: "대기중",
-    worker: "한가인",
-    specialRequests: "",
-  },
-]);
-// 예약 상세 모달 date
 const formattedPreferredDate = computed(() => {
   if (!selectedReservation.value.preferredDateTime) return "";
   return format(
@@ -1358,19 +1116,21 @@ const formattedPreferredDate = computed(() => {
 // 페이지네이션 관련 상태
 const currentPage = ref(1);
 const itemsPerPage = ref(5);
-const totalItems = ref(25);
+const totalItems = ref(120);
 
 // 페이지네이션 계산
-const totalPages = computed(() => {
-  return Math.ceil(filteredReservations.value.length / itemsPerPage.value);
-});
+// 총 페이지 수
+const totalPages = computed(() =>
+  Math.ceil(filteredReservations.value.length / itemsPerPage.value)
+);
 
+
+// 페이지 이동 함수들
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
     currentPage.value = page;
   }
 };
-
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
@@ -1382,12 +1142,40 @@ const prevPage = () => {
     currentPage.value--;
   }
 };
+
+const goToFirstPage = () => {
+  currentPage.value = 1;
+};
+
+const goToLastPage = () => {
+  currentPage.value = totalPages.value;
+};
+// 현재 페이지 데이터
 const pagedReservations = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage.value;
-  const end = start + itemsPerPage.value;
-  return reservations.value.slice(start, end);
+  return filteredReservations.value.slice(start, start + itemsPerPage.value);
+});
+// 표시할 페이지 번호 배열 (최대 5개)
+// 1~totalPages 범위에서 현재 페이지 중심으로 최대 5페이지 번호 표시
+const displayedPages = computed(() => {
+  const total = totalPages.value;
+  let start = Math.max(currentPage.value - 2, 1);
+  let end = start + 4;
+
+  if (end > total) {
+    end = total;
+    start = Math.max(end - 4, 1);
+  }
+
+  const pages = [];
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  return pages;
 });
 
+
+// 필터
 const filteredReservations = computed(() => {
   let result = [...reservations.value];
 
@@ -1396,15 +1184,41 @@ const filteredReservations = computed(() => {
     const query = searchQuery.value.toLowerCase();
     result = result.filter(
       (r) =>
-        r.user.toLowerCase().includes(query) || r.id.toString().includes(query)
+        r.customerName.toLowerCase().includes(query) ||
+        r.id.toString().includes(query)
     );
   }
 
-  // 상태 필터링
-  if (statusFilter.value !== "all") {
-    result = result.filter((r) => r.status === statusFilter.value);
+  // 픽업위치 필터링 추가 ⭐️⭐️⭐️
+  if (pickup.value && pickup.value !== "all") {
+    result = result.filter((r) => r.location === pickup.value);
   }
 
+  // 상태 필터링
+ if (statusFilter.value !== "all") {
+  result = result.filter((r) => r.status === statusFilter.value);
+}
+
+  // 날짜 필터링 (필요 시 추가)
+   if (date.value && date.value !== "") {
+  const today = new Date();
+  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  let dateLimit;
+
+  if (date.value === "오늘") {
+    result = result.filter((r) => {
+      const rDate = new Date(r.date);
+      return rDate >= todayStart && rDate < new Date(todayStart.getTime() + 24 * 60 * 60 * 1000);
+    });
+  } else if (date.value === "일주일") {
+    dateLimit = new Date(todayStart.getTime() - 7 * 24 * 60 * 60 * 1000);
+    result = result.filter((r) => new Date(r.date) >= dateLimit);
+  } else if (date.value === "한달") {
+    dateLimit = new Date(todayStart);
+    dateLimit.setMonth(dateLimit.getMonth() - 1);
+    result = result.filter((r) => new Date(r.date) >= dateLimit);
+  }
+}
   // 정렬
   switch (sortBy.value) {
     case "date-asc":
@@ -1414,26 +1228,16 @@ const filteredReservations = computed(() => {
       result.sort((a, b) => new Date(b.date) - new Date(a.date));
       break;
     case "name-asc":
-      result.sort((a, b) => a.user.localeCompare(b.user));
+      result.sort((a, b) => a.customerName.localeCompare(b.customerName));
       break;
   }
 
   return result;
 });
 
-// const formatDate = (date) => {
-//   return new Date(date).toLocaleDateString("ko-KR", {
-//     year: "numeric",
-//     month: "long",
-//     day: "numeric",
-//     weekday: "long",
-//   });
-// };
-
 const getStatusText = (status) => {
   const statusMap = {
     waiting: "대기중",
-    assigned: "기사배정",
     in_progress: "운반중",
     completed: "완료",
     cancelled: "취소",
@@ -1447,7 +1251,6 @@ const getStatusClass = (status) => {
     운반중: "bg-blue-100 text-blue-800",
     완료: "bg-green-100 text-green-800",
     취소: "bg-red-100 text-red-800",
-    기사배정: "bg-purple-100 text-purple-800",
   };
   return statusClasses[status] || "bg-gray-100 text-gray-800";
 };
@@ -1466,6 +1269,7 @@ const showReservationDetails = (reservation) => {
       reservation.preferredDateTime || new Date().toISOString().slice(0, 16),
     photos: reservation.photos || [],
     requirements: reservation.requirements || "",
+    status: reservation.status || "",
     memo: reservation.memo || "",
     technician: reservation.technician || null,
   };
@@ -1478,6 +1282,7 @@ const showReservationDetails = (reservation) => {
 
 const closeModal = () => {
   selectedReservation.value = null;
+  showCancelModal.value = false;
   document.body.style.overflow = "";
 };
 
@@ -1508,6 +1313,7 @@ function handleInput(event) {
   searchQuery.value = event.target.value;
 }
 </script>
+
 <style scoped>
 @media screen and (max-width: 1070px) {
   th {
@@ -1536,7 +1342,7 @@ function handleInput(event) {
   .statusRound {
     display: block;
   }
-  .statusTd{
+  .statusTd {
     display: none;
   }
   .num {
@@ -1544,6 +1350,6 @@ function handleInput(event) {
   }
   .bbb {
     font-size: 12px;
-  }  
+  }
 }
 </style>

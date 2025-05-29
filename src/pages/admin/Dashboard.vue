@@ -1,15 +1,15 @@
 <template>
   <div class="space-y-6">
     <h1
-      class="text-3xl text-center md:text-left font-bold text-gray-800 dark:text-white">
-      가방 운반 관리 대시보드
+      class="text-2xl text-center md:text-left font-bold text-gray-800 dark:text-white">
+    대시보드
     </h1>
 
     <!-- 통계 카드 -->
     <!-- 예약카드 -->
     <div class="grid grid-rows-1 md:w-full grid-cols-3 gap-6">
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center">
           <div class="icon-box p-3 rounded-full bg-blue-100 text-blue-600">
             <i class="suitcase fas fa-suitcase text-2xl"></i>
@@ -42,7 +42,7 @@
       </div>
       <!-- 기사카드 -->
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center">
           <div
             class="icon-box p-3 rounded-full bg-green-100 text-green-600 dark:text-green-300">
@@ -64,7 +64,7 @@
       </div>
       <!-- 만족도카드 -->
       <div
-        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-600">
+        class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow dark:bg-gray-800">
         <div class="flex items-center">
           <div class="icon-box p-3 rounded-full bg-gray-300 text-yellow-600">
             <i class="star fas fa-star text-2xl"></i>
@@ -95,10 +95,13 @@
     <!-- 예약추이와 매출현황 차트 -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
       <!-- 차트 -->
-      <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-600">
-        <h2 class="text-lg font-semibold text-gray-800 mb-4 dark:text-white">
+      <div class="bg-white rounded-lg shadow p-6 dark:bg-gray-800">
+        <h2 class="text-lg font-semibold text-gray-800 dark:text-white">
           예약 추이
         </h2>
+        <p class="text-sm text-gray-600 mb-4 dark:text-white">
+        최근 6개월간 예약 추이를 확인할 수 있습니다.
+      </p>
         <div class="h-64">
           <Chart />
         </div>

@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+ 
 
 export const useAppStore = defineStore("app", () => {
+  
   // 다크모드 설정 (기본값: true)
   const isDarkMode = ref(true);
 
