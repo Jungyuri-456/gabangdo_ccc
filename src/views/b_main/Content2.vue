@@ -16,6 +16,20 @@
         :slides-per-view="3.5"
         :space-between="30"
         :modules="[Pagination]"
+        :breakpoints="{
+          320: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
+        }"
         class="mySwiper">
         <!-- 리뷰카드1 -->
         <swiper-slide>
@@ -141,87 +155,160 @@ import { Pagination } from "swiper/modules";
 </script>
 <style lang="scss" scoped>
 @use "/src/assets/Variables" as *;
+
 .widthAllBg {
   margin-top: 150px;
-  // .blockgr{
-  //       background: linear-gradient(to bottom, #f2f2f2, #ffffff);
-  //       height: 70px; // 필요에 따라 조정
-  //       margin-top: 90px;
-  //     }
-  // background: linear-gradient(
-  //   to bottom,
-  //   #f3f3f3,
-  //   #fff
-  // ); // 회색(#ccc) → 하얀색(#fff)
-  // height: 100vh;
+
+  @media screen and (max-width: 635px) {
+    margin-top: 80px;
+  }
 
   .inner {
     display: flex;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 0 20px;
+
+    @media screen and (max-width: 1024px) {
+      flex-direction: column;
+    }
 
     .title {
       width: 35%;
       display: flex;
-      flex-direction: column; /* 세로로 쌓이게 */
-      align-items: flex-start; /* 왼쪽 정렬 */
+      flex-direction: column;
+      align-items: flex-start;
+
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        margin-bottom: 40px;
+      }
 
       h2 {
         font-size: 35px;
         text-align: center;
         font-family: $font-family;
         padding-bottom: 5px;
+
+        @media screen and (max-width: 635px) {
+          font-size: 28px;
+        }
       }
+
       button {
         border: 1px solid #8b8b8b;
         border-radius: 30px;
         font-size: 20px;
-        padding: 5px;
-        padding-left: 15px;
-        padding-right: 15px;
+        padding: 5px 15px;
         color: #8b8b8b;
         margin-top: 50px;
+
+        @media screen and (max-width: 635px) {
+          font-size: 16px;
+          margin-top: 30px;
+        }
+
+        &:hover {
+          background-color: #8b8b8b;
+          color: #fff;
+        }
       }
-      button:hover {
-        background-color: #8b8b8b;
-        color: #fff;
-      }
+
       .grayLine {
         width: 80px;
         height: 5px;
         background-color: #8b8b8b;
         margin-top: 212px;
+
+        @media screen and (max-width: 1024px) {
+          display: none;
+        }
       }
+    }
+
+    :deep(.swiper) {
+      width: 65%;
+      padding: 20px 0;
+
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+      }
+
+      @media screen and (max-width: 635px) {
+        padding: 10px 0;
+      }
+    }
+
+    :deep(.swiper-slide) {
+      height: auto;
     }
 
     .Reviews {
       width: 100%;
-      height: 430px;
-      // background-color: #f0f0f0;
+      height: auto;
+      min-height: 430px;
       border: 3px solid #f0f0f0;
-
       padding: 4%;
       border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+
+      @media screen and (max-width: 1024px) {
+        min-height: 400px;
+      }
+
+      @media screen and (max-width: 635px) {
+        min-height: 380px;
+        padding: 3%;
+      }
+
       .cardImg {
+        position: relative;
+        width: 100%;
+        padding-top: 75%; // 4:3 비율 유지
+        margin-bottom: 15px;
+
         img {
+          position: absolute;
+          top: 0;
+          left: 0;
           width: 100%;
-          height: 280px;
+          height: 100%;
           border-radius: 5px;
+          object-fit: cover;
+          object-position: center;
         }
       }
+
       .name {
         font-size: 24px;
-        margin-top: 10px;
-        margin-bottom: 10px;
+        margin: 10px 0;
+        flex-shrink: 0;
+
+        @media screen and (max-width: 635px) {
+          font-size: 20px;
+          margin: 8px 0;
+        }
       }
+
       .Review {
         font-size: 15px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+
+        @media screen and (max-width: 635px) {
+          font-size: 14px;
+        }
+
         p {
+          font-family: "Pretendard";
           margin-bottom: 3px;
-          font-family: $font-ownglyph;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          line-height: 1.4;
         }
       }
     }

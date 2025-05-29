@@ -1,7 +1,7 @@
 <template>
-  <div class="w-[390px] m-auto">
+  <div class="w-[390px] m-auto h-screen flex flex-col">
     <!-- 상단 상태표시 -->
-    <div class="bg-gray-900 text-white p-4">
+    <div class="bg-gray-900 text-white p-4 flex-shrink-0">
       <!-- 이너 -->
       <div class="w-[350px] mx-auto">
         <!-- 헤더 -->
@@ -9,8 +9,10 @@
           <button>
             <router-link to="/worker/ddashboard">
               <div class="logo">
-                <img src="/public/images/yr/delivery/logoL.png" alt="로고"
-                class="w-15 h-5"/>
+                <img
+                  src="/public/images/yr/delivery/logoL.png"
+                  alt="로고"
+                  class="w-15 h-5" />
               </div>
             </router-link>
           </button>
@@ -45,7 +47,7 @@
               <p class="text-lg font-semibold underline underline-offset-4">
                 홍길동 기사님
               </p>
-           </router-link>
+            </router-link>
             <p class="text-sm text-gray-300">오늘도 안전 운행 하세요!</p>
           </div>
         </div>
@@ -75,24 +77,24 @@
         <button
           @click="showMap = !showMap"
           :class="[
-            'w-full text-white text-sm mt-4 py-2 rounded-lg flex justify-center items-center gap-1',
+            'w-full text-white text-sm mt-3 py-2 rounded-lg flex justify-center items-center gap-1',
             showMap
               ? 'bg-green-500 hover:bg-green-600'
               : 'bg-blue-500 hover:bg-blue-600',
           ]">
-          <img
+          <!-- <img
             src="/public/images/yr/delivery/map_icon.png"
             alt="지도 아이콘"
-            class="w-4 h-4" />
+            class="w-4 h-4" /> -->
           {{ showMap ? "지도 닫기" : "지도 보기" }}
         </button>
       </div>
     </div>
 
-    <KakaoMap v-if="showMap" />
+    <KakaoMap v-if="showMap" class="flex-shrink-0" />
 
     <!-- 버튼필터 -->
-    <div class="w-[390px] bg-gray-900 text-white py-4">
+    <div class="bg-gray-900 text-white py-4 flex-shrink-0">
       <!-- 내부 콘텐츠 wrapper (350px 고정) -->
       <div class="w-[350px] mx-auto">
         <!-- 상단 상태 탭 -->
@@ -107,194 +109,165 @@
               'pb-1',
               selectedStatus === status
                 ? 'text-blue-500 border-b-2 border-blue-500'
-                : 'border-b-2 border-gray-900',
+                : 'border-b-2 border-gray-900 mt-1',
             ]">
             {{ status }}
           </button>
         </div>
 
         <!-- 위치 탭 -->
-        <div class="flex gap-2 justify-center items-center">
-          <button
-            v-for="(location, index) in locationTabs"
-            :key="location"
-            @click="selectedLocation = location"
-            :class="[
-              'rounded-lg px-[20px] py-[10px] text-sm font-semibold shadow border',
-              index === 0
-                ? selectedLocation === location
-                  ? 'border-blue-400 text-blue-500 bg-white'
-                  : 'border-gray-300 text-gray-500 bg-white'
-                : index === 1
-                ? selectedLocation === location
-                  ? 'border-orange-400 text-orange-500 bg-white'
-                  : 'border-gray-300 text-gray-500 bg-white'
-                : selectedLocation === location
-                ? 'border-green-400 text-green-500 bg-white'
-                : 'border-gray-300 text-gray-500 bg-white',
-            ]">
-            {{ location }}
-          </button>
-        </div>
-
-        <!-- 필터링된 리스트 -->
-        <div class="mt-6 space-y-2">
-          <div
-            v-for="item in filteredData"
-            :key="item.id"
-            class="p-4 bg-gray-100 rounded-md">
-            {{ item.title }}
-            <span class="text-xs text-gray-500"
-              >({{ item.status }}, {{ item.location }})</span
-            >
-          </div>
-
-          <div
-            v-if="filteredData.length === 0"
-            class="text-center text-gray-400 mt-4">
-            해당 조건의 결과가 없습니다.
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 카드내용 -->
-    <div class="w-[390px] bg-gray-900 text-sm py-4">
-      <!-- 내부 콘텐츠 wrapper (350px 고정) -->
-
-      <div
-        class="w-[350px] mx-auto flex flex-col gap-3 mb-2"
-        v-for="(card, index) in dummyCards"
-        :key="index" @click="openModal(card)">
-        <!-- 카드 구조 -->
-        <div
-          class="card w-[350px] bg-white rounded-lg shadow flex items-center px-2 py-1 gap-3">
-          <!-- 시간 -->
-          <div
-            class="time text-red-500 text-sm  font-semibold w-[50px] ml-2">
-            {{ card.시간 }}
-          </div>
-
-          <!-- 상세내용 -->
-          <div class="detailContent flex flex-col gap-1 w-full">
-            <!-- detail1: 상태 원 + 이름 -->
-            <div class="detail1 flex items-center gap-2">
-              <div class="circle w-2 h-2 bg-green-500 rounded-full"></div>
-              <div class="name text-[15px] font-semibold">{{ card.이름 }}</div>
-            </div>
-
-            <!-- detail2: 사이즈 -->
-            <div class="detail2 text-[13px] text-blue-500">
-              {{ card.사이즈 }}사이즈 / {{ card.짐개수 }}개
-            </div>
-
-            <!-- detail3: 아이콘 + 주소 -->
-            <div class="detail3 flex items-center text-xs text-black-700 gap-1">
-              <div class="iconState">
-                <img
-                  src="/public/images/yr/delivery/home_icon.png"
-                  alt="집아이콘"
-                  class="w-4 h-4 text-green-600" />
-              </div>
-              <p class="truncate pt-1">{{ card.위치 }} 근처 주소...</p>
-            </div>
-          </div>
-
-          <!-- 오른쪽버튼 -->
-          <div class="rightButton flex items-center gap-3">
-            <!-- 전화버튼 -->
-            <button>
-              <div class="callbuttuon w-[35px] h-[90px] pt-[30px]">
-                <img
-                  src="/public/images/yr/delivery/phone_icon.png"
-                  alt="전화" />
-              </div>
+        <div class="flex gap-1 justify-end items-center">
+          <!-- 위치 버튼들 -->
+          <div class="flex gap-2">
+            <button
+              v-for="(location, index) in locationTabs"
+              :key="location"
+              @click="selectedLocation = location"
+              :class="[
+                'rounded-lg w-[80px] py-[10px] text-sm font-semibold shadow border',
+                index === 0
+                  ? selectedLocation === location
+                    ? 'border-blue-400 text-blue-500 bg-white'
+                    : 'border-gray-300 text-gray-500 bg-white'
+                  : index === 1
+                  ? selectedLocation === location
+                    ? 'border-orange-400 text-orange-500 bg-white'
+                    : 'border-gray-300 text-gray-500 bg-white'
+                  : selectedLocation === location
+                  ? 'border-green-400 text-green-500 bg-white'
+                  : 'border-gray-300 text-gray-500 bg-white',
+              ]">
+              {{ location }}
             </button>
+          </div>
 
-            <!-- 시작버튼 -->
-            <button>
+          <!-- 추가된 버튼 2개 -->
+          <div class="flex gap-2 ml-4">
+            <div class="relative inline-block">
+              <!-- 시계 아이콘 버튼 -->
+              <button
+                class="w-8 h-8 rounded-lg bg-green-500 text-sm flex items-center justify-center"
+                @click="showPopup = !showPopup">
+                <img
+                  src="/public/images/yr/delivery/clock_icon.png"
+                  alt="clock"
+                  class="p-1" />
+              </button>
+
+              <!-- 팝업 메뉴 -->
               <div
-                class="startButton bg-red-500 text-white text-sm w-[50px] h-[80px] rounded font-semibold flex items-center justify-center">
-                <p class="text">시작</p>
+                v-if="showPopup"
+                class="absolute top-full left-0 mt-1 w-[60px] bg-white border rounded shadow z-10 text-center text-black">
+                <button
+                  v-for="(time, index) in timeOptions"
+                  :key="index"
+                  @click="selectedTime = time"
+                  :class="[
+                    'w-full text-xs py-[4px]',
+                    selectedTime === time
+                      ? 'bg-blue-100 font-semibold text-blue-600'
+                      : '',
+                  ]">
+                  {{ time }}
+                </button>
               </div>
+            </div>
+            <button
+              @click="isAsc = !isAsc"
+              class="w-8 h-8 rounded-lg bg-blue-500 text-sm flex items-center justify-center p-0.5">
+              <img
+                :src="
+                  isAsc
+                    ? '/public/images/yr/delivery/asc_icon.png'
+                    : '/public/images/yr/delivery/desc_icon.png'
+                "
+                alt="정렬 아이콘" />
             </button>
           </div>
+        </div>
+
+        <!-- 시간, 오름차순 탭 -->
+      </div>
+    </div>
+
+    <!-- 카드 내용 -->
+    <div class="bg-gray-900 text-sm flex-1 overflow-hidden">
+      <div class="h-full overflow-y-auto custom-scrollbar">
+        <!-- 내부 콘텐츠 wrapper (350px 고정) -->
+        <div class="w-[350px] mx-auto py-4">
+          <!-- 1번째줄 탭버튼만 눌렀을때 -->
+          <CardWaiting v-if="selectedStatus === '전체'" />
+          <CardWaiting v-if="selectedStatus === '대기중'" />
+          <CardProceed v-if="selectedStatus === '진행중'" />
+          <CardComplete v-if="selectedStatus === '완료'" />
+
+          <!-- 1번째 2번째줄 혼합 -->
+          <!-- 전체 -->
+          <LocationAirportWaiting
+            v-if="selectedStatus === '전체' && selectedLocation === '공항'" />
+          <LocationSubwayWaiting
+            v-if="selectedStatus === '전체' && selectedLocation === '기차역'" />
+          <LocationHomeWaiting
+            v-if="selectedStatus === '전체' && selectedLocation === '숙소'" />
+
+          <!-- 대기중 -->
+          <LocationAirportWaiting
+            v-if="selectedStatus === '대기중' && selectedLocation === '공항'" />
+          <LocationSubwayWaiting
+            v-if="
+              selectedStatus === '대기중' && selectedLocation === '기차역'
+            " />
+          <LocationHomeWaiting
+            v-if="selectedStatus === '대기중' && selectedLocation === '숙소'" />
+
+          <!-- 진행중 -->
+          <LocationAirportProceed
+            v-if="selectedStatus === '진행중' && selectedLocation === '공항'" />
+          <LocationSubwayProceed
+            v-if="
+              selectedStatus === '진행중' && selectedLocation === '기차역'
+            " />
+          <LocationHomeProceed
+            v-if="selectedStatus === '진행중' && selectedLocation === '숙소'" />
+
+          <!-- 완료 -->
+          <LocationAirportComplete
+            v-if="selectedStatus === '완료' && selectedLocation === '공항'" />
+          <LocationSubwayComplete
+            v-if="selectedStatus === '완료' && selectedLocation === '기차역'" />
+          <LocationHomeComplete
+            v-if="selectedStatus === '완료' && selectedLocation === '숙소'" />
         </div>
       </div>
     </div>
   </div>
-    <!-- 모달 오버레이 -->
-  <div v-if="showModal" class="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-    <!-- 모달 박스 -->
-    <div class="bg-white rounded-xl w-[340px] p-5 shadow-lg text-sm">
-      <!-- 상태 -->
-      <div class="flex justify-between items-center mb-3">
-        <span class="text-gray-500 font-medium">작업상태</span>
-        <span class="text-green-600 bg-green-100 text-xs font-semibold px-3 py-1 rounded-full">대기중</span>
-      </div>
-
-      <!-- 정보 리스트 -->
-      <div class="space-y-2">
-        <InfoRow label="이름" value="홍길동" />
-        <InfoRow label="전화번호" value="010-1234-5678" />
-        <InfoRow label="시간" value="17:00" />
-        <InfoRow label="수화물" value="S사이즈 / 3개" />
-        <InfoRow label="위치/주소" value="대구 중구 국채보상로 2길 121번지 🏠" />
-      </div>
-
-      <!-- 요청사항 -->
-      <div class="bg-gray-100 p-3 rounded-md mt-4 text-gray-700 leading-relaxed">
-        <span class="font-medium text-gray-600">요청사항</span><br />
-        캐리어 안에 잘 깨지는 물건이 있어서<br />
-        조심히 부탁드립니다.
-      </div>
-
-      <!-- 닫기 버튼 -->
-      <div class="flex justify-end mt-4">
-        <button @click="showModal = false" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-1 rounded-md">
-          닫기
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 테스트용 모달 열기 버튼 -->
-  <button @click="showModal = true" class="mt-10 px-4 py-2 bg-blue-500 text-white rounded">모달 열기</button>
 </template>
 <script setup>
 import KakaoMap from "@/components/KakaoMap.vue";
 import { ref, computed } from "vue";
 
+// 카드컴포넌트
+// 대기중
+import CardWaiting from "@/components/CardWaiting.vue";
+
+// 진행중
+import CardProceed from "@/components/CardProceed.vue";
+
+// 완료
+import CardComplete from "@/components/CardComplete.vue";
+
+// 2번째줄 포함
+// 대기중
+// 공항
+import LocationAirportWaiting from "@/components/Locations/Waiting/LocationAirportWaiting.vue";
+
 const showMap = ref(false);
 // 탭 상태값
-const statusTabs = ["전체", "진행중", "대기중", "완료"];
+const statusTabs = ["전체", "대기중", "진행중", "완료"];
 const locationTabs = ["공항", "기차역", "숙소"];
 
 const selectedStatus = ref("전체");
 const selectedLocation = ref("공항");
-// 모달열리고 닫기
-const isModalOpen = ref(false)
-const selectedCard = ref(null)
-
-function openModal(card) {
-  selectedCard.value = card
-  isModalOpen.value = true
-}
-
-function closeModal() {
-  isModalOpen.value = false
-  selectedCard.value = null
-}
-
-
-// 예시 데이터
-const allData = ref([
-  { id: 1, title: "공항 픽업", status: "진행중", location: "공항" },
-  { id: 2, title: "기차역 도착", status: "대기중", location: "기차역" },
-  { id: 3, title: "숙소 배달", status: "완료", location: "숙소" },
-  { id: 4, title: "공항 도착", status: "대기중", location: "공항" },
-  { id: 5, title: "숙소 도착", status: "진행중", location: "숙소" },
-]);
 
 // 필터링된 데이터
 const filteredData = computed(() => {
@@ -306,128 +279,71 @@ const filteredData = computed(() => {
   });
 });
 
-const dummyCards = ref([
-  {
-    시간: "09:00",
-    이름: "김민준",
-    사이즈: "S",
-    짐개수: 2,
-    위치: "기차",
-    상태: "green",
-  },
-  {
-    시간: "10:00",
-    이름: "이서연",
-    사이즈: "M",
-    짐개수: 5,
-    위치: "공항",
-    상태: "red",
-  },
-  { 시간: "11:00", 이름: "박지후", 사이즈: "L", 짐개수: 1, 위치: "숙소" },
-  {
-    시간: "12:00",
-    이름: "최윤서",
-    사이즈: "XL",
-    짐개수: 3,
-    위치: "공항",
-    상태: "green",
-  },
-  {
-    시간: "13:00",
-    이름: "정하윤",
-    사이즈: "M",
-    짐개수: 6,
-    위치: "기차",
-    상태: "red",
-  },
-  { 시간: "14:00", 이름: "한도윤", 사이즈: "S", 짐개수: 4, 위치: "숙소" },
-  {
-    시간: "15:00",
-    이름: "윤시우",
-    사이즈: "L",
-    짐개수: 2,
-    위치: "공항",
-    상태: "green",
-  },
-  {
-    시간: "16:00",
-    이름: "장예은",
-    사이즈: "M",
-    짐개수: 5,
-    위치: "기차",
-    상태: "red",
-  },
-  { 시간: "17:00", 이름: "백준호", 사이즈: "XL", 짐개수: 1, 위치: "숙소" },
-  {
-    시간: "18:00",
-    이름: "노서진",
-    사이즈: "S",
-    짐개수: 6,
-    위치: "공항",
-    상태: "green",
-  },
-  {
-    시간: "09:00",
-    이름: "이하늘",
-    사이즈: "L",
-    짐개수: 3,
-    위치: "기차",
-    상태: "red",
-  },
-  {
-    시간: "10:00",
-    이름: "김다은",
-    사이즈: "M",
-    짐개수: 2,
-    위치: "숙소",
-    상태: "green",
-  },
-  { 시간: "11:00", 이름: "홍지훈", 사이즈: "XL", 짐개수: 5, 위치: "공항" },
-  {
-    시간: "12:00",
-    이름: "신유진",
-    사이즈: "S",
-    짐개수: 4,
-    위치: "기차",
-    상태: "red",
-  },
-  {
-    시간: "13:00",
-    이름: "임도현",
-    사이즈: "M",
-    짐개수: 1,
-    위치: "숙소",
-    상태: "green",
-  },
-  { 시간: "14:00", 이름: "조하린", 사이즈: "L", 짐개수: 6, 위치: "공항" },
-  { 시간: "15:00", 이름: "배현우", 사이즈: "XL", 짐개수: 3, 위치: "기차" },
-  {
-    시간: "16:00",
-    이름: "서유나",
-    사이즈: "M",
-    짐개수: 2,
-    위치: "숙소",
-    상태: "green",
-  },
-  { 시간: "17:00", 이름: "문세진", 사이즈: "S", 짐개수: 5, 위치: "공항" },
-  { 시간: "18:00", 이름: "오지후", 사이즈: "L", 짐개수: 4, 위치: "기차" },
-  {
-    시간: "09:00",
-    이름: "유채은",
-    사이즈: "XL",
-    짐개수: 6,
-    위치: "숙소",
-    상태: "green",
-  },
-  { 시간: "10:00", 이름: "강시우", 사이즈: "S", 짐개수: 1, 위치: "공항" },
-  { 시간: "11:00", 이름: "남지안", 사이즈: "M", 짐개수: 4, 위치: "기차" },
-  {
-    시간: "12:00",
-    이름: "서지우",
-    사이즈: "L",
-    짐개수: 2,
-    위치: "숙소",
-    상태: "green",
-  },
-]);
+// 시작버튼 클릭시 변화
+const clickCount = ref(0);
+const buttonText = ref("시작");
+const buttonColor = ref("bg-red-500");
+
+const handleClick = () => {
+  clickCount.value++;
+
+  if (clickCount.value === 1) {
+    buttonColor.value = "bg-purple-500";
+    buttonText.value = "완료";
+  } else if (clickCount.value === 2) {
+    buttonColor.value = "bg-gray-400";
+    // 텍스트는 그대로 '완료'
+  }
+};
+
+// 시계버튼 아이콘
+
+const showPopup = ref(false);
+const selectedTime = ref(null);
+const timeOptions = ["09:11", "11:13", "13:15", "15:17", "17:19"];
+
+// 오름내림차순 아이콘 클릭시 변경
+const isAsc = ref(true); // true면 asc, false면 desc
 </script>
+
+<style scoped>
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(156, 163, 175, 0.7);
+}
+
+/* 스크롤바가 보이지 않을 때도 스크롤 가능하도록 */
+.custom-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* 터치 디바이스에서의 스크롤 최적화 */
+.custom-scrollbar {
+  -webkit-overflow-scrolling: touch;
+}
+.h-full {
+  height: 98%;
+}
+</style>

@@ -30,9 +30,54 @@
           </div>
           <router-link to="/yeyak">
             <div class="contain4">
-              <button>예약하기</button>
+              <button class="btn1">
+                <p>예약하기</p>
+                <!-- <img src="/public/images/yr/mainImg/arrowW.png" alt="" /> -->
+              </button>
+              <button class="btn2">서비스안내</button>
             </div>
           </router-link>
+        </div>
+        <div class="contain5 flex gap-[50px] mt-[70px]">
+          <div class="flex items-center space-x-4">
+            <div
+              class="w-[60px] h-[60px] bg-blue-600 rounded-full flex flex-1 items-center justify-center">
+              <MapPin class="w-[35px] h-[35px] text-white" />
+            </div>
+            <div>
+              <h4
+                class="text-white font-semibold text-base text-[22px] pb-[5px]">
+                어디든 픽업
+              </h4>
+              <p class="text-m text-white">지하철, 기차, 공항 어디든지</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div
+              class="w-[60px] h-[60px] bg-blue-600 rounded-full flex flex-1 items-center justify-center">
+              <Clock4 class="w-[35px] h-[35px] text-white" />
+            </div>
+            <div>
+              <h4
+                class="text-white font-semibold text-base text-[22px] pb-[5px]">
+                실시간 추적
+              </h4>
+              <p class="text-m text-white">짐의 위치를 실시간으로 확인</p>
+            </div>
+          </div>
+          <div class="flex items-center space-x-4">
+            <div
+              class="w-[60px] h-[60px] bg-blue-600 rounded-full flex flex-1 items-center justify-center">
+              <Shield class="w-[35px] h-[35px] text-white" />
+            </div>
+            <div>
+              <h4
+                class="text-white font-semibold text-base text-[22px] pb-[5px]">
+                안전보장
+              </h4>
+              <p class="text-m text-white">보험가입으로 안전하게 보관</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -93,11 +138,10 @@
       <div class="inner-container">
         <!-- 왼쪽 배너 이미지 -->
         <div class="banner-image">
-                  <img
-          :src="images1[currentIndex1]"
-          alt="가방도 배너"
-          class="fade-image"
-        />
+          <img
+            :src="images1[currentIndex1]"
+            alt="가방도 배너"
+            class="fade-image" />
         </div>
 
         <!-- 오른쪽 메뉴 이동 및 예약 버튼 -->
@@ -140,16 +184,18 @@
   </div>
 
   <!-- 모달창 -->
-       <Modal v-if="showModal" @close="showModal = false" />
+  <Modal v-if="showModal" @close="showModal = false" />
 </template>
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-
+import { Clock4, MapPin, Shield } from "lucide-vue-next";
+import Modal from "../b_main/Modal.vue";
+const showModal = ref(false);
 const images = [
   "/images/yr/mainImg/attraction1.png",
   "/images/yr/mainImg/attraction2.jpg",
-  "/images/yr/mainImg/attraction3.jpg",
+  // "/images/yr/mainImg/attraction3.jpg",
   "/images/yr/mainImg/attraction4.jpg",
   "/images/yr/mainImg/attraction5.jpg",
   "/images/yr/mainImg/attraction6.jpg",
@@ -165,36 +211,44 @@ onMounted(() => {
 
 // 이미지 배열
 const images1 = [
-  '/images/yr/mainImg/banner2.png',
-  '/images/yr/mainImg/banner3.png',
-  '/images/yr/mainImg/banner1.png',
-]
+  "/images/yr/mainImg/banner2.png",
+  "/images/yr/mainImg/banner3.png",
+  "/images/yr/mainImg/banner1.png",
+];
 
 // 현재 보여줄 이미지 index
-const currentIndex1 = ref(0)
-let intervalId = null
+const currentIndex1 = ref(0);
+let intervalId = null;
 
 // 3초마다 이미지 변경
 onMounted(() => {
   intervalId = setInterval(() => {
-    currentIndex1.value = (currentIndex1.value + 1) % images1.length
-  }, 3000)
-})
+    currentIndex1.value = (currentIndex1.value + 1) % images1.length;
+  }, 3000);
+});
 
 onBeforeUnmount(() => {
-  clearInterval(intervalId)
-})
-
+  clearInterval(intervalId);
+});
 </script>
 
 <style scoped lang="scss">
 .wrap {
   margin-top: 70px;
+
+  @media screen and (max-width: 635px) {
+    margin-top: 50px;
+  }
+
   .slider {
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 93vh;
     overflow: hidden;
+
+    @media screen and (max-width: 635px) {
+      height: 100vh;
+    }
 
     .slide {
       position: absolute;
@@ -210,6 +264,7 @@ onBeforeUnmount(() => {
       opacity: 1;
       z-index: 1;
     }
+
     &::after {
       content: "";
       position: absolute;
@@ -217,16 +272,30 @@ onBeforeUnmount(() => {
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.4); // 검정색, 투명도 조절 가능
+      background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.3)
+      );
       z-index: 1;
       pointer-events: none;
     }
 
     .inner {
       position: relative;
-      z-index: 2; // 텍스트가 배경 위에 보이도록
+      z-index: 2;
       max-width: 1200px;
-      margin: 200px auto;
+      margin: 160px auto;
+      padding: 0 20px;
+
+      @media screen and (max-width: 1024px) {
+        margin: 120px auto;
+      }
+
+      @media screen and (max-width: 635px) {
+        margin: 80px auto;
+        padding: 0 15px;
+      }
 
       .container1 {
         position: relative;
@@ -236,154 +305,271 @@ onBeforeUnmount(() => {
 
         .contain1 {
           display: flex;
+          gap: 15px;
+          align-items: center;
 
-          gap: 10px;
+          @media screen and (max-width: 768px) {
+            gap: 10px;
+          }
+
+          @media screen and (max-width: 635px) {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+          }
 
           img {
             width: 80px;
             height: 80px;
+            transition: transform 0.3s ease;
+
+            @media screen and (max-width: 768px) {
+              width: 70px;
+              height: 70px;
+            }
+
+            @media screen and (max-width: 635px) {
+              width: 60px;
+              height: 60px;
+            }
+
+            &:hover {
+              transform: scale(1.05);
+            }
           }
-          p {
-            color: #fff;
-            font-size: 30px;
-            line-height: 1.25;
+
+          .sLetter {
+            p {
+              color: #fff;
+              font-size: 35px;
+              line-height: 1.25;
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+
+              @media screen and (max-width: 768px) {
+                font-size: 28px;
+              }
+
+              @media screen and (max-width: 635px) {
+                font-size: 24px;
+              }
+            }
           }
         }
 
         .contain2 {
           p {
             color: #279bf3;
-            font-size: 150px;
-            font-weight: 600;
+            font-size: 110px;
+            font-weight: 700;
             padding-bottom: 30px;
             line-height: 1;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+
+            @media screen and (max-width: 1024px) {
+              font-size: 80px;
+            }
+
+            @media screen and (max-width: 768px) {
+              font-size: 70px;
+            }
+
+            @media screen and (max-width: 635px) {
+              font-size: 50px;
+              padding-bottom: 20px;
+              margin-top: 10px;
+            }
+
+            &:hover {
+              transform: scale(1.02);
+            }
           }
         }
 
         .contain3 {
           color: #fff;
-          font-size: 25px;
+          font-size: 32px;
           padding-bottom: 18px;
           line-height: 1.25;
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+
+          @media screen and (max-width: 768px) {
+            font-size: 26px;
+          }
+
+          @media screen and (max-width: 635px) {
+            font-size: 20px;
+            padding-bottom: 12px;
+          }
         }
 
         .contain4 {
           color: #fff;
           font-size: 30px;
+          display: flex;
+          gap: 15px;
 
-          button {
-            background: none;
-            border: 1px solid #fff;
-            padding-left: 20px;
-            padding-right: 20px;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            border-radius: 30px;
+          @media screen and (max-width: 768px) {
+            gap: 12px;
+            font-size: 24px;
+          }
+
+          @media screen and (max-width: 635px) {
+            flex-direction: column;
+            gap: 10px;
+            font-size: 18px;
+          }
+
+          .btn1,
+          .btn2 {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 12px 42px;
+            border-radius: 8px;
             color: #fff;
-            font-size: inherit;
+            font-size: 22px;
             cursor: pointer;
+            width: auto;
+            transition: all 0.3s ease;
+
+            @media screen and (max-width: 768px) {
+              padding: 10px 35px;
+              font-size: 20px;
+            }
+
+            @media screen and (max-width: 635px) {
+              padding: 10px 25px;
+              font-size: 18px;
+              width: 100%;
+              text-align: center;
+            }
+
+            &:hover {
+              transform: translateY(-2px);
+              background-color: #fff;
+              color: #279bf3;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            &:active {
+              transform: translateY(0);
+            }
           }
         }
-        .contain4 button:hover {
-          color: #279bf3;
-          border: 1px solid #279bf3;
-          background-color: #fff;
-        }
       }
-    }
-  }
-  .container2 {
-    width: 100%;
-    background-color: #fff;
-    .inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      .section1 {
-        padding-top: 10%;
-        display: flex;
-        .section1-1 {
-          background-color: #f0f0f0;
-          width: 20%;
-          border-radius: 300px;
-          padding: 20px;
-          display: flex;
+
+      .contain5 {
+        @media screen and (max-width: 1024px) {
+          gap: 30px;
+        }
+
+        @media screen and (max-width: 768px) {
+          gap: 25px;
+          margin-top: 50px;
+        }
+
+        @media screen and (max-width: 635px) {
           flex-direction: column;
-          align-items: center;
-          img {
-            width: 70%;
-          }
-        }
-        .section1-2 {
-          padding-left: 5%;
-          padding-top: 2%;
-          p {
-            color: #279bf3;
-            font-size: 45px;
-            padding-bottom: 3%;
-            font-weight: 500;
-          }
-          span {
-            color: #6f6f6f;
-            font-size: 25px;
-          }
-        }
-      }
-    }
-  }
-  .container3 {
-    width: 100%;
-    .inner {
-      max-width: 1200px;
-      margin: 0 auto;
-
-      .section3 {
-        padding-top: 5%;
-        display: flex;
-        justify-content: flex-end; // inner 내에서 맨 오른쪽 정렬
-
-        .section3-1 {
-          width: 40%;
-          padding-right: 5%;
-          text-align: right;
-
-          p {
-            color: #279bf3;
-            font-size: 45px;
-            padding-bottom: 3%;
-            font-weight: 500;
-          }
-          span {
-            color: #6f6f6f;
-            font-size: 25px;
-          }
+          gap: 20px;
+          margin-top: 40px;
         }
 
-        .section3-2 {
-          width: 20%;
-          background-color: #f0f0f0;
-          border-radius: 300px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          border-radius: 300px;
-          padding: 20px;
+        .flex {
+          @media screen and (max-width: 635px) {
+            width: 100%;
+          }
 
-          img {
-            width: 80%;
+          .w-\[60px\] {
+            @media screen and (max-width: 768px) {
+              width: 50px;
+              height: 50px;
+            }
+
+            @media screen and (max-width: 635px) {
+              width: 45px;
+              height: 45px;
+            }
+          }
+
+          .w-\[35px\] {
+            @media screen and (max-width: 768px) {
+              width: 28px;
+              height: 28px;
+            }
+
+            @media screen and (max-width: 635px) {
+              width: 25px;
+              height: 25px;
+            }
+          }
+
+          .text-\[22px\] {
+            @media screen and (max-width: 768px) {
+              font-size: 20px;
+            }
+
+            @media screen and (max-width: 635px) {
+              font-size: 18px;
+            }
+          }
+
+          .text-m {
+            @media screen and (max-width: 768px) {
+              font-size: 14px;
+            }
+
+            @media screen and (max-width: 635px) {
+              font-size: 13px;
+            }
           }
         }
       }
     }
   }
+
+  // 컨텐츠 섹션 공통 스타일
+  .container2,
+  .container3,
   .container4 {
-    width: 100%;
-    background-color: #fff;
-    margin-bottom: 150px;
     .inner {
       max-width: 1200px;
       margin: 0 auto;
+      padding: 0 20px;
+
+      @media screen and (max-width: 635px) {
+        padding: 0 15px;
+      }
+
+      .section1,
+      .section3,
       .section4 {
+        padding: 80px 0;
         display: flex;
+        align-items: center;
+        gap: 40px;
+
+        @media screen and (max-width: 1024px) {
+          padding: 60px 0;
+          gap: 30px;
+        }
+
+        @media screen and (max-width: 768px) {
+          padding: 40px 0;
+          flex-direction: column;
+          text-align: center;
+          gap: 25px;
+        }
+
+        @media screen and (max-width: 635px) {
+          padding: 30px 0;
+          gap: 20px;
+        }
+
+        .section1-1,
+        .section3-2,
         .section4-1 {
           background-color: #f0f0f0;
           width: 20%;
@@ -392,100 +578,214 @@ onBeforeUnmount(() => {
           display: flex;
           flex-direction: column;
           align-items: center;
+          transition: transform 0.3s ease;
+
+          @media screen and (max-width: 768px) {
+            width: 40%;
+          }
+
+          @media screen and (max-width: 635px) {
+            width: 50%;
+          }
+
+          &:hover {
+            transform: scale(1.05);
+          }
+
           img {
             width: 70%;
+            transition: transform 0.3s ease;
+
+            &:hover {
+              transform: scale(1.1);
+            }
           }
         }
+
+        .section1-2,
+        .section3-1,
         .section4-2 {
-          padding-left: 5%;
-          padding-top: 2%;
+          flex: 1;
+          padding: 0 5%;
+
+          @media screen and (max-width: 768px) {
+            padding: 0;
+          }
+
           p {
             color: #279bf3;
             font-size: 45px;
             padding-bottom: 3%;
             font-weight: 500;
+            transition: transform 0.3s ease;
+
+            @media screen and (max-width: 1024px) {
+              font-size: 38px;
+            }
+
+            @media screen and (max-width: 768px) {
+              font-size: 32px;
+            }
+
+            @media screen and (max-width: 635px) {
+              font-size: 28px;
+            }
+
+            &:hover {
+              transform: translateX(5px);
+            }
           }
+
           span {
             color: #6f6f6f;
             font-size: 25px;
+            line-height: 1.4;
+
+            @media screen and (max-width: 1024px) {
+              font-size: 22px;
+            }
+
+            @media screen and (max-width: 768px) {
+              font-size: 20px;
+            }
+
+            @media screen and (max-width: 635px) {
+              font-size: 18px;
+            }
           }
         }
       }
     }
   }
 
-  // 배너 및 메뉴 이동 섹션
+  // 배너 및 메뉴 섹션
   .banner-section {
     background-color: #ffffff;
     width: 100%;
+    padding: 40px 0;
+
+    @media screen and (max-width: 768px) {
+      padding: 30px 0;
+    }
+
+    @media screen and (max-width: 635px) {
+      padding: 20px 0;
+    }
   }
 
   .inner-container {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    // flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 10px;
+    gap: 30px;
+    padding: 0 20px;
+
+    @media screen and (max-width: 1024px) {
+      gap: 20px;
+    }
+
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    @media screen and (max-width: 635px) {
+      padding: 0 15px;
+      gap: 20px;
+    }
   }
 
   .banner-image {
-    flex: 1 1 50%;
-    // max-width: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .banner-image img {
-    display: block;
-    width: 100%;
-    object-fit: cover;
-
+    flex: 1;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
   }
 
-  // 오른쪽 메뉴 이동 및 예약 버튼
   .menu-box {
-    flex: 1 1 50%;
-    // max-width: 50%;
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
+
+    @media screen and (max-width: 768px) {
+      gap: 15px;
+    }
   }
 
   .menu-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 15px;
+
+    @media screen and (max-width: 635px) {
+      gap: 10px;
+    }
   }
 
   .menu-item {
-    background-color: #e9e9e9;
-    border-radius: 8px;
-    padding-top: 20px;
-    padding-left: 30px;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
+    background-color: #f8f8f8;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    cursor: pointer;
 
-  .menu-item:hover {
-    background-color: #c6c6c6;
-  }
+    @media screen and (max-width: 768px) {
+      padding: 20px;
+    }
 
-  .menu-title {
-    font-weight: 600;
-    margin-bottom: 4px;
-    color: #222;
-    font-size: 25px;
-  }
+    @media screen and (max-width: 635px) {
+      padding: 15px;
+    }
 
-  .menu-desc {
-    font-size: 14px;
-    color: #666;
+    &:hover {
+      transform: translateY(-3px);
+      background-color: #f0f0f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .menu-title {
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #222;
+      font-size: 25px;
+
+      @media screen and (max-width: 768px) {
+        font-size: 22px;
+      }
+
+      @media screen and (max-width: 635px) {
+        font-size: 20px;
+        margin-bottom: 6px;
+      }
+    }
+
+    .menu-desc {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.4;
+
+      @media screen and (max-width: 635px) {
+        font-size: 13px;
+      }
+    }
   }
 
   .reserve-button {
@@ -493,16 +793,33 @@ onBeforeUnmount(() => {
     color: #ffffff;
     font-size: 30px;
     font-weight: bold;
-    padding: 30px;
-    border-radius: 10px;
+    padding: 25px;
+    border-radius: 12px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
     width: 100%;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
-  }
+    box-shadow: 0 4px 12px rgba(39, 155, 243, 0.2);
+    border: none;
 
-  .reserve-button:hover {
-    background-color: #357acc;
+    @media screen and (max-width: 768px) {
+      font-size: 26px;
+      padding: 20px;
+    }
+
+    @media screen and (max-width: 635px) {
+      font-size: 22px;
+      padding: 18px;
+    }
+
+    &:hover {
+      background-color: #357acc;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 16px rgba(39, 155, 243, 0.3);
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
   }
 }
 </style>
