@@ -282,7 +282,6 @@ function goToNextStep() {
     gap: 5px;
     text-align: right;
     white-space: pre;
-    font-weight: bold;
   }
 }
 

@@ -427,7 +427,7 @@ function goToNextPage() {
   .st_reser {
     width: 120px;
     height: 40px;
-    background-color: #777;
+    background-color: color.adjust($main-color, $lightness: 30%);
     color: #fff;
     font-size: 16px;
     border-radius: $radius;
@@ -438,7 +438,7 @@ function goToNextPage() {
     display: block;
   }
   .st_reser:hover {
-    background-color: #333;
+    background-color: color.adjust($sub-color, $lightness: 20%) !important;
   }
 }
 

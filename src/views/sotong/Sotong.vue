@@ -806,13 +806,7 @@ const closeModal = () => {
   flex-direction: column;
   z-index: 6500;
 }
-.sticky-stepper.custom-stepper {
-  position: fixed;
-  left: calc(47.5% - 600px);
-  width: 120px;
-  max-width: 100%;
-  z-index: 6500;
-}
+
 .sticky-stepper {
   position: fixed;
   top: 120px;
@@ -821,43 +815,44 @@ const closeModal = () => {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.6);
   z-index: 6500;
   padding: 10px;
-  border-top: 1px dashed $border-gray;
-  border-bottom: 1px dashed $border-gray;
-}
-.hide-controls {
-  /* Prev/Next 버튼 영역 숨기기 */
-  :deep(.step-nav) {
-    display: none !important;
+  color: #555;
+  &.custom-stepper {
+    // only on your custom one
+    left: calc(47.5% - 600px);
+    width: 120px;
+
+    &.hide-controls {
+      // hide the nav & circles only when .hide-controls is present
+      ::v-deep .step-nav,
+      ::v-deep .circle {
+        display: none !important;
+      }
+    }
+
+    // style all your labels
+    ::v-deep .label {
+      margin-top: 6px;
+      font-size: 17px;
+      cursor: pointer;
+      padding: 5px 10px;
+      transition: background 0.2s;
+
+      &:hover {
+        border-bottom: 2px solid rgba($sub-color, 0.3);
+        color: #555;
+        font-weight: bold;
+      }
+    }
+
+    // active-step styles
+    ::v-deep .step.active .label {
+      border-bottom: 2px solid rgba($sub-color, 0.3);
+      color: #555;
+      font-weight: bold;
+    }
   }
-  /* 원형 써클 숨기기 */
-  :deep(.circle) {
-    display: none !important;
-  }
-}
-.custom-stepper {
-  :deep(.wrap) {
-    display: flex;
-    flex-direction: column; /* 세로 정렬 */
-    align-items: center;
-  }
-  :deep(.label) {
-    margin-top: 6px;
-    font-size: 18px; /* 글씨 키우기 */
-    font-weight: bold;
-    cursor: pointer; /* 클릭 가능한 느낌 */
-    padding: 5px 10px;
-  }
-}
-:deep(.label:hover) {
-  background-color: color.adjust($sub-color, $lightness: 20%) !important;
-  padding: 5px 10px;
-}
-:deep(.step.active .label) {
-  background-color: color.adjust($sub-color, $lightness: 20%) !important;
-  color: #fff;
 }
 // 고객센터섹션
 .st_customer {
