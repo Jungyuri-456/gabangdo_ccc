@@ -43,13 +43,13 @@
     </div>
   </div>
   <!-- 용달씨 머리(예약할래?)이미지 고정 버튼 -->
-  <div
+  <!-- <div
     class="fixed-buttons">
     <button class="inquiry-btn" @click="openReservation">
       <span>예약 할래?</span>
       <router-link to="/yeyak"><img class="fas fa-calendar-check" src="/images/gh/1/head.png" alt="예약할래이미지" /></router-link>
     </button>
-  </div>
+  </div> -->
 </template>
 
 <script setup></script>
