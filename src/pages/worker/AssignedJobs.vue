@@ -16,7 +16,7 @@
         <!-- 사용자명 -->
         <router-link to="/worker/ddashboard">
           <div class="text-blue-500 text-lg font-bold">
-            홍길동<span class="text-white text-sm">기사님</span>
+            이준호<span class="text-white text-sm">기사님</span>
           </div>
         </router-link>
         <!-- 알림/내역 -->
@@ -43,7 +43,7 @@
               src="/public/images/yr/delivery/star.png"
               alt="평가별"
               class="w-16 ml-4" />
-            <p class="text-base font-semibold pl-4">4.0</p>
+            <p class="text-base font-semibold pl-4 text-black">4.0</p>
           </div>
           <div class="w-px h-12 bg-gray-200"></div>
           <!-- 총 작업수 -->
@@ -66,7 +66,7 @@
           <input
             type="text"
             placeholder="고객명 또는 주소, 전화번호 검색"
-            class="w-full pl-10 pr-3 py-2 rounded border border-gray-300 text-sm focus:outline-none" />
+            class="w-full pl-10 pr-3 py-2 rounded border border-gray-300 text-sm focus:outline-none text-[#000]" />
           <img
             src="/public/images/yr/delivery/glass.png"
             alt="돋보기"
@@ -75,7 +75,7 @@
 
         <!-- 날짜 필터 -->
         <div class="mb-4">
-          <select class="w-full py-2 px-3 rounded border text-sm">
+          <select class="w-full py-2 px-3 rounded border text-sm text-[#000]">
             <option>최근 1주일</option>
             <option>최근 2개월</option>
             <option>최근 3개월</option>
@@ -92,7 +92,7 @@
               <div class="bg-white rounded-lg shadow p-3 mb-2 mb-2">
                 <div
                   class="flex justify-between text-sm font-semibold text-gray-700">
-                  <p>05.28 (화)</p>
+                  <p>05.02 (화)</p>
                   <p class="text-red-600">13,000원</p>
                 </div>
                 <p class="mt-1 text-gray-900 font-medium text-[17px]">송혜연</p>
@@ -262,7 +262,7 @@
         <!-- 이름 -->
         <div class="flex justify-between mb-2">
           <span class="text-gray-500">이름</span>
-          <span class="text-black font-semibold">홍길동</span>
+          <span class="text-black font-semibold">송혜연</span>
         </div>
 
         <!-- 전화번호 -->
@@ -286,7 +286,7 @@
         <!-- 수령금액 -->
         <div class="flex justify-between mb-2">
           <span class="text-gray-500">수령금액</span>
-          <span class="text-red-500 font-semibold">3,000원</span>
+          <span class="text-red-500 font-semibold">13,000원</span>
         </div>
 
         <!-- 위치/주소 -->

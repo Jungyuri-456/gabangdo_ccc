@@ -45,7 +45,7 @@
           <div>
             <router-link to="/worker/profile">
               <p class="text-lg font-semibold underline underline-offset-4">
-                홍길동 기사님
+                이준호 기사님
               </p>
             </router-link>
             <p class="text-sm text-gray-300">오늘도 안전 운행 하세요!</p>
@@ -196,7 +196,7 @@
         <!-- 내부 콘텐츠 wrapper (350px 고정) -->
         <div class="w-[350px] mx-auto py-4">
           <!-- 1번째줄 탭버튼만 눌렀을때 -->
-          <CardWaiting v-if="selectedStatus === '전체'" />
+          <CardAll v-if="selectedStatus === '전체'" />
           <CardWaiting v-if="selectedStatus === '대기중'" />
           <CardProceed v-if="selectedStatus === '진행중'" />
           <CardComplete v-if="selectedStatus === '완료'" />
@@ -247,6 +247,8 @@ import KakaoMap from "@/components/KakaoMap.vue";
 import { ref, computed } from "vue";
 
 // 카드컴포넌트
+// 전체
+import CardAll from "@/src/components/Cards/CardAll/CardAll.vue";
 // 대기중
 import CardWaiting from "@/components/CardWaiting.vue";
 
@@ -255,6 +257,8 @@ import CardProceed from "@/components/CardProceed.vue";
 
 // 완료
 import CardComplete from "@/components/CardComplete.vue";
+
+
 
 // 2번째줄 포함
 // 대기중

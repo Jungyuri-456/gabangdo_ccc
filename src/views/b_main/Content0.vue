@@ -30,7 +30,7 @@
           </div>
           <router-link to="/yeyak">
             <div class="contain4">
-              <button class="btn1">
+              <button class="btn1 pMore">
                 <p>예약하기</p>
                 <!-- <img src="/public/images/yr/mainImg/arrowW.png" alt="" /> -->
               </button>
@@ -46,7 +46,7 @@
             </div>
             <div>
               <h4
-                class="text-white font-semibold text-base text-[22px] pb-[5px]">
+                class="text-white font-semibold text-base text-[23px] pb-[5px]">
                 어디든 픽업
               </h4>
               <p class="text-m text-white">지하철, 기차, 공항 어디든지</p>
@@ -59,7 +59,7 @@
             </div>
             <div>
               <h4
-                class="text-white font-semibold text-base text-[22px] pb-[5px]">
+                class="text-white font-semibold text-base text-[23px] pb-[5px]">
                 실시간 추적
               </h4>
               <p class="text-m text-white">짐의 위치를 실시간으로 확인</p>
@@ -72,7 +72,7 @@
             </div>
             <div>
               <h4
-                class="text-white font-semibold text-base text-[22px] pb-[5px]">
+                class="text-white font-semibold text-base text-[23px] pb-[5px]">
                 안전보장
               </h4>
               <p class="text-m text-white">보험가입으로 안전하게 보관</p>
@@ -89,12 +89,12 @@
         <div class="section1">
           <!-- 이미지 -->
           <div class="section1-1">
-            <img src="/images/yongdal1.png" alt="" />
+            <img src="/public/images/yr/mainImg/section1.png" alt="" />
           </div>
           <!-- 텍스트 -->
           <div class="section1-2">
-            <p>쉽고 가벼운 여행도</p>
-            <span>원하는 곳에 짐맡기고<br />편하게 이동하자</span>
+            <p>짐보관도 부담없이</p>
+            <span>지하철, 기차, 공항<br />어디든지 짐 맡기자</span>
           </div>
         </div>
       </div>
@@ -104,13 +104,13 @@
       <div class="inner">
         <div class="section3">
           <!-- 왼쪽 텍스트 -->
-          <div class="section3-1">
-            <p>짐보관도 부담없이</p>
-            <span>지하철, 기차, 공항<br />어디든지 짐 맡기자</span>
+          <div class="section3-1 plusRight">
+            <p>실시간 위치 확인도</p>
+            <span>원하는 곳에 짐 맡기고 <br />편하게 이동하자</span>
           </div>
           <!-- 오른쪽 이미지 -->
           <div class="section3-2">
-            <img src="/images/yongdal3.png" alt="" />
+            <img src="/public/images/yr/mainImg/section2.png" alt="" />
           </div>
         </div>
       </div>
@@ -122,12 +122,12 @@
         <div class="section4">
           <!-- 이미지 -->
           <div class="section4-1">
-            <img src="/images/yongdal4.png" alt="" />
+            <img src="/public/images/yr/mainImg/section3.png" alt="" />
           </div>
           <!-- 텍스트 -->
           <div class="section4-2">
-            <p>실시간 배송조회도</p>
-            <span>짐이 어디있는지 한눈에<br />실시간 확인하기</span>
+            <p>신뢰할 수있는 짐보관</p>
+            <span>가방보험 가입으로<br />안전한 짐보관</span>
           </div>
         </div>
       </div>
@@ -421,7 +421,29 @@ onBeforeUnmount(() => {
             font-size: 18px;
           }
 
-          .btn1,
+
+          .btn1{
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            padding: 12px 49px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 22px;
+            cursor: pointer;
+            width: auto;
+            transition: all 0.3s ease;
+          }
+          .btn1:hover
+                     
+          {
+              transform: translateY(-2px);
+              background-color: #fff;
+              color: #279bf3;
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
           .btn2 {
             margin-top: 15px;
             background: rgba(255, 255, 255, 0.1);
@@ -446,6 +468,7 @@ onBeforeUnmount(() => {
               width: 100%;
               text-align: center;
             }
+
 
             &:hover {
               transform: translateY(-2px);
@@ -543,13 +566,17 @@ onBeforeUnmount(() => {
         padding: 0 15px;
       }
 
+      .section1 {
+        margin-top: 100px;
+      }
+
       .section1,
       .section3,
       .section4 {
-        padding: 80px 0;
+        padding: 10px 0;
         display: flex;
         align-items: center;
-        gap: 40px;
+        // gap: 10px;
 
         @media screen and (max-width: 1024px) {
           padding: 60px 0;
@@ -567,14 +594,17 @@ onBeforeUnmount(() => {
           padding: 30px 0;
           gap: 20px;
         }
+        .section4-1{
+          margin-bottom: 80px;
+        }
 
         .section1-1,
         .section3-2,
         .section4-1 {
-          background-color: #f0f0f0;
-          width: 20%;
+          // background-color: #f0f0f0;
+          width: 30%;
           border-radius: 300px;
-          padding: 20px;
+          // padding: 20px;
           display: flex;
           flex-direction: column;
           align-items: center;
@@ -602,11 +632,13 @@ onBeforeUnmount(() => {
           }
         }
 
+        .plusRight {
+          text-align: right;
+        }
         .section1-2,
         .section3-1,
         .section4-2 {
           flex: 1;
-          padding: 0 5%;
 
           @media screen and (max-width: 768px) {
             padding: 0;
@@ -740,7 +772,7 @@ onBeforeUnmount(() => {
   }
 
   .menu-item {
-    background-color: #f8f8f8;
+    background-color: #eaeaea;
     border-radius: 12px;
     padding: 25px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
@@ -757,7 +789,7 @@ onBeforeUnmount(() => {
 
     &:hover {
       transform: translateY(-3px);
-      background-color: #f0f0f0;
+      background-color: #d8d8d8;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
