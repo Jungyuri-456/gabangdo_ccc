@@ -10,6 +10,16 @@ const tabsTitle = [
   "대구 기차역",
   "대구 국제공항",
 ];
+const swiperRef = ref(null);
+
+function switchTab(tab) {
+  activeTab.value = tab;
+  nextTick(() => {
+    swiperRef.value.swiper.update();
+    window.dispatchEvent(new Event("resize"));
+  });
+}
+
 // 소제목
 const tabsSubTitle = ["장소", "위치", "보관함 수"];
 // 내용들
@@ -34,11 +44,10 @@ const storageData2 = ref([
   { station: "중구청역", location: "쓰리야삼겹 옆 2,3번출구", count: 36 },
   { station: "이월드역", location: "육삼냉면 1,4번 출구", count: 38 },
   { station: "반고역", location: "육삼냉면 2,3번 출구", count: 38 },
-  { station: "한성미술학원", location: "1,2번 출구 방향", count: 38 }
-])
+  { station: "한성미술학원", location: "1,2번 출구 방향", count: 38 },
+]);
 // 지하철2호선 1번째
-const storageData3 = ref(
-[
+const storageData3 = ref([
   { station: "범어네거리 A", location: "지하3층 만남의 광장", count: 34 },
   { station: "범어네거리 B", location: "A에 보이면", count: 36 },
   { station: "범어네거리 C", location: "지하3층 14-1번 방향", count: 47 },
@@ -48,8 +57,8 @@ const storageData3 = ref(
   { station: "수성구청역", location: "1,4번 출구 방향", count: 14 },
   { station: "만촌역", location: "1,4번 출구 방향", count: 14 },
   { station: "대공원역", location: "2,3번 출구 방향", count: 41 },
-  { station: "신매역", location: "1,7번 출구 방향", count: 14 }
-])
+  { station: "신매역", location: "1,7번 출구 방향", count: 14 },
+]);
 // 지하철2호선 2번째
 const storageData4 = ref([
   { station: "사월역", location: "2번 출구 방향", count: 14 },
@@ -61,21 +70,23 @@ const storageData4 = ref([
   { station: "수성구청역", location: "1,4번 출구 방향", count: 14 },
   { station: "만촌역", location: "1,4번 출구 방향", count: 14 },
   { station: "대공원역", location: "2,3번 출구 방향", count: 14 },
-  { station: "신매역", location: "1,7번 출구 방향", count: 14 }
-])
+  { station: "신매역", location: "1,7번 출구 방향", count: 14 },
+]);
 // 대구 기차역
 const storageData5 = ref([
   { station: "대구역", location: "1층 화장실 옆", count: 40 },
   { station: "동대구역", location: "마트소 앞", count: 40 },
-  { station: "서대구역", location: "편의점 맞은편", count: 30 }
-]
-)
+  { station: "서대구역", location: "편의점 맞은편", count: 30 },
+]);
 // 대구 공항
 const storageData6 = ref([
-{ station: "대구 국제공항", location: `대구국제공항 입국장
-근처 사물함 (도착층)`, count: 60 },
-])
-
+  {
+    station: "대구 국제공항",
+    location: `대구국제공항 입국장
+근처 사물함 (도착층)`,
+    count: 60,
+  },
+]);
 
 // 스와이퍼 사용
 import { Swiper, SwiperSlide } from "swiper/vue";
@@ -91,36 +102,40 @@ import "swiper/css/pagination";
     <!-- tab키 -->
     <div class="bb_StoreTabs">
       <div class="bb_buttonBorder">
-      <!-- 버튼3개 -->
-      <!-- 지하철버튼 -->
-      <button
-        @click="activeTab = 'subway'"
-        :class="{ active: activeTab === 'subway' }">
-        지하철
-      </button>
-      <!-- 기차역버튼 -->
-      <button
-        @click="activeTab = 'train'"
-        :class="{ active: activeTab === 'train' }">
-        기차역
-      </button>
-      <!-- 공항버튼 -->
-      <button
-        @click="activeTab = 'airport'"
-        :class="{ active: activeTab === 'airport' }">
-        공항
-      </button>
-    </div>
+        <!-- 버튼3개 -->
+        <!-- 지하철버튼 -->
+        <button
+          @click="switchTab('subway')"
+          :class="{ active: activeTab === 'subway' }">
+          지하철
+        </button>
+        <!-- 기차역버튼 -->
+        <button
+          @click="switchTab('train')"
+          :class="{ active: activeTab === 'train' }">
+          기차역
+        </button>
+        <!-- 공항버튼 -->
+        <button
+          @click="switchTab('airport')"
+          :class="{ active: activeTab === 'airport' }">
+          공항
+        </button>
+      </div>
     </div>
     <!-- 테이블 내용 -->
     <!-- tab1 -->
     <div class="bb_StoreContents">
-      <div class="bb_StoreContent1" v-if="activeTab === `subway`">
+      <div class="bb_StoreContent1" v-show="activeTab === `subway`">
         <Swiper
+          ref="swiperRef"
           :modules="[Pagination]"
           :pagination="{ clickable: true }"
           :slides-per-view="1"
           :space-between="30"
+          :autoHeight="true"
+          :observer="true"
+          :observeParents="true"
           class="bb_mySwiper">
           <!-- 슬라이드 1 -->
           <SwiperSlide>
@@ -130,9 +145,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -140,9 +155,15 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -157,9 +178,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -167,9 +188,15 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData2"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -184,9 +211,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -194,9 +221,15 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData3"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -211,9 +244,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -221,9 +254,15 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData4"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -238,9 +277,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -248,9 +287,15 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData5"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -259,7 +304,7 @@ import "swiper/css/pagination";
         </Swiper>
       </div>
       <!-- tab2 -->
-      <div class="bb_trainContent2" v-if="activeTab === `train`">
+      <div class="bb_trainContent2" v-show="activeTab === `train`">
         <Swiper
           :modules="[Pagination]"
           :pagination="{ clickable: true }"
@@ -274,9 +319,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -284,24 +329,30 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData5"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </SwiperSlide>
         </Swiper>
-
       </div>
       <!-- tab3 -->
-      <div class="bb_trainContent3" v-if="activeTab === `airport`">
+      <div class="bb_trainContent3" v-show="activeTab === `airport`">
         <Swiper
           :modules="[Pagination]"
           :pagination="{ clickable: true }"
           :slides-per-view="1"
           :space-between="30"
+          :autoHeight="true"
           class="bb_mySwiper">
           <!-- 슬라이드 4-->
           <SwiperSlide>
@@ -311,9 +362,9 @@ import "swiper/css/pagination";
               <table class="tabContent1">
                 <thead class="bb_tabSubtitle">
                   <tr>
-                    <th>장소</th>
-                    <th>위치</th>
-                    <th>보관함 수</th>
+                    <th v-for="(subtitle, idx) in tabsSubTitle" :key="idx">
+                      {{ subtitle }}
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -321,9 +372,15 @@ import "swiper/css/pagination";
                     class="bb_contentS"
                     v-for="(item, i) in storageData6"
                     :key="i">
-                    <td><div class="bb_cell">{{ item.station }}</div></td>
-                    <td><div class="bb_cell">{{ item.location }}</div></td>
-                    <td><div class="bb_cell">{{ item.count }}</div></td>
+                    <td>
+                      <div class="bb_cell">{{ item.station }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.location }}</div>
+                    </td>
+                    <td>
+                      <div class="bb_cell">{{ item.count }}</div>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -362,18 +419,16 @@ import "swiper/css/pagination";
     line-height: 30px;
     padding-left: 30%;
     justify-content: space-between;
-    .bb_buttonBorder{
+    .bb_buttonBorder {
       background-color: #fff;
       height: 60px;
       width: 65%;
       border-radius: 50px;
-  display: flex; // 중요!
-  justify-content: space-between; // 버튼들 좌우 벌리기
-  align-items: center; // 세로 가운데 정렬
-
-  padding: 0 10px; // 양옆 공간 주기
-      button{
-
+      display: flex; // 중요!
+      justify-content: space-between; // 버튼들 좌우 벌리기
+      align-items: center; // 세로 가운데 정렬
+      padding: 0 10px; // 양옆 공간 주기
+      button {
         background-color: #fff;
         color: #000000;
         border-radius: 50px;
@@ -386,69 +441,58 @@ import "swiper/css/pagination";
         cursor: pointer;
         font-size: 20px;
         font-weight: bold;
-        
-
+      }
+      button.active {
+        background-color: $main-color;
+        color: #fff;
+      }
     }
-    button.active{
-      background-color: $main-color;
-      color: #fff;
-    }
-    }
-
   }
   // 테이블내용
   .bb_StoreContents {
     width: 100%;
-    height: 35vw;
-
-    
-    // background-color: red;
+    max-width: 1100px;
+    height: auto;
     .bb_StoreContent1 {
       width: 100%;
       height: 100%;
-
-
       .bb_slide1 {
         width: 100%;
-        padding-top: 5%;
-        padding-left: 10%;
-        padding-right: 10%;
-
+        height: auto;
+        padding: 15px;
         .bb_tabTitle {
           font-size: 26px;
           color: #ff5c00;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-        .bb_tabTitle2{
+        .bb_tabTitle2 {
           font-size: 26px;
           color: #159817;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
 
         .tabContent1 {
           width: 100%;
           border-collapse: separate;
-          border-spacing: 0 20px; // 이게 핵심!
+          border-spacing: 0 12px; // 이게 핵심!
           .bb_tabSubtitle {
-          tr {
-            th {
-              font-size: 20px;
-              font-weight: bold;
-              padding-bottom: 3%;
-              text-align: left;
+            tr {
+              th {
+                font-size: 20px;
+                font-weight: bold;
+                padding-bottom: 5px;
+                text-align: center;
+              }
+            }
+            .bb_contentS {
+              .bb_cell {
+                padding-bottom: 100px;
+                background-color: rgba(255, 0, 0, 0.2);
+              }
             }
           }
-           .bb_contentS{
-            .bb_cell {
-              padding-bottom: 100px;
-              background-color: rgba(255, 0, 0, 0.2);
-            }
-            
-          }
-
-        }
         }
       }
     }
@@ -457,50 +501,46 @@ import "swiper/css/pagination";
       height: 100%;
       .bb_slide1 {
         width: 100%;
-        padding-top: 5%;
-        padding-left: 10%;
-        padding-right: 10%;
+        height: auto;
+        padding: 15px;
         .bb_tabTitle {
           font-size: 26px;
           color: #ff5c00;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-        .bb_tabTitle2{
+        .bb_tabTitle2 {
           font-size: 26px;
           color: #159817;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-        .bb_tabTitle3{
+        .bb_tabTitle3 {
           font-size: 26px;
-          color: #0066B3;
+          color: #0066b3;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-
         .tabContent1 {
           width: 100%;
           border-collapse: separate;
-          border-spacing: 0 20px; // 이게 핵심!
+          border-spacing: 0 12px; // 이게 핵심!
           .bb_tabSubtitle {
-          tr {
-            th {
-              font-size: 20px;
-              font-weight: bold;
-              padding-bottom: 3%;
-              text-align: left;
+            tr {
+              th {
+                font-size: 20px;
+                font-weight: bold;
+                padding-bottom: 5px;
+                text-align: center;
+              }
+            }
+            .bb_contentS {
+              .bb_cell {
+                padding-bottom: 100px;
+                background-color: rgba(255, 0, 0, 0.2);
+              }
             }
           }
-           .bb_contentS{
-            .bb_cell {
-              padding-bottom: 100px;
-              background-color: rgba(255, 0, 0, 0.2);
-            }
-            
-          }
-
-        }
         }
       }
     }
@@ -509,55 +549,52 @@ import "swiper/css/pagination";
       height: 100%;
       .bb_slide1 {
         width: 100%;
-        padding-top: 5%;
-        padding-left: 10%;
-        padding-right: 10%;
+        height: auto;
+        padding: 15px;
         .bb_tabTitle {
           font-size: 26px;
           color: #ff5c00;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-        .bb_tabTitle2{
+        .bb_tabTitle2 {
           font-size: 26px;
           color: #159817;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-        .bb_tabTitle3{
+        .bb_tabTitle3 {
           font-size: 26px;
-          color: #0066B3;
+          color: #0066b3;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
-        .bb_tabTitle4{
+        .bb_tabTitle4 {
           font-size: 26px;
-          color: #2AAAE2;
+          color: #2aaae2;
           font-weight: bold;
-          padding-bottom: 2%;
+          padding-bottom: 5px;
         }
         .tabContent1 {
           width: 100%;
           border-collapse: separate;
-          border-spacing: 0 20px; // 이게 핵심!
+          border-spacing: 0 12px; // 이게 핵심!
           .bb_tabSubtitle {
-          tr {
-            th {
-              font-size: 20px;
-              font-weight: bold;
-              padding-bottom: 3%;
-              text-align: left;
+            tr {
+              th {
+                font-size: 20px;
+                font-weight: bold;
+                padding-bottom: 5px;
+                text-align: center;
+              }
+            }
+            .bb_contentS {
+              .bb_cell {
+                padding-bottom: 100px;
+                background-color: rgba(255, 0, 0, 0.2);
+              }
             }
           }
-           .bb_contentS{
-            .bb_cell {
-              padding-bottom: 100px;
-              background-color: rgba(255, 0, 0, 0.2);
-            }
-            
-          }
-
-        }
         }
       }
     }
@@ -602,25 +639,25 @@ body {
 
 // 태블릿 : 768px
 @media screen and (max-width: 768px) {
-.bb_StoreTable {
+  .bb_StoreTable {
     width: 100%;
     height: 700px;
-}
-.bb_StoreTable .bb_StoreContents{
-  height: 600px;
-}
-.bb_tabTitle{
-  font-size: 20px !important;
-}
-th{
-  font-size: 15px !important;
-}
-.bb_cell{
-  font-size: 15px !important;
-}
-button{
-  font-size: 15px !important;
-}
+  }
+  .bb_StoreTable .bb_StoreContents {
+    height: 600px;
+  }
+  .bb_tabTitle {
+    font-size: 20px !important;
+  }
+  th {
+    font-size: 15px !important;
+  }
+  .bb_cell {
+    font-size: 15px !important;
+  }
+  button {
+    font-size: 15px !important;
+  }
 }
 
 // 모바일 : 390px
@@ -628,18 +665,18 @@ button{
   .bb_StoreTable {
     width: 100%;
     height: 600px;
-}
-.bb_StoreTable .bb_StoreContents{
-  height: 550px;
-}
-.bb_StoreTabs{
-  padding-left: 2% !important;
-}
-button{
-  font-size: 12px !important;
-  padding: 1% !important;
-  margin-top: 0.5% !important;
-  margin-bottom: 0.5% !important;
-}
+  }
+  .bb_StoreTable .bb_StoreContents {
+    height: 550px;
+  }
+  .bb_StoreTabs {
+    padding-left: 2% !important;
+  }
+  button {
+    font-size: 12px !important;
+    padding: 1% !important;
+    margin-top: 0.5% !important;
+    margin-bottom: 0.5% !important;
+  }
 }
 </style>

@@ -17,8 +17,7 @@
       :navigation="true"
       :modules="modules"
       @autoplayTimeLeft="onAutoplayTimeLeft"
-      class="mySwiper"
-    >
+      class="mySwiper">
       <swiper-slide
         ><h4>군위시장투어</h4>
         <a

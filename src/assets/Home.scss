@@ -4,9 +4,9 @@
 .masize,
 .masize1 {
   width: 100%;
-  max-width: 270px;
+  max-width: 250px;
   padding: 20px;
-  border-radius: 30px;
+  border-radius: $radius;
   background-color: #fff;
 }
 
@@ -31,7 +31,10 @@
 /* 아이콘 */
 .masize_icon {
   padding: 10px 0;
+  display: flex;
   text-align: center;
+  align-items: center;
+  justify-content: center;
 }
 
 .masize_icon > img {
@@ -76,8 +79,7 @@
 }
 .macontent1_down {
   display: flex;
-  padding: $padding-s;
-  justify-content: space-evenly;
+  justify-content: space-between;
   line-height: 20px;
 }
 

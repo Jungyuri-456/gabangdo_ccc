@@ -1,15 +1,12 @@
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useReservationStore } from "@/stores/reservationStore";
-
+import CalendarPicker from "@/views/yeyak/CalendarPicker.vue";
+import TimePicker from "@/views/yeyak/TimePicker.vue";
 // 스토어 & 라우터 초기화
 const store = useReservationStore();
 const router = useRouter();
-// 편집 중인 섹션: 'dateTime' | 'route' | 'bags' | null
-const editing = ref(null);
-// 각 섹션 수정 버튼 노출 제어
-const showEditButtons = ref(false);
 // ISO 문자열을 한국어 날짜로 변환하는 함수
 function formatKoreanDate(iso) {
   if (!iso) return "";
@@ -25,7 +22,6 @@ onMounted(() => {
     store.resetPrices();
   }
 });
-
 // 전체 요약 데이터 생성
 const summaryRows = computed(() => {
   const rows = [
@@ -64,7 +60,6 @@ const summaryRows = computed(() => {
   rows.push(...makeBagRows(store.sizes));
   return rows;
 });
-
 // 가방 & 총액
 function makeBagRows(sizes) {
   const bagRows = [];
@@ -99,10 +94,36 @@ function makeBagRows(sizes) {
   });
   return bagRows;
 }
+// ① 전체 편집 토글 플래그
+const showEditButtons = ref(false);
+function toggleEditAll() {
+  showEditButtons.value = !showEditButtons.value;
+  editing.value = null;
+}
+
+// ② 어떤 항목을 편집 중인지: 'dateTime' | 'route' | 'bags' | null
+const editing = ref(null);
+
+// 편집 완료
+function finishEdit() {
+  editing.value = null;
+}
+
+// ③ 가방 개수 변경 시마다 가격 갱신
+watch(
+  () => store.sizes.map((i) => i.count),
+  () => {
+    const today = new Date().toISOString().slice(0, 10);
+    if (store.selectedDate === today) store.handleTodaySelected();
+    else store.resetPrices();
+  },
+  { deep: true }
+);
+// 가방 중 count>0인 것만
+const selectedBags = computed(() => store.sizes.filter((bag) => bag.count > 0));
 
 // 결제방식
 const selectedPayment = ref("");
-
 // 결제 수단 텍스트와 아이콘 매핑
 const paymentTexts = {
   bank: "계좌이체",
@@ -143,83 +164,164 @@ function submitReservation() {
         <div class="payment-page">
           <!-- 요약 정보 -->
           <div class="payment-info-box">
-            <!-- 구분선 -->
-            <template v-for="(row, idx) in summaryRows" :key="idx">
-              <hr v-if="row.divider" class="divider extended" />
-              <!-- 예약 정보 1 -->
-              <div v-else class="info-row" :class="row.cssClass">
-                <span class="label">{{ row.label }}</span>
-                <!-- 가방 요약 -->
-                <div v-if="row.bagLabel !== undefined" class="summary-item">
-                  <span class="bag-label">{{ row.bagLabel }}&nbsp;</span>
-                  <span class="bag-tag">{{ row.bagTag }}&nbsp;</span>
-                  <span class="bag-count">{{ row.bagCount }}</span>
-                </div>
-                <!-- 예약 정보 2 -->
-                <div
-                  v-else
-                  class="value"
-                  :class="[row.highlight ? 'highlight' : '', row.cssClass]">
-                  <span>
-                    {{ row.value }}
+            <div class="info-row">
+              <span class="label">이름</span>
+              <span class="value">{{ store.name }}</span>
+            </div>
+            <!-- 0) 전화번호 -->
+            <div class="info-row">
+              <span class="label">전화번호</span>
+              <span class="value">{{ store.fullPhone }}</span>
+            </div>
+
+            <hr class="divider extended" />
+
+            <!-- 1) 날짜/시간 -->
+            <div class="info-row" :class="{ editing: editing === 'dateTime' }">
+              <span class="label">이용날짜 및 시간</span>
+              <span class="value" :class="{ editing: editing === 'dateTime' }">
+                <template v-if="editing === 'dateTime'">
+                  <CalendarPicker v-model="store.selectedDate" class="dt1" />
+                  <TimePicker v-model="store.selectedTime" class="dt2" />
+                </template>
+                <template v-else>
+                  <span class="value">
+                    {{ formatKoreanDate(store.selectedDate) }}
+                    {{ store.selectedTime }}
                   </span>
+                </template>
+              </span>
+              <button
+                v-if="editing !== 'dateTime'"
+                @click="editing = 'dateTime'"
+                class="tab-button small">
+                수정
+              </button>
+              <button v-else @click="editing = null" class="tab-button small">
+                완료
+              </button>
+            </div>
+            <!-- 2) 출발 → 도착 -->
+            <div class="info-row" :class="{ editing: editing === 'route' }">
+              <span class="label">출발 → 도착</span>
+              <span class="value" :class="{ editing: editing === 'route' }">
+                <template v-if="editing === 'route'">
+                  <select v-model="store.selectedStart" class="ad1">
+                    <option v-for="o in store.startPlaces" :key="o">
+                      {{ o }}
+                    </option>
+                  </select>
+                  <input
+                    v-if="store.selectedStart === '숙소'"
+                    v-model="store.customStartAddress"
+                    placeholder="숙소명 입력"
+                    class="value ad2" />
+                  <select v-model="store.selectedStop" class="ad3">
+                    <option v-for="o in store.stopPlaces" :key="o">
+                      {{ o }}
+                    </option>
+                  </select>
+                  <input
+                    v-if="store.selectedStop === '숙소'"
+                    v-model="store.customStopAddress"
+                    placeholder="숙소명 입력"
+                    class="value ad4" />
+                </template>
+                <template v-else>
+                  <span class="value">
+                    {{ store.selectedStart || "" }} →
+                    {{ store.selectedStop || "" }}
+                  </span>
+                </template>
+              </span>
+              <button
+                v-if="editing !== 'route'"
+                @click="editing = 'route'"
+                class="tab-button small">
+                수정
+              </button>
+              <button v-else @click="editing = null" class="tab-button small">
+                완료
+              </button>
+            </div>
+            <!-- 숙소 주소는 별도 줄로 -->
+            <div
+              v-if="store.selectedStart === '숙소' && store.customStartAddress"
+              class="info-row addr-start">
+              <span class="label"></span>
+              <span class="value"
+                >출발 숙소명: {{ store.customStartAddress }}</span
+              >
+            </div>
+            <div
+              v-if="store.selectedStop === '숙소' && store.customStopAddress"
+              class="info-row addr-stop">
+              <span class="label"></span>
+              <span class="value">
+                도착 숙소명: {{ store.customStopAddress }}</span
+              >
+            </div>
+
+            <hr class="divider extended" />
+
+            <!-- 3) 가방 종류 및 수량 -->
+            <div class="info-row bags-section">
+              <span class="label">가방 종류 및 수량</span>
+
+              <!-- 값 영역: editing 여부에 따라 다른 span.value 렌더 -->
+              <span class="value" v-if="editing === 'bags'">
+                <!-- 편집 모드: 각 아이템 수량 인풋 -->
+                <div
+                  v-for="bag in store.sizes"
+                  :key="bag.tag"
+                  class="bag-edit-item">
+                  <span class="bag-label">{{ bag.label }}{{ bag.tag }}</span>
+                  <input
+                    type="number"
+                    v-model.number="bag.count"
+                    min="0"
+                    class="bag-input" />
                 </div>
-                <button
-                  v-if="
-                    showEditButtons &&
-                    [
-                      '이용날짜 및 시간',
-                      '출발 → 도착',
-                      '가방 종류 및 수량',
-                    ].includes(row.label)
-                  "
-                  class="edit-btn"
-                  @click="
-                    startEditing(
-                      row.label === '이용날짜 및 시간'
-                        ? 'dateTime'
-                        : row.label === '출발 → 도착'
-                        ? 'route'
-                        : 'bags'
-                    )
-                  ">
-                  수정
-                </button>
-              </div>
-            </template>
-          </div>
-          <div class="button">
-            <button class="edit-all" @click="toggleEditAll">
-              {{ showEditButtons ? "수정 완료" : "수정하기" }}
-            </button>
-          </div>
-        </div>
-        <!-- 결제 수단 선택 -->
-        <div class="payment">
-          <div class="payment-wrap">
-            <div class="payment-methods">
-              <!-- 일반결제 -->
-              <label
-                v-for="(val, key) in paymentTexts"
-                :key="key"
-                class="payment-option my-button"
-                :class="{ active: selectedPayment === key }">
-                <input
-                  type="radio"
-                  v-model="selectedPayment"
-                  :value="key"
-                  name="payment"
-                  class="my-button" />
-                {{ val }}
-              </label>
-              <!-- 간편결제 -->
-              <div class="payment-icons-wrapper payment-icons-inline">
-                <span class="payment-label">간편결제</span>
-                <div class="payment-radio my-button">
+              </span>
+
+              <span class="value" v-else>
+                <!-- 보기 모드: count>0 아이템만 -->
+                <div
+                  v-for="bag in store.sizes.filter((x) => x.count > 0)"
+                  :key="bag.tag"
+                  class="summary-item">
+                  {{ bag.label }} {{ bag.tag }} {{ bag.count }}개
+                </div>
+              </span>
+
+              <!-- 수정/완료 버튼 (항상 보이도록) -->
+              <button
+                v-if="editing !== 'bags'"
+                @click="editing = 'bags'"
+                class="tab-button small">
+                수정
+              </button>
+              <button v-else @click="editing = null" class="tab-button small">
+                완료
+              </button>
+            </div>
+            <!-- 전체금액 -->
+            <hr class="divider extended" />
+            <div class="info-row">
+              <span class="label">총 금액</span>
+              <span class="value total-price">
+                {{ Number(store.totalPrice).toLocaleString() }}원
+              </span>
+            </div>
+            <!-- 결제 수단 선택 -->
+            <div class="payment">
+              <div class="payment-wrap">
+                <div class="payment-methods">
+                  <!-- 일반결제 -->
                   <label
-                    v-for="(src, key) in paymentIcons"
+                    v-for="(val, key) in paymentTexts"
                     :key="key"
-                    class="payment-image my-button"
+                    class="payment-option my-button"
                     :class="{ active: selectedPayment === key }">
                     <input
                       type="radio"
@@ -227,24 +329,43 @@ function submitReservation() {
                       :value="key"
                       name="payment"
                       class="my-button" />
-                    <img
-                      :src="src"
-                      :alt="`${key} 아이콘`"
-                      class="payment-icon my-button" />
+                    {{ val }}
                   </label>
+                  <!-- 간편결제 -->
+                  <div class="payment-icons-wrapper payment-icons-inline">
+                    <span class="payment-label">간편결제</span>
+                    <div class="payment-radio my-button">
+                      <label
+                        v-for="(src, key) in paymentIcons"
+                        :key="key"
+                        class="payment-image my-button"
+                        :class="{ active: selectedPayment === key }">
+                        <input
+                          type="radio"
+                          v-model="selectedPayment"
+                          :value="key"
+                          name="payment"
+                          class="my-button" />
+                        <img
+                          :src="src"
+                          :alt="`${key} 아이콘`"
+                          class="payment-icon my-button" />
+                      </label>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 버튼  -->
-        <div class="button">
-          <button
-            class="my-button st_reser"
-            @click="submitReservation"
-            :disabled="!selectedPayment">
-            결제하기
-          </button>
+          <!-- 버튼  -->
+          <div class="button">
+            <button
+              class="my-button st_reser"
+              @click="submitReservation"
+              :disabled="!selectedPayment">
+              결제하기
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -304,7 +425,6 @@ function submitReservation() {
 .payment-info-box {
   width: 100%;
   padding: 20px;
-  margin-bottom: 30px;
 }
 .info-row {
   display: flex;
@@ -334,16 +454,86 @@ function submitReservation() {
   }
   .value .summary-item {
     color: $dark-gray;
-    font-size: 17px;
+    font-size: 16px;
     display: flex;
     align-items: center;
     gap: 5px;
     text-align: right;
     white-space: pre;
-    font-weight: bold;
+  }
+  .tab-button {
+    color: $sub-color;
+    margin-left: auto;
+    width: 10%;
+    display: flex;
   }
 }
+span.value.editing {
+  width: 70%;
+}
+.dt1 {
+  height: 30px;
+  width: 80%;
+  margin-bottom: 5px;
+}
+.dt2 {
+  height: 30px;
+  width: 80%;
+}
+.ad1,
+.ad2,
+.ad3 {
+  margin-bottom: 5px;
+}
+.ad2,
+.ad4 {
+  width: 80%;
+}
+.ad1,
+.ad2,
+.ad3,
+.ad4 {
+  border-radius: $radius;
+  border: 1px solid $border-gray;
+  padding: 5px;
+  height: 30px;
+}
+.info-row.bags-section.bags-editing {
+  display: grid !important;
+  grid-template-columns:
+    140px /* label 고정 폭 */
+    repeat(auto-fit, minmax(100px, 1fr))
+    /* 가방 input 칸 */
+    auto /* 완료 버튼 칸 */;
+  gap: 8px;
+  align-items: center;
+}
+.info-row.bags-section .label {
+  align-self: flex-start; /* 부모가 flex이면 이 항목만 위쪽으로 */
+  /* 필요하면 약간 보정용 margin-top 추가 */
+}
+/* 2) 각 가방 칸은 100% 채우기 */
+.bags-section.bags-editing .bag-edit-item,
+.bags-section.bags-editing .summary-item {
+  display: contents; /* span.label 이 아닌 bag-edit-item/content 들만 grid 칸으로 */
+}
 
+/* 3) input 만 칸에 꽉 차도록 */
+.bags-section.bags-editing .bag-input {
+  width: 100%;
+  box-sizing: border-box;
+}
+.bag-input {
+  border-radius: $radius;
+  border: 1px solid $border-gray;
+  padding: 5px;
+  height: 30px;
+}
+.t-button {
+  margin: 15px 0;
+  margin-left: auto;
+  color: $sub-color;
+}
 //구분선
 .divider.extended {
   border: none;
@@ -359,6 +549,7 @@ function submitReservation() {
   font-weight: 500;
 }
 .payment-wrap {
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -508,6 +699,7 @@ function submitReservation() {
     cursor: pointer;
     border: none;
     transition: background 0.3s;
+    margin-top: 0;
     margin: 15px;
     display: block;
   }
