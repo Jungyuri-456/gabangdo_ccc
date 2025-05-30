@@ -162,9 +162,15 @@ const goBack = () => {
 };
 
 // 현재 날짜를 YYYY-MM-DD 형식으로 가져오는 함수
+// const getToday = () => {
+//   const now = new Date();
+//   return now.toISOString().split("T")[0];
+// };
 const getToday = () => {
   const now = new Date();
-  return now.toISOString().split("T")[0];
+  // 한국 시간으로 변환 (UTC+9)
+  const koreaTime = new Date(now.getTime() + 9 * 60 * 60 * 1000);
+  return koreaTime.toISOString().split("T")[0];
 };
 
 // 알림 데이터
@@ -173,67 +179,67 @@ const alerts = ref([
     id: 1,
     icon: "/public/images/yr/delivery/alert1.png",
     message: "새로운 배송 요청이 들어왔습니다.",
-    time: "21:30",
-    date: "2025-05-29", // 오늘 날짜
+    time: "11:30",
+    date: "2025-05-30", // 오늘 날짜
   },
   {
     id: 2,
     icon: "/public/images/yr/delivery/alert2.png",
     message: "오늘의 배송 실적이 업데이트되었습니다.",
-    time: "21:15",
-    date: "2025-05-29", // 오늘 날짜
+    time: "11:15",
+    date: "2025-05-30", // 오늘 날짜
   },
   {
     id: 3,
     icon: "/public/images/yr/delivery/alert3.png",
     message: "내일 예정된 배송 일정이 있습니다.",
-    time: "21:00",
-    date: "2025-05-29", // 오늘 날짜
+    time: "10:00",
+    date: "2025-05-30", // 오늘 날짜
   },
   {
     id: 4,
     icon: "/public/images/yr/delivery/alert1.png",
     message: "배송 완료된 주문이 있습니다.<br/>리뷰를 작성해주세요.",
-    time: "20:45",
-    date: "2025-05-29", // 오늘 날짜
+    time: "11:45",
+    date: "2025-05-30", // 오늘 날짜
   },
   {
-    id: 1,
+    id: 5,
     icon: "/public/images/yr/delivery/alert1.png",
     message: "새로운 배송 요청이 들어왔습니다.",
     time: "21:30",
     date: "2024-03-19", // 오늘 날짜
   },
   {
-    id: 2,
+    id: 6,
     icon: "/public/images/yr/delivery/alert2.png",
     message: "오늘의 배송 실적이 업데이트되었습니다.",
     time: "21:15",
     date: "2024-03-19", // 오늘 날짜
   },
   {
-    id: 3,
+    id: 7,
     icon: "/public/images/yr/delivery/alert3.png",
     message: "내일 예정된 배송 일정이 있습니다.",
     time: "21:00",
     date: "2024-03-19", // 오늘 날짜
   },
   {
-    id: 4,
+    id: 8,
     icon: "/public/images/yr/delivery/alert1.png",
     message: "배송 완료된 주문이 있습니다.<br/>리뷰를 작성해주세요.",
     time: "20:45",
     date: "2024-03-19", // 오늘 날짜
   },
   {
-    id: 5,
+    id: 9,
     icon: "/public/images/yr/delivery/alert2.png",
     message: "5월 정산이 마무리 되었습니다.<br/>확인 부탁드립니다.",
     time: "2024.05.14",
     date: "2024-03-18", // 어제 날짜
   },
   {
-    id: 6,
+    id: 10,
     icon: "/public/images/yr/delivery/alert3.png",
     message: "주간 성과 리포트가 업데이트되었습니다.",
     time: "19:15",
